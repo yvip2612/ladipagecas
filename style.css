@@ -346,7 +346,7 @@ section {
 }
 
 .section-header {
-    max-width: 600px;
+    max-width: 1000px;
     margin: 0 auto 40px;
 }
 
@@ -367,6 +367,7 @@ section {
     font-weight: 700;
     margin-bottom: 12px;
     color: var(--color-text-main);
+    white-space: nowrap; /* Force section titles to stay on a single line on desktop */
 }
 
 .section-desc {
@@ -1041,6 +1042,7 @@ section {
     font-weight: 800;
     margin-bottom: 12px;
     color: var(--color-text-main);
+    white-space: nowrap; /* Force lead title to stay on a single line on desktop */
 }
 
 .lead-content p {
@@ -1209,6 +1211,12 @@ section {
 
 /* Responsiveness */
 @media (max-width: 1024px) {
+    .section-header h2,
+    .lead-content h2 {
+        white-space: normal;
+        font-size: 1.8rem;
+    }
+
     .hero-container {
         grid-template-columns: 1fr;
         gap: 40px;
