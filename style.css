@@ -318,6 +318,26 @@ img {
     filter: brightness(0.95);
 }
 
+.comparison-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.comparison-badge {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    background: rgba(22, 24, 31, 0.85);
+    border: 1px solid var(--border-color);
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-family: var(--font-title);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-primary-light);
+}
+
 .visual-badge {
     position: absolute;
     background: rgba(22, 24, 31, 0.85);
@@ -374,117 +394,167 @@ section {
     font-size: 0.95rem;
 }
 
-/* Services & USP (About Us) */
-.about-section {
+/* Section 2: Phong cách thiết kế */
+.styles-section {
     background-color: rgba(22, 24, 31, 0.3);
 }
 
-.services-grid {
+.styles-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 32px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
 }
 
-.service-card {
-    position: relative;
+.style-card-box {
     background: var(--bg-card);
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: var(--border-radius);
-    padding: 32px;
-    transition: all var(--transition-smooth);
     overflow: hidden;
+    transition: all var(--transition-smooth);
 }
 
-.service-card:hover {
-    transform: translateY(-4px);
+.style-card-box:hover {
+    transform: translateY(-6px);
     border-color: var(--border-color);
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
 }
 
-.service-image-box {
-    width: 100%;
-    height: 180px;
-    border-radius: 8px;
+.style-card-image {
+    position: relative;
+    height: 220px;
     overflow: hidden;
-    margin-bottom: 24px;
 }
 
-.service-image-box img {
+.style-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.5s ease;
+    transition: transform var(--transition-smooth);
 }
 
-.service-card:hover .service-image-box img {
+.style-card-box:hover .style-img {
     transform: scale(1.05);
 }
 
-.card-glow {
+.style-label-tag {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at 10% 10%, rgba(212, 175, 55, 0.03) 0%, transparent 60%);
-    pointer-events: none;
+    top: 16px;
+    left: 16px;
+    background: rgba(15, 16, 19, 0.85);
+    backdrop-filter: blur(4px);
+    border: 1px solid var(--border-color);
+    color: var(--color-primary-light);
+    font-family: var(--font-title);
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 4px;
 }
 
-.service-icon-box {
-    width: 48px;
-    height: 48px;
-    border-radius: 10px;
-    background: rgba(212, 175, 55, 0.1);
-    color: var(--color-primary);
+.style-card-content {
+    padding: 24px;
+}
+
+.style-card-content h3 {
+    font-family: var(--font-title);
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--color-text-main);
+}
+
+.style-card-content p {
+    font-size: 0.88rem;
+    color: var(--color-text-muted);
+    margin-bottom: 20px;
+    min-height: 72px;
+}
+
+.style-action-btn-row .btn {
+    width: 100%;
+    font-size: 0.85rem;
+    padding: 10px 16px;
+}
+
+/* Section 3: Quy trình Timeline */
+.process-section {
+    background-color: var(--bg-dark);
+}
+
+.timeline-container {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+.timeline-line {
+    position: absolute;
+    left: 30px;
+    top: 0;
+    height: 100%;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--color-primary) 0%, rgba(212, 175, 55, 0.1) 100%);
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 40px;
+    padding-left: 80px;
+}
+
+.timeline-item:last-child {
+    margin-bottom: 0;
+}
+
+.timeline-badge {
+    position: absolute;
+    left: 15px;
+    top: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--bg-dark);
+    border: 2px solid var(--color-primary);
+    color: var(--color-primary-light);
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 16px;
-}
-
-.service-icon-box i {
-    width: 22px;
-    height: 22px;
-}
-
-.service-card h3 {
     font-family: var(--font-title);
-    font-size: 1.6rem;
     font-weight: 700;
+    font-size: 0.9rem;
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+    z-index: 2;
+}
+
+.timeline-panel {
+    background: var(--bg-card);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: var(--border-radius);
+    padding: 24px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: transform var(--transition-fast);
+}
+
+.timeline-panel:hover {
+    transform: translateX(4px);
+    border-color: var(--border-color);
+}
+
+.timeline-panel h4 {
+    font-family: var(--font-title);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--color-primary-light);
     margin-bottom: 6px;
 }
 
-.service-tagline {
+.timeline-panel p {
     font-size: 0.9rem;
-    color: var(--color-primary-light);
-    opacity: 0.85;
-    margin-bottom: 16px;
-    font-style: italic;
-}
-
-.service-features {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.service-features li {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 0.88rem;
     color: var(--color-text-muted);
 }
 
-.feat-icon {
-    width: 16px;
-    height: 16px;
-    color: var(--color-primary);
-    flex-shrink: 0;
-}
-
-/* Cost Estimator Section */
+/* Section 4: Bộ Dự toán tự động */
 .estimator-section {
     background-color: var(--bg-dark);
 }
@@ -580,8 +650,8 @@ section {
     margin-bottom: 14px;
 }
 
-/* Option Cards (Type & Gói) */
-.type-cards-grid {
+/* Option Cards (Style & Gói) */
+.style-cards-selector {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 12px;
@@ -651,10 +721,8 @@ section {
 }
 
 .pkg-price {
-    font-family: var(--font-title);
-    font-size: 1.05rem;
-    font-weight: 600;
-    color: var(--color-primary-light);
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
     margin-top: 4px;
 }
 
@@ -829,7 +897,7 @@ section {
 }
 
 /* Portfolio Section */
-.portfolio-section {
+.trust-section {
     background-color: rgba(22, 24, 31, 0.3);
 }
 
@@ -837,6 +905,7 @@ section {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 24px;
+    margin-bottom: 50px;
 }
 
 .portfolio-item {
@@ -885,6 +954,62 @@ section {
     font-family: var(--font-title);
     font-size: 1.1rem;
     font-weight: 700;
+}
+
+/* Testimonial cards */
+.testimonial-showcase {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.testimonial-card {
+    background: var(--bg-card);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    padding: 32px;
+    border-radius: var(--border-radius);
+    position: relative;
+}
+
+.quote-mark {
+    position: absolute;
+    top: 20px;
+    right: 32px;
+    font-size: 4rem;
+    color: var(--color-primary);
+    opacity: 0.1;
+    font-family: serif;
+    line-height: 1;
+}
+
+.testimonial-text {
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+    font-style: italic;
+    margin-bottom: 20px;
+}
+
+.client-profile {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.client-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.client-name {
+    font-family: var(--font-title);
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.client-desc {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
 }
 
 /* Final Lead Capture Section & Urgency */
@@ -1007,107 +1132,9 @@ section {
     justify-content: center;
 }
 
-/* Responsiveness */
-@media (max-width: 1024px) {
-    .hero-container {
-        grid-template-columns: 1fr;
-        gap: 40px;
-        text-align: center;
-    }
-
-    .hero-props {
-        align-items: center;
-    }
-
-    .hero-actions-group {
-        justify-content: center;
-    }
-
-    .hero-visual {
-        max-width: 500px;
-        margin: 0 auto;
-        width: 100%;
-    }
-
-    .services-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .input-group-grid {
-        grid-template-columns: 1fr;
-        gap: 24px;
-    }
-
-    .result-and-lead {
-        grid-template-columns: 1fr;
-        gap: 24px;
-    }
-
-    .portfolio-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .form-grid-3 {
-        grid-template-columns: 1fr;
-        gap: 12px;
-    }
-
-    .footer-grid {
-        grid-template-columns: 1fr;
-        gap: 30px;
-    }
-}
-
-@media (max-width: 768px) {
-    .hero-content h1 {
-        font-size: 2.2rem;
-    }
-
-    .hero-actions-group {
-        width: 100%;
-    }
-
-    .hero-actions-group .btn {
-        width: 100%;
-    }
-
-    .visual-img {
-        height: 280px;
-    }
-
-    .estimator-steps {
-        grid-template-columns: 1fr;
-    }
-
-    .est-step {
-        padding: 12px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .estimator-content {
-        padding: 20px;
-    }
-
-    .type-cards-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .portfolio-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .lead-content h2 {
-        font-size: 1.8rem;
-    }
-
-    .main-contact-form {
-        padding: 20px;
-    }
-}
-
 /* Image Modal Popup Styles */
 .portfolio-item img,
-.service-image-box img,
+.style-card-image img,
 .visual-img {
     cursor: pointer;
 }
@@ -1179,4 +1206,111 @@ section {
 @keyframes zoom-in-anim {
     from { transform: scale(0.9); opacity: 0; }
     to { transform: scale(1); opacity: 1; }
+}
+
+/* Responsiveness */
+@media (max-width: 1024px) {
+    .hero-container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        text-align: center;
+    }
+
+    .hero-props {
+        align-items: center;
+    }
+
+    .hero-actions-group {
+        justify-content: center;
+    }
+
+    .hero-visual {
+        max-width: 500px;
+        margin: 0 auto;
+        width: 100%;
+    }
+
+    .styles-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+
+    .input-group-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+
+    .result-and-lead {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+
+    .portfolio-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .form-grid-3 {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-content h1 {
+        font-size: 2.2rem;
+    }
+
+    .hero-actions-group {
+        width: 100%;
+    }
+
+    .hero-actions-group .btn {
+        width: 100%;
+    }
+
+    .visual-img {
+        height: 280px;
+    }
+
+    .timeline-line {
+        left: 20px;
+    }
+
+    .timeline-item {
+        padding-left: 50px;
+    }
+
+    .timeline-badge {
+        left: 5px;
+    }
+
+    .estimator-steps {
+        grid-template-columns: 1fr;
+    }
+
+    .est-step {
+        padding: 12px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .estimator-content {
+        padding: 20px;
+    }
+
+    .portfolio-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .lead-content h2 {
+        font-size: 1.8rem;
+    }
+
+    .main-contact-form {
+        padding: 20px;
+    }
 }

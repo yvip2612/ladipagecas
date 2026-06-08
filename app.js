@@ -4,17 +4,38 @@ document.addEventListener('DOMContentLoaded', () => {
         lucide.createIcons();
     }
 
-    // 2. Estimator Multi-Step Form Logic
+    // 2. Click "Nhận Báo Giá Phong Cách Này" button behavior
+    const styleQuoteButtons = document.querySelectorAll('.btn-quote-style');
+    const mainStyleSelect = document.getElementById('m-style');
+
+    styleQuoteButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const selectedStyle = btn.getAttribute('data-style');
+            
+            // Set the value in dropdown
+            if (mainStyleSelect) {
+                mainStyleSelect.value = selectedStyle;
+            }
+
+            // Scroll smoothly to contact form
+            const contactSection = document.getElementById('contact-form-section');
+            if (contactSection) {
+                contactSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    });
+
+    // 3. Estimator Multi-Step Form Logic
     const steps = document.querySelectorAll('.est-step');
     const stepPanes = document.querySelectorAll('.step-pane');
     const btnNextSteps = document.querySelectorAll('.btn-next-step');
     const btnPrevSteps = document.querySelectorAll('.btn-prev-step');
     
     // Inputs
-    const constructionTypeInputs = document.querySelectorAll('input[name="construction_type"]');
+    const styleInputs = document.querySelectorAll('input[name="est_style"]');
+    const packageInputs = document.querySelectorAll('input[name="est_package"]');
     const inputArea = document.getElementById('input-area');
     const inputFloors = document.getElementById('input-floors');
-    const floorsContainer = document.getElementById('floors-container');
     
     // Displays
     const areaValDisplay = document.getElementById('area-val-display');
@@ -28,20 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function formatVND(value) {
         return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
     }
-
-    // Dynamic UI adjustments based on construction type
-    function handleTypeChange() {
-        const selectedType = document.querySelector('input[name="construction_type"]:checked').value;
-        if (selectedType === 'apartment') {
-            if (floorsContainer) floorsContainer.style.display = 'none';
-        } else {
-            if (floorsContainer) floorsContainer.style.display = 'block';
-        }
-    }
-
-    constructionTypeInputs.forEach(input => {
-        input.addEventListener('change', handleTypeChange);
-    });
 
     // Live update slider labels
     if (inputArea) {
@@ -102,27 +109,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Calculation Formula
     function calculateEstimate() {
-        const typeInput = document.querySelector('input[name="construction_type"]:checked');
-        const pkgInput = document.querySelector('input[name="material_package"]:checked');
+        const styleInput = document.querySelector('input[name="est_style"]:checked');
+        const pkgInput = document.querySelector('input[name="est_package"]:checked');
         
-        if (!typeInput || !pkgInput) return;
+        if (!styleInput || !pkgInput) return;
         
-        const type = typeInput.value;
+        const style = styleInput.value;
         const pkg = pkgInput.value;
         const area = parseFloat(inputArea.value);
-        const floors = type === 'apartment' ? 1 : parseFloat(inputFloors.value);
+        const floors = parseFloat(inputFloors.value);
 
-        // Price mapping per square meter
+        // Price mapping per square meter based on Style and Package
         const prices = {
-            townhouse: { standard: 5500000, premium: 8500000 },
-            villa: { standard: 7500000, premium: 11500000 },
-            apartment: { standard: 3500000, premium: 5500000 }
+            modern: { standard: 5500000, premium: 8500000 },
+            indochine: { standard: 6500000, premium: 9500000 },
+            classic: { standard: 8000000, premium: 12000000 }
         };
 
-        const unitPrice = prices[type][pkg];
+        const unitPrice = prices[style][pkg];
         
-        // Construction multiplier (1.3 for foundation, roof; 1.0 for apartments)
-        const multiplier = type === 'apartment' ? 1.0 : 1.3;
+        // Construction coefficient (1.3 to account for foundation, columns, roofing, etc.)
+        const multiplier = 1.3;
         
         const totalCost = area * floors * unitPrice * multiplier;
 
@@ -131,14 +138,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         // Set dynamic content in hidden input for lead submissions
-        const typeText = type === 'townhouse' ? 'Nhà Phố' : type === 'villa' ? 'Biệt Thự' : 'Căn Hộ';
+        const styleText = style === 'modern' ? 'Hiện đại' : style === 'indochine' ? 'Đông Dương' : 'Cổ điển';
         const pkgText = pkg === 'standard' ? 'Tiêu Chuẩn' : 'Cao Cấp Lux';
         if (estDataSummary) {
-            estDataSummary.value = `Loại hình: ${typeText}, Gói: ${pkgText}, Diện tích: ${area}m2, Số tầng: ${floors}, Ước tính: ${formatVND(totalCost)}`;
+            estDataSummary.value = `Phong cách: ${styleText}, Gói: ${pkgText}, Diện tích: ${area}m2, Số tầng: ${floors}, Ước tính: ${formatVND(totalCost)}`;
         }
     }
 
-    // 3. Lead Form Submissions
+    // 4. Lead Form Submissions & Webhook Simulations
     const estimatorLeadForm = document.getElementById('estimator-lead-form');
     const estimatorSuccess = document.getElementById('estimator-success');
 
@@ -149,7 +156,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const phone = document.getElementById('est-phone').value;
             const summary = estDataSummary ? estDataSummary.value : '';
 
-            console.log('Estimate Lead Submission:', { name, phone, summary });
+            // Webhook payload simulation (automating lead pushes to sheets/CRM)
+            const webhookPayload = {
+                event: "estimator_lead",
+                timestamp: new Date().toISOString(),
+                data: { name, phone, details: summary }
+            };
+            console.log('Sending webhook data to CRM/Google Sheets:', webhookPayload);
 
             estimatorLeadForm.style.display = 'none';
             if (estimatorSuccess) estimatorSuccess.style.display = 'flex';
@@ -164,16 +177,22 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             const name = document.getElementById('m-name').value;
             const phone = document.getElementById('m-phone').value;
-            const service = document.getElementById('m-service').value;
+            const style = document.getElementById('m-style').value;
 
-            console.log('Main Contact Submission:', { name, phone, service });
+            // Webhook payload simulation
+            const webhookPayload = {
+                event: "main_consultation_request",
+                timestamp: new Date().toISOString(),
+                data: { name, phone, favorite_style: style }
+            };
+            console.log('Sending webhook data to CRM/Google Sheets:', webhookPayload);
 
             mainContactForm.style.display = 'none';
             if (mainFormSuccess) mainFormSuccess.style.display = 'flex';
         });
     }
 
-    // 4. Image Lightbox Modal Popup Logic
+    // 5. Image Lightbox Modal Popup Logic
     const imageModal = document.getElementById('image-modal');
     const modalImgTarget = document.getElementById('modal-img-target');
     const modalCaptionTarget = document.getElementById('modal-caption-target');
@@ -204,7 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Bind click events
+    // Bind click events to elements
     document.querySelectorAll('.portfolio-item img').forEach(img => {
         img.addEventListener('click', () => {
             const overlay = img.parentElement.querySelector('.port-overlay');
@@ -214,21 +233,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    document.querySelectorAll('.service-image-box img').forEach(img => {
+    document.querySelectorAll('.style-card-image img').forEach(img => {
         img.addEventListener('click', () => {
-            const card = img.closest('.service-card');
-            const title = card ? card.querySelector('h3').textContent : '';
-            const tag = card ? card.querySelector('.service-tagline').textContent : '';
-            openImageModal(img.src, `${title}: ${tag}`);
+            const card = img.closest('.style-card-box');
+            const label = card ? card.querySelector('.style-label-tag').textContent : '';
+            const desc = card ? card.querySelector('h3').textContent : '';
+            openImageModal(img.src, `${label} (${desc})`);
         });
     });
 
     document.querySelectorAll('.visual-img').forEach(img => {
         img.addEventListener('click', () => {
-            openImageModal(img.src, img.alt || 'CAS Homes & Design Project');
+            openImageModal(img.src, img.alt || 'Hiện trạng thi công hoàn thiện của CAS');
         });
     });
-
-    // Run type check on load
-    handleTypeChange();
 });
