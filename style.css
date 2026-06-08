@@ -195,26 +195,21 @@ img {
     height: 70px;
 }
 
-.logo {
-    display: flex;
-    flex-direction: column;
+.logo-container-link {
+    display: inline-flex;
+    align-items: center;
 }
 
-.logo-cas {
-    font-family: var(--font-title);
-    font-weight: 800;
-    font-size: 1.6rem;
-    color: var(--color-text-main);
-    letter-spacing: 2px;
-    line-height: 1;
+.logo-img {
+    height: 48px;
+    width: auto;
+    object-fit: contain;
+    mix-blend-mode: multiply; /* Blends white background into the cream header */
+    transition: transform var(--transition-fast);
 }
 
-.logo-sub {
-    font-size: 0.6rem;
-    font-weight: 600;
-    color: var(--color-primary-dark);
-    letter-spacing: 3px;
-    margin-top: 2px;
+.logo-img:hover {
+    transform: scale(1.03);
 }
 
 .header-actions {
@@ -1322,11 +1317,18 @@ section {
     }
 }
 
-/* Footer Logo adjustments */
-.footer .logo-cas {
-    color: #ffffff;
+/* Footer Logo Badge adjustment */
+.footer .logo-container-link {
+    background: #ffffff;
+    padding: 6px 12px;
+    border-radius: 6px;
+    display: inline-flex;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.footer .logo-sub {
-    color: var(--color-primary-light);
+.footer-logo-img {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+    mix-blend-mode: normal;
 }
