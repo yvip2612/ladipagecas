@@ -192,7 +192,7 @@ img {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 70px;
+    height: 80px;
 }
 
 .logo-container-link {
@@ -201,7 +201,7 @@ img {
 }
 
 .logo-img {
-    height: 48px;
+    height: 60px;
     width: auto;
     object-fit: contain;
     mix-blend-mode: multiply; /* Blends white background into the cream header */
@@ -1320,14 +1320,14 @@ section {
 /* Footer Logo Badge adjustment */
 .footer .logo-container-link {
     background: #ffffff;
-    padding: 6px 12px;
+    padding: 8px 16px;
     border-radius: 6px;
     display: inline-flex;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .footer-logo-img {
-    height: 40px;
+    height: 52px;
     width: auto;
     object-fit: contain;
     mix-blend-mode: normal;
