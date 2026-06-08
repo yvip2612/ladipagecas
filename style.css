@@ -192,7 +192,7 @@ img {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 80px;
+    height: 100px;
 }
 
 .logo-container-link {
@@ -201,7 +201,7 @@ img {
 }
 
 .logo-img {
-    height: 60px;
+    height: 80px;
     width: auto;
     object-fit: contain;
     mix-blend-mode: multiply; /* Blends white background into the cream header */
@@ -220,7 +220,7 @@ img {
 /* Hero Section */
 .hero-section {
     position: relative;
-    padding-top: 130px;
+    padding-top: 160px;
     padding-bottom: 60px;
     min-height: 80vh;
     display: flex;
@@ -1320,14 +1320,14 @@ section {
 /* Footer Logo Badge adjustment */
 .footer .logo-container-link {
     background: #ffffff;
-    padding: 8px 16px;
+    padding: 10px 20px;
     border-radius: 6px;
     display: inline-flex;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .footer-logo-img {
-    height: 52px;
+    height: 68px;
     width: auto;
     object-fit: contain;
     mix-blend-mode: normal;
