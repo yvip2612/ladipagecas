@@ -4,20 +4,56 @@ document.addEventListener('DOMContentLoaded', () => {
         lucide.createIcons();
     }
 
-    // 2. Click "Nhận Báo Giá Phong Cách Này" button behavior
+    // 2. Interactive Before & After Drag Slider
+    const rangeControl = document.getElementById('slider-range-control');
+    const resizableImg = document.getElementById('resizable-img');
+    const dragSeparator = document.getElementById('drag-separator');
+
+    if (rangeControl && resizableImg && dragSeparator) {
+        rangeControl.addEventListener('input', (e) => {
+            const value = e.target.value;
+            resizableImg.style.width = `${value}%`;
+            dragSeparator.style.left = `${value}%`;
+        });
+    }
+
+    // 3. Portfolio Tab Switcher
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const tabPanes = document.querySelectorAll('.tab-pane');
+
+    tabButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const targetTab = btn.getAttribute('data-tab');
+
+            // Toggle Nav active state
+            tabButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // Show current pane
+            tabPanes.forEach(pane => {
+                pane.classList.remove('active');
+            });
+            const targetPane = document.getElementById(`pane-${targetTab}`);
+            if (targetPane) {
+                targetPane.classList.add('active');
+            }
+        });
+    });
+
+    // 4. Style Quick Consult Buttons (Pre-select style and scroll down)
     const styleQuoteButtons = document.querySelectorAll('.btn-quote-style');
     const mainStyleSelect = document.getElementById('m-style');
 
     styleQuoteButtons.forEach(btn => {
-        btn.addEventListener('click', (e) => {
+        btn.addEventListener('click', () => {
             const selectedStyle = btn.getAttribute('data-style');
             
-            // Set the value in dropdown
+            // Set value in dropdown
             if (mainStyleSelect) {
                 mainStyleSelect.value = selectedStyle;
             }
 
-            // Scroll smoothly to contact form
+            // Scroll down
             const contactSection = document.getElementById('contact-form-section');
             if (contactSection) {
                 contactSection.scrollIntoView({ behavior: 'smooth' });
@@ -25,15 +61,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 3. Estimator Multi-Step Form Logic
+    // 5. Cost Estimator Calculator Multi-Step Logic
     const steps = document.querySelectorAll('.est-step');
     const stepPanes = document.querySelectorAll('.step-pane');
     const btnNextSteps = document.querySelectorAll('.btn-next-step');
     const btnPrevSteps = document.querySelectorAll('.btn-prev-step');
     
     // Inputs
-    const styleInputs = document.querySelectorAll('input[name="est_style"]');
-    const packageInputs = document.querySelectorAll('input[name="est_package"]');
     const inputArea = document.getElementById('input-area');
     const inputFloors = document.getElementById('input-floors');
     
@@ -67,7 +101,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function goToStep(stepNumber) {
         currentStep = stepNumber;
 
-        // Update step headers
         steps.forEach((step, idx) => {
             step.classList.remove('active', 'completed');
             const stepNum = idx + 1;
@@ -78,7 +111,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Update step panes
         stepPanes.forEach((pane) => {
             pane.classList.remove('active');
         });
@@ -107,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Calculation Formula
+    // Price calculations
     function calculateEstimate() {
         const styleInput = document.querySelector('input[name="est_style"]:checked');
         const pkgInput = document.querySelector('input[name="est_package"]:checked');
@@ -119,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const area = parseFloat(inputArea.value);
         const floors = parseFloat(inputFloors.value);
 
-        // Price mapping per square meter based on Style and Package
+        // Price mapping per square meter based on Style and Gói vật tư
         const prices = {
             modern: { standard: 5500000, premium: 8500000 },
             indochine: { standard: 6500000, premium: 9500000 },
@@ -127,9 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         const unitPrice = prices[style][pkg];
-        
-        // Construction coefficient (1.3 to account for foundation, columns, roofing, etc.)
-        const multiplier = 1.3;
+        const multiplier = 1.3; // Foundation & roof factor
         
         const totalCost = area * floors * unitPrice * multiplier;
 
@@ -137,7 +167,6 @@ document.addEventListener('DOMContentLoaded', () => {
             estimatedCostOutput.textContent = formatVND(totalCost);
         }
         
-        // Set dynamic content in hidden input for lead submissions
         const styleText = style === 'modern' ? 'Hiện đại' : style === 'indochine' ? 'Đông Dương' : 'Cổ điển';
         const pkgText = pkg === 'standard' ? 'Tiêu Chuẩn' : 'Cao Cấp Lux';
         if (estDataSummary) {
@@ -145,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // 4. Lead Form Submissions & Webhook Simulations
+    // 6. Form submissions & Webhook pushing
     const estimatorLeadForm = document.getElementById('estimator-lead-form');
     const estimatorSuccess = document.getElementById('estimator-success');
 
@@ -156,13 +185,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const phone = document.getElementById('est-phone').value;
             const summary = estDataSummary ? estDataSummary.value : '';
 
-            // Webhook payload simulation (automating lead pushes to sheets/CRM)
+            // Webhook CRM payloads
             const webhookPayload = {
                 event: "estimator_lead",
                 timestamp: new Date().toISOString(),
                 data: { name, phone, details: summary }
             };
-            console.log('Sending webhook data to CRM/Google Sheets:', webhookPayload);
+            console.log('Sending Webhook Data to CRM:', webhookPayload);
 
             estimatorLeadForm.style.display = 'none';
             if (estimatorSuccess) estimatorSuccess.style.display = 'flex';
@@ -179,20 +208,20 @@ document.addEventListener('DOMContentLoaded', () => {
             const phone = document.getElementById('m-phone').value;
             const style = document.getElementById('m-style').value;
 
-            // Webhook payload simulation
+            // Webhook CRM payloads
             const webhookPayload = {
                 event: "main_consultation_request",
                 timestamp: new Date().toISOString(),
                 data: { name, phone, favorite_style: style }
             };
-            console.log('Sending webhook data to CRM/Google Sheets:', webhookPayload);
+            console.log('Sending Webhook Data to CRM:', webhookPayload);
 
             mainContactForm.style.display = 'none';
             if (mainFormSuccess) mainFormSuccess.style.display = 'flex';
         });
     }
 
-    // 5. Image Lightbox Modal Popup Logic
+    // 7. Image Lightbox Modal logic
     const imageModal = document.getElementById('image-modal');
     const modalImgTarget = document.getElementById('modal-img-target');
     const modalCaptionTarget = document.getElementById('modal-caption-target');
@@ -223,28 +252,57 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Bind click events to elements
-    document.querySelectorAll('.portfolio-item img').forEach(img => {
+    document.querySelectorAll('.gallery-img, .image-wrapper img').forEach(img => {
         img.addEventListener('click', () => {
-            const overlay = img.parentElement.querySelector('.port-overlay');
-            const cat = overlay ? overlay.querySelector('span').textContent : '';
-            const title = overlay ? overlay.querySelector('h4').textContent : '';
-            openImageModal(img.src, `${cat} - ${title}`);
+            openImageModal(img.src, img.alt || 'CAS Homes & Design Project');
         });
     });
 
-    document.querySelectorAll('.style-card-image img').forEach(img => {
-        img.addEventListener('click', () => {
-            const card = img.closest('.style-card-box');
-            const label = card ? card.querySelector('.style-label-tag').textContent : '';
-            const desc = card ? card.querySelector('h3').textContent : '';
-            openImageModal(img.src, `${label} (${desc})`);
+    // 8. Video Testimonial Modal Player logic
+    const videoModal = document.getElementById('video-modal');
+    const videoPlayer = document.getElementById('testimonial-video-player');
+    const videoCaptionTarget = document.getElementById('video-modal-caption');
+    const videoCloseBtn = document.getElementById('video-modal-close');
+    const videoPlayButtons = document.querySelectorAll('.video-play-btn');
+
+    // Video URLs mapping
+    const videoUrls = [
+        "https://player.vimeo.com/external/371433846.sd.mp4?s=236da2f3c054ba20aa6c35b120be74c7e6c06387&profile_id=139&oauth2_token_id=57447761",
+        "https://player.vimeo.com/external/435674703.sd.mp4?s=7fdfb1754942b04f76ccb6b3e6488d3f3f01c801&profile_id=139&oauth2_token_id=57447761"
+    ];
+
+    videoPlayButtons.forEach((btn, index) => {
+        btn.addEventListener('click', () => {
+            const card = btn.closest('.testimonial-video-card');
+            const title = card ? card.querySelector('h4').textContent : '';
+            const quote = card ? card.querySelector('p').textContent : '';
+            
+            if (videoModal && videoPlayer && videoCaptionTarget) {
+                videoPlayer.src = videoUrls[index] || videoUrls[0];
+                videoCaptionTarget.textContent = `${title} : "${quote}"`;
+                videoModal.classList.add('show');
+                document.body.style.overflow = 'hidden';
+                videoPlayer.play().catch(e => console.log('Video play blocked:', e));
+            }
         });
     });
 
-    document.querySelectorAll('.visual-img').forEach(img => {
-        img.addEventListener('click', () => {
-            openImageModal(img.src, img.alt || 'Hiện trạng thi công hoàn thiện của CAS');
+    function closeVideoModal() {
+        if (!videoModal || !videoPlayer) return;
+        videoPlayer.pause();
+        videoPlayer.src = "";
+        videoModal.classList.remove('show');
+        document.body.style.overflow = '';
+    }
+
+    if (videoCloseBtn) {
+        videoCloseBtn.addEventListener('click', closeVideoModal);
+    }
+    if (videoModal) {
+        videoModal.addEventListener('click', (e) => {
+            if (e.target === videoModal || e.target.id === 'video-modal-close') {
+                closeVideoModal();
+            }
         });
-    });
+    }
 });
