@@ -1378,11 +1378,11 @@ section {
     }
 
     .info-list {
-        align-items: center;
+        align-items: flex-start;
     }
 
     .info-list li {
-        justify-content: center;
-        text-align: center;
+        justify-content: flex-start;
+        text-align: left;
     }
 }
