@@ -305,4 +305,22 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // 9. Auto-cycle Hero Banner Slideshow
+    const slides = document.querySelectorAll('.hero-slide');
+    if (slides.length > 0) {
+        let currentSlideIdx = 0;
+        const slideInterval = 5000; // Switch slide every 5 seconds
+
+        setInterval(() => {
+            // Remove active from current
+            slides[currentSlideIdx].classList.remove('active');
+            
+            // Increment index
+            currentSlideIdx = (currentSlideIdx + 1) % slides.length;
+            
+            // Add active to next
+            slides[currentSlideIdx].classList.add('active');
+        }, slideInterval);
+    }
 });
