@@ -1153,9 +1153,10 @@ section {
     color: #a69c94;
 }
 
-.info-list li i {
-    width: 16px;
-    height: 16px;
+.info-list li i,
+.info-list li svg {
+    width: 18px;
+    height: 18px;
     color: var(--color-primary-light);
     flex-shrink: 0;
     margin-top: 2px;
