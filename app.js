@@ -17,28 +17,57 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 3. Portfolio Tab Switcher
+    // 3. Portfolio Tab Switcher with Auto Switch (3 seconds)
     const tabButtons = document.querySelectorAll('.tab-btn');
     const tabPanes = document.querySelectorAll('.tab-pane');
+    let activeTabIdx = 0;
+    const tabSwitchInterval = 3000; // 3 seconds
+    let tabAutoSwitchTimer;
 
-    tabButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const targetTab = btn.getAttribute('data-tab');
+    function startTabAutoSwitch() {
+        tabAutoSwitchTimer = setInterval(() => {
+            activeTabIdx = (activeTabIdx + 1) % tabButtons.length;
+            const nextBtn = tabButtons[activeTabIdx];
+            switchTab(nextBtn);
+        }, tabSwitchInterval);
+    }
 
-            // Toggle Nav active state
-            tabButtons.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
+    function switchTab(btn) {
+        const targetTab = btn.getAttribute('data-tab');
 
-            // Show current pane
-            tabPanes.forEach(pane => {
-                pane.classList.remove('active');
-            });
-            const targetPane = document.getElementById(`pane-${targetTab}`);
-            if (targetPane) {
-                targetPane.classList.add('active');
+        // Toggle Nav active state
+        tabButtons.forEach((b, idx) => {
+            if (b === btn) {
+                activeTabIdx = idx;
+                b.classList.add('active');
+            } else {
+                b.classList.remove('active');
             }
         });
+
+        // Show current pane
+        tabPanes.forEach(pane => {
+            pane.classList.remove('active');
+        });
+        const targetPane = document.getElementById(`pane-${targetTab}`);
+        if (targetPane) {
+            targetPane.classList.add('active');
+        }
+    }
+
+    tabButtons.forEach((btn) => {
+        btn.addEventListener('click', () => {
+            switchTab(btn);
+            
+            // Reset the auto-switch timer when user clicks manually
+            clearInterval(tabAutoSwitchTimer);
+            startTabAutoSwitch();
+        });
     });
+
+    if (tabButtons.length > 0) {
+        startTabAutoSwitch();
+    }
 
     // 4. Style Quick Consult Buttons (Pre-select style and scroll down)
     const styleQuoteButtons = document.querySelectorAll('.btn-quote-style');
