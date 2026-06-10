@@ -1361,4 +1361,28 @@ section {
     .main-contact-form {
         padding: 20px;
     }
+
+    /* Center all footer info on mobile */
+    .footer {
+        text-align: center;
+    }
+
+    .footer-brand {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-logo-img {
+        margin: 0 auto;
+    }
+
+    .info-list {
+        align-items: center;
+    }
+
+    .info-list li {
+        justify-content: center;
+        text-align: center;
+    }
 }
