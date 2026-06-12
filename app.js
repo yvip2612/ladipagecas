@@ -4,13 +4,22 @@ document.addEventListener('DOMContentLoaded', () => {
         lucide.createIcons();
     }
 
-    // 2. Interactive Technical Standards Grid Layout with Category Filtering
-    const techGrid = document.getElementById('tech-standards-grid');
+    // 2. Interactive Technical Standards Book Layout with Category Filtering
+    const bookContainer = document.getElementById('tech-book');
+    const pageLeft = document.getElementById('book-page-left');
+    const pageRight = document.getElementById('book-page-right');
+    const pageFlip = document.getElementById('book-page-flip');
+    const flipFront = document.getElementById('flip-front');
+    const flipBack = document.getElementById('flip-back');
+    const btnPrev = document.getElementById('btn-book-prev');
+    const btnNext = document.getElementById('btn-book-next');
+    const pageIndicator = document.getElementById('book-page-indicator');
     const catButtons = document.querySelectorAll('.tech-cat-btn');
-    
+
     let currentRange = '1-9'; // Default range
     let currentFolder = 'DoBeTong'; // Default folder
     let activeImages = []; // List of image indices in the current range
+    let currentPageIdx = 0; // Current left page offset index (always even: 0, 2, 4...)
 
     function parseRange(rangeStr) {
         const parts = rangeStr.split('-');
@@ -36,83 +45,181 @@ document.addEventListener('DOMContentLoaded', () => {
         return labels[folder] || 'Quy Chuẩn';
     }
 
-    function renderTechGrid() {
-        if (!techGrid) return;
-
-        // Clear existing grid items
-        techGrid.innerHTML = '';
-
-        activeImages = parseRange(currentRange);
-        const catLabel = getCategoryLabel(currentFolder);
-
-        // Generate grid items for the active range and folder
-        activeImages.forEach((imgNum) => {
-            const imgPath = `TieuChuanEdit/${currentFolder}/${imgNum}.png`;
-
-            // Create item card
-            const gridItem = document.createElement('div');
-            gridItem.className = 'tech-grid-item';
-            
-            // Image Wrapper
-            const imgWrapper = document.createElement('div');
-            imgWrapper.className = 'tech-card-image-wrapper';
-
-            const img = document.createElement('img');
-            img.src = imgPath;
-            img.alt = `Quy chuẩn thi công ${imgNum} - ${catLabel}`;
-            img.loading = 'lazy';
-            
-            // Badge
-            const badge = document.createElement('div');
-            badge.className = 'tech-card-badge';
-            badge.textContent = `TC #${imgNum.toString().padStart(2, '0')}`;
-
-            // Overlay
-            const overlay = document.createElement('div');
-            overlay.className = 'tech-card-overlay';
-            overlay.innerHTML = `
-                <div class="tech-card-overlay-content">
-                    <i data-lucide="maximize-2" class="overlay-icon"></i>
-                    <span>Xem Bản Vẽ Chi Tiết</span>
+    // Helper to generate page content HTML
+    function getPageHTML(pageIndex, activeImages, catLabel) {
+        // Page 0 is Chapter Cover
+        if (pageIndex === 0) {
+            return `
+                <div class="book-cover-content">
+                    <span class="cover-sub">CAS HOMES &amp; DESIGN</span>
+                    <h3 class="cover-title">TIÊU CHUẨN THI CÔNG</h3>
+                    <div class="cover-divider"></div>
+                    <h4 class="cover-chapter">CHƯƠNG: ${catLabel.toUpperCase()}</h4>
+                    <p class="cover-desc">Hệ thống quy chuẩn thi công chi tiết được kiểm soát chất lượng nghiêm ngặt bởi CAS.</p>
+                    <div class="cover-badge"><i data-lucide="check-check"></i> TIÊU CHUẨN VÀNG</div>
                 </div>
             `;
+        }
+        
+        // Image pages (1 to activeImages.length)
+        const imgIndex = pageIndex - 1;
+        if (imgIndex < activeImages.length) {
+            const imgNum = activeImages[imgIndex];
+            const imgPath = `TieuChuanEdit/${currentFolder}/${imgNum}.png`;
+            return `
+                <div class="book-image-page" onclick="if(typeof openImageModal === 'function') openImageModal('${imgPath}', 'Quy chuẩn ${imgNum} - ${catLabel}')">
+                    <div class="book-image-wrapper">
+                        <img src="${imgPath}" alt="Quy chuẩn ${imgNum}" loading="lazy">
+                        <div class="book-zoom-indicator">
+                            <i data-lucide="zoom-in"></i> Click để phóng to bản vẽ
+                        </div>
+                    </div>
+                    <div class="book-page-meta">
+                        <span class="meta-cat">${catLabel}</span>
+                        <span class="meta-num">Quy chuẩn #${imgNum.toString().padStart(2, '0')}</span>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Final ending page
+        return `
+            <div class="book-cover-content closing">
+                <i data-lucide="check-circle-2" class="closing-icon"></i>
+                <h3>HOÀN THÀNH TIÊU CHUẨN</h3>
+                <p>CAS cam kết bàn giao chuẩn kỹ thuật 100% cho mọi hạng mục công trình.</p>
+                <div class="closing-divider"></div>
+                <a href="#estimator" class="btn btn-primary btn-sm btn-estimator-scroll">Xem dự toán chi phí</a>
+            </div>
+        `;
+    }
 
-            imgWrapper.appendChild(img);
-            imgWrapper.appendChild(badge);
-            imgWrapper.appendChild(overlay);
+    function isMobileDevice() {
+        return window.innerWidth <= 768;
+    }
 
-            // Card Info
-            const info = document.createElement('div');
-            info.className = 'tech-grid-info';
+    function updateBook(animate = false, direction = 'next') {
+        if (!pageLeft || !pageRight) return;
+        
+        const catLabel = getCategoryLabel(currentFolder);
+        const totalPages = activeImages.length + 2; // cover + images + ending
+        const isMobile = isMobileDevice();
+
+        // Disable 3D page flip animation on mobile or if animation is false
+        if (animate && pageFlip && !isMobile) {
+            // Trigger 3D flip animation
+            const flipClass = direction === 'next' ? 'flip-next-animation' : 'flip-prev-animation';
             
-            const catSpan = document.createElement('span');
-            catSpan.className = 'tech-info-cat';
-            catSpan.textContent = catLabel;
+            // Set content of the flip layer based on direction
+            if (direction === 'next') {
+                flipFront.innerHTML = getPageHTML(currentPageIdx - 2 + 1, activeImages, catLabel); // Previous right page content
+                flipBack.innerHTML = getPageHTML(currentPageIdx, activeImages, catLabel); // New left page content
+            } else {
+                flipFront.innerHTML = getPageHTML(currentPageIdx + 2, activeImages, catLabel); // Previous left page content
+                flipBack.innerHTML = getPageHTML(currentPageIdx + 1, activeImages, catLabel); // New right page content
+            }
+            
+            pageFlip.classList.add(flipClass);
+            
+            // Render actual pages content midway of flip
+            setTimeout(() => {
+                renderPagesContent(catLabel, totalPages, isMobile);
+            }, 300);
 
-            const titleH4 = document.createElement('h4');
-            titleH4.className = 'tech-info-title';
-            titleH4.textContent = `Quy Chuẩn Thi Công ${imgNum}`;
+            setTimeout(() => {
+                pageFlip.classList.remove(flipClass);
+            }, 600);
+        } else {
+            renderPagesContent(catLabel, totalPages, isMobile);
+        }
+    }
 
-            info.appendChild(catSpan);
-            info.appendChild(titleH4);
+    function renderPagesContent(catLabel, totalPages, isMobile) {
+        if (isMobile) {
+            // Mobile Mode: Single page view
+            pageLeft.style.display = 'none';
+            pageRight.style.width = '100%';
+            pageRight.style.borderRadius = '8px';
+            pageRight.innerHTML = getPageHTML(currentPageIdx, activeImages, catLabel);
+            
+            pageIndicator.textContent = `Trang ${currentPageIdx + 1} / ${totalPages}`;
+            
+            btnPrev.disabled = currentPageIdx === 0;
+            btnNext.disabled = currentPageIdx + 1 >= totalPages;
+        } else {
+            // Desktop Mode: Double page view
+            pageLeft.style.display = 'flex';
+            pageRight.style.width = '50%';
+            pageRight.style.borderRadius = '0 6px 6px 0';
+            
+            pageLeft.innerHTML = getPageHTML(currentPageIdx, activeImages, catLabel);
+            pageRight.innerHTML = getPageHTML(currentPageIdx + 1, activeImages, catLabel);
+            
+            const currentDisplayPage = currentPageIdx + 1;
+            const nextDisplayPage = Math.min(currentPageIdx + 2, totalPages);
+            pageIndicator.textContent = `Trang ${currentDisplayPage}-${nextDisplayPage} / ${totalPages}`;
+            
+            btnPrev.disabled = currentPageIdx === 0;
+            btnNext.disabled = currentPageIdx + 2 >= totalPages;
+        }
 
-            // Fullscreen lightbox preview trigger
-            gridItem.addEventListener('click', () => {
-                if (typeof openImageModal === 'function') {
-                    openImageModal(img.src, img.alt);
-                }
-            });
-
-            gridItem.appendChild(imgWrapper);
-            gridItem.appendChild(info);
-            techGrid.appendChild(gridItem);
-        });
-
-        // Initialize Lucide icons for the newly created items
         if (typeof lucide !== 'undefined') {
             lucide.createIcons();
         }
+        
+        // Add scroll animation to link inside closing page
+        const estScrollLink = document.querySelector('.btn-estimator-scroll');
+        if (estScrollLink) {
+            estScrollLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.getElementById('estimator');
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        }
     }
+
+    function initCategoryBook() {
+        activeImages = parseRange(currentRange);
+        currentPageIdx = 0;
+        updateBook(false);
+    }
+
+    if (btnPrev) {
+        btnPrev.addEventListener('click', () => {
+            const isMobile = isMobileDevice();
+            const step = isMobile ? 1 : 2;
+            if (currentPageIdx >= step) {
+                currentPageIdx -= step;
+                updateBook(true, 'prev');
+            }
+        });
+    }
+
+    if (btnNext) {
+        btnNext.addEventListener('click', () => {
+            const totalPages = activeImages.length + 2;
+            const isMobile = isMobileDevice();
+            const step = isMobile ? 1 : 2;
+            if (currentPageIdx + step < totalPages) {
+                currentPageIdx += step;
+                updateBook(true, 'next');
+            }
+        });
+    }
+
+    // Recalculate layout on window resize (to handle orientation change etc)
+    window.addEventListener('resize', () => {
+        const isMobile = isMobileDevice();
+        const totalPages = activeImages.length + 2;
+        
+        // Adjust page index to avoid boundary issues when switching between mobile/desktop
+        if (!isMobile && currentPageIdx % 2 !== 0) {
+            currentPageIdx = Math.max(0, currentPageIdx - 1);
+        }
+        updateBook(false);
+    });
 
     // Set up category button click handlers
     catButtons.forEach(btn => {
@@ -121,13 +228,13 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.classList.add('active');
             currentFolder = btn.getAttribute('data-folder');
             currentRange = btn.getAttribute('data-range');
-            renderTechGrid();
+            initCategoryBook();
         });
     });
 
-    // Initialize Grid
-    if (techGrid) {
-        renderTechGrid();
+    // Initialize Book
+    if (bookContainer) {
+        initCategoryBook();
     }
 
     // 3. Portfolio Tab Switcher with Auto Switch (3 seconds)
