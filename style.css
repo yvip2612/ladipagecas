@@ -444,14 +444,16 @@ section {
 /* Section 3: Technical Standards Slideshow */
 .tech-standards-section {
     background-color: var(--bg-dark);
+    position: relative;
+    background-image: radial-gradient(circle at 10% 20%, rgba(142, 122, 102, 0.03) 0%, rgba(255, 255, 255, 0) 90%);
 }
 
 .tech-category-nav {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 24px;
+    gap: 12px;
+    margin-bottom: 30px;
 }
 
 .tech-cat-btn {
@@ -460,12 +462,12 @@ section {
     color: var(--color-text-muted);
     font-family: var(--font-title);
     font-weight: 600;
-    font-size: 0.82rem;
-    padding: 8px 16px;
-    border-radius: 20px;
+    font-size: 0.8rem;
+    padding: 10px 20px;
+    border-radius: 30px;
     cursor: pointer;
-    transition: all var(--transition-fast);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+    transition: all var(--transition-smooth);
+    box-shadow: 0 2px 6px rgba(46, 40, 36, 0.02);
 }
 
 .tech-cat-btn:hover,
@@ -473,7 +475,8 @@ section {
     background: var(--color-primary-dark);
     color: #ffffff;
     border-color: var(--color-primary-dark);
-    box-shadow: 0 4px 10px rgba(111, 93, 71, 0.15);
+    box-shadow: 0 6px 15px rgba(92, 78, 64, 0.2);
+    transform: translateY(-2px);
 }
 
 .tech-standards-grid-wrapper {
@@ -484,39 +487,142 @@ section {
 .tech-standards-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    gap: 24px;
 }
 
 .tech-grid-item {
     background: #ffffff;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
+    border: 1px solid rgba(142, 122, 102, 0.12);
+    border-radius: 12px;
     overflow: hidden;
     cursor: pointer;
-    box-shadow: 0 4px 15px rgba(111, 93, 71, 0.04);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 20px rgba(46, 40, 36, 0.03);
+    transition: transform var(--transition-smooth), box-shadow var(--transition-smooth), border-color var(--transition-smooth);
 }
 
 .tech-grid-item:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 25px rgba(111, 93, 71, 0.12);
+    transform: translateY(-6px);
+    border-color: rgba(142, 122, 102, 0.35);
+    box-shadow: 0 12px 30px rgba(46, 40, 36, 0.08);
 }
 
-.tech-grid-item img {
-    width: 100%;
+.tech-card-image-wrapper {
+    position: relative;
+    overflow: hidden;
     aspect-ratio: 4/3;
-    object-fit: cover;
+    background-color: #ffffff;
+    /* Drafting table background grid effect */
+    background-image: 
+        linear-gradient(rgba(142, 122, 102, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(142, 122, 102, 0.04) 1px, transparent 1px);
+    background-size: 20px 20px;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid rgba(142, 122, 102, 0.08);
+}
+
+.tech-card-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 12px;
     display: block;
+    transition: transform var(--transition-smooth);
+}
+
+.tech-grid-item:hover .tech-card-image-wrapper img {
+    transform: scale(1.03);
+}
+
+.tech-card-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background-color: var(--color-accent);
+    color: #ffffff;
+    padding: 4px 10px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border-radius: 4px;
+    z-index: 2;
+    box-shadow: 0 2px 8px rgba(196, 104, 81, 0.3);
+}
+
+.tech-card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(46, 40, 36, 0.4);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+    z-index: 3;
+}
+
+.tech-grid-item:hover .tech-card-overlay {
+    opacity: 1;
+}
+
+.tech-card-overlay-content {
+    color: #ffffff;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    transform: translateY(15px);
+    transition: transform var(--transition-smooth);
+}
+
+.tech-grid-item:hover .tech-card-overlay-content {
+    transform: translateY(0);
+}
+
+.tech-card-overlay-content i {
+    width: 24px;
+    height: 24px;
+    color: #ffffff;
+}
+
+.tech-card-overlay-content span {
+    font-family: var(--font-title);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
 }
 
 .tech-grid-info {
-    padding: 12px;
+    padding: 16px 16px;
     background: #ffffff;
-    border-top: 1px solid var(--border-color);
-    text-align: center;
-    font-size: 0.82rem;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.tech-info-cat {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--color-primary);
+    display: block;
+}
+
+.tech-info-title {
+    font-size: 0.92rem;
     font-weight: 600;
     color: var(--color-text-main);
+    margin: 0;
 }
 
 /* Section 4: Icon & Sơ đồ quy trình 6 bước tối giản */
@@ -1284,6 +1390,11 @@ section {
         gap: 24px;
     }
 
+    .tech-standards-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
     .input-group-grid {
         grid-template-columns: 1fr;
         gap: 24px;
@@ -1316,6 +1427,11 @@ section {
 
     .icon-process-grid {
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    .tech-standards-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
     }
 
     .before-after-slider {

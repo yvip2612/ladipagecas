@@ -23,6 +23,19 @@ document.addEventListener('DOMContentLoaded', () => {
         return list;
     }
 
+    function getCategoryLabel(folder) {
+        const labels = {
+            'DoBeTong': 'Đổ Bê Tông',
+            'XayTuong': 'Xây Tường',
+            'ToTuong': 'Tô Tường',
+            'DienNuoc': 'Điện Nước',
+            'SonTuong': 'Sơn Tường',
+            'ChongTham': 'Chống Thấm',
+            'CanNen': 'Cán Nền'
+        };
+        return labels[folder] || 'Quy Chuẩn';
+    }
+
     function renderTechGrid() {
         if (!techGrid) return;
 
@@ -30,6 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
         techGrid.innerHTML = '';
 
         activeImages = parseRange(currentRange);
+        const catLabel = getCategoryLabel(currentFolder);
 
         // Generate grid items for the active range and folder
         activeImages.forEach((imgNum) => {
@@ -39,14 +53,48 @@ document.addEventListener('DOMContentLoaded', () => {
             const gridItem = document.createElement('div');
             gridItem.className = 'tech-grid-item';
             
+            // Image Wrapper
+            const imgWrapper = document.createElement('div');
+            imgWrapper.className = 'tech-card-image-wrapper';
+
             const img = document.createElement('img');
             img.src = imgPath;
-            img.alt = `Quy chuẩn thi công ${imgNum}`;
+            img.alt = `Quy chuẩn thi công ${imgNum} - ${catLabel}`;
             img.loading = 'lazy';
             
+            // Badge
+            const badge = document.createElement('div');
+            badge.className = 'tech-card-badge';
+            badge.textContent = `TC #${imgNum.toString().padStart(2, '0')}`;
+
+            // Overlay
+            const overlay = document.createElement('div');
+            overlay.className = 'tech-card-overlay';
+            overlay.innerHTML = `
+                <div class="tech-card-overlay-content">
+                    <i data-lucide="maximize-2" class="overlay-icon"></i>
+                    <span>Xem Bản Vẽ Chi Tiết</span>
+                </div>
+            `;
+
+            imgWrapper.appendChild(img);
+            imgWrapper.appendChild(badge);
+            imgWrapper.appendChild(overlay);
+
+            // Card Info
             const info = document.createElement('div');
             info.className = 'tech-grid-info';
-            info.textContent = `Quy chuẩn ${imgNum}`;
+            
+            const catSpan = document.createElement('span');
+            catSpan.className = 'tech-info-cat';
+            catSpan.textContent = catLabel;
+
+            const titleH4 = document.createElement('h4');
+            titleH4.className = 'tech-info-title';
+            titleH4.textContent = `Quy Chuẩn Thi Công ${imgNum}`;
+
+            info.appendChild(catSpan);
+            info.appendChild(titleH4);
 
             // Fullscreen lightbox preview trigger
             gridItem.addEventListener('click', () => {
@@ -55,10 +103,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            gridItem.appendChild(img);
+            gridItem.appendChild(imgWrapper);
             gridItem.appendChild(info);
             techGrid.appendChild(gridItem);
         });
+
+        // Initialize Lucide icons for the newly created items
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
     }
 
     // Set up category button click handlers
