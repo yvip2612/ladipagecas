@@ -441,120 +441,152 @@ section {
     margin-top: 24px;
 }
 
-/* Section 3: Before & After Drag Slider CSS */
-.before-after-section {
+/* Section 3: Technical Standards Slideshow */
+.tech-standards-section {
     background-color: var(--bg-dark);
 }
 
-.slider-comparison-wrapper {
+.tech-standards-slider-wrapper {
     max-width: 900px;
     margin: 0 auto;
 }
 
-.before-after-slider {
+.tech-slider-container {
     position: relative;
-    width: 100%;
-    height: 540px;
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    box-shadow: 0 15px 35px rgba(111, 93, 71, 0.15);
-    border: 1px solid var(--border-color);
-    user-select: none;
-}
-
-.image-wrapper {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
-.image-wrapper img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    pointer-events: none;
-}
-
-.render-image {
-    width: 50%; /* JS will resize this */
-    z-index: 2;
-    border-right: 1px solid transparent;
-}
-
-.reality-image {
-    z-index: 1;
-}
-
-.img-label {
-    position: absolute;
-    top: 20px;
-    background: rgba(30, 26, 23, 0.85);
-    color: #ffffff;
-    font-family: var(--font-title);
-    font-size: 0.8rem;
-    font-weight: 600;
-    padding: 6px 14px;
-    border-radius: 4px;
-    z-index: 3;
-    letter-spacing: 0.5px;
-}
-
-.label-before {
-    left: 20px;
-    border-left: 2px solid var(--color-primary-light);
-}
-
-.label-after {
-    right: 20px;
-    border-right: 2px solid var(--color-accent);
-}
-
-/* Range input controller over the slider */
-.slider-drag-handle {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    cursor: ew-resize;
-    z-index: 5;
-}
-
-.slider-separator-bar {
-    position: absolute;
-    top: 0;
-    left: 50%; /* Follows the range control value */
-    width: 2px;
-    height: 100%;
-    background: #ffffff;
-    z-index: 4;
-    pointer-events: none;
-}
-
-.drag-button-indicator {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: #ffffff;
-    color: var(--color-primary-dark);
-    border: 2px solid var(--color-primary);
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
-    z-index: 4;
+    background: #ffffff;
+    border-radius: var(--border-radius);
+    padding: 24px;
+    box-shadow: 0 15px 35px rgba(111, 93, 71, 0.08);
+    border: 1px solid var(--border-color);
 }
 
-.drag-button-indicator i {
-    width: 22px;
-    height: 22px;
+.tech-slider-viewport {
+    width: 100%;
+    overflow: hidden;
+    border-radius: 8px;
+    background: #faf9f6;
+    border: 1px solid rgba(142, 122, 102, 0.1);
+}
+
+.tech-slides-track {
+    display: flex;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tech-slide {
+    min-width: 100%;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+
+.tech-slide img {
+    max-width: 100%;
+    height: auto;
+    max-height: 520px;
+    object-fit: contain;
+    border-radius: 6px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* Arrows */
+.tech-slider-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    color: var(--color-primary-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    z-index: 10;
+    transition: all 0.2s ease;
+}
+
+.tech-slider-arrow:hover {
+    background: var(--color-primary-dark);
+    color: #ffffff;
+    border-color: var(--color-primary-dark);
+}
+
+.tech-slider-arrow.prev {
+    left: -22px;
+}
+
+.tech-slider-arrow.next {
+    right: -22px;
+}
+
+/* Counter & Info */
+.tech-slider-info {
+    text-align: center;
+    margin-top: 16px;
+}
+
+.tech-slider-counter {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+}
+
+.tech-slider-counter strong {
+    color: var(--color-primary-dark);
+}
+
+/* Scrollable Thumbnails track */
+.tech-thumbnails-track {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 12px 4px;
+    margin-top: 16px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-primary-light) transparent;
+}
+
+/* Customize scrollbar */
+.tech-thumbnails-track::-webkit-scrollbar {
+    height: 6px;
+}
+
+.tech-thumbnails-track::-webkit-scrollbar-thumb {
+    background-color: var(--color-primary-light);
+    border-radius: 3px;
+}
+
+.tech-thumbnail {
+    width: 60px;
+    height: 60px;
+    flex-shrink: 0;
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid transparent;
+    opacity: 0.6;
+    transition: all 0.2s ease;
+}
+
+.tech-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.tech-thumbnail:hover,
+.tech-thumbnail.active {
+    opacity: 1;
+    border-color: var(--color-primary-dark);
+    transform: scale(1.05);
 }
 
 /* Section 4: Icon & Sơ đồ quy trình 6 bước tối giản */

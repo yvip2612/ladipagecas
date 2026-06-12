@@ -4,17 +4,92 @@ document.addEventListener('DOMContentLoaded', () => {
         lucide.createIcons();
     }
 
-    // 2. Interactive Before & After Drag Slider
-    const rangeControl = document.getElementById('slider-range-control');
-    const resizableImg = document.getElementById('resizable-img');
-    const dragSeparator = document.getElementById('drag-separator');
+    // 2. Interactive Technical Standards Slideshow (57 pages)
+    const slidesTrack = document.getElementById('tech-slides-track');
+    const thumbnailsTrack = document.getElementById('tech-thumbnails-track');
+    const prevBtn = document.getElementById('tech-prev-btn');
+    const nextBtn = document.getElementById('tech-next-btn');
+    const currentIdxDisplay = document.getElementById('tech-current-index');
+    
+    const totalSlides = 57;
+    let activeTechSlideIdx = 0;
 
-    if (rangeControl && resizableImg && dragSeparator) {
-        rangeControl.addEventListener('input', (e) => {
-            const value = e.target.value;
-            resizableImg.style.width = `${value}%`;
-            dragSeparator.style.left = `${value}%`;
-        });
+    if (slidesTrack && thumbnailsTrack) {
+        // Generate Slides & Thumbnails
+        for (let i = 1; i <= totalSlides; i++) {
+            const imgPath = `TieuChuanEdit/${i}.png`;
+
+            // Create slide element
+            const slide = document.createElement('div');
+            slide.className = 'tech-slide';
+            const slideImg = document.createElement('img');
+            slideImg.src = imgPath;
+            slideImg.alt = `Quy chuẩn thi công ${i}`;
+            slideImg.loading = 'lazy';
+            
+            // Allow fullscreen preview on click via the existing lightbox modal
+            slideImg.addEventListener('click', () => {
+                if (typeof openImageModal === 'function') {
+                    openImageModal(slideImg.src, slideImg.alt);
+                }
+            });
+            
+            slide.appendChild(slideImg);
+            slidesTrack.appendChild(slide);
+
+            // Create thumbnail element
+            const thumb = document.createElement('div');
+            thumb.className = `tech-thumbnail ${i === 1 ? 'active' : ''}`;
+            const thumbImg = document.createElement('img');
+            thumbImg.src = imgPath;
+            thumbImg.alt = `Quy chuẩn ${i} Thumbnail`;
+            thumbImg.loading = 'lazy';
+            
+            thumb.appendChild(thumbImg);
+            thumb.addEventListener('click', () => {
+                goToTechSlide(i - 1);
+            });
+            
+            thumbnailsTrack.appendChild(thumb);
+        }
+
+        function updateTechSlider() {
+            // Translate track wrapper
+            slidesTrack.style.transform = `translateX(-${activeTechSlideIdx * 100}%)`;
+
+            // Update page indicator counter
+            if (currentIdxDisplay) {
+                currentIdxDisplay.textContent = activeTechSlideIdx + 1;
+            }
+
+            // Sync thumbnail highlight and scroll into view
+            const thumbs = thumbnailsTrack.querySelectorAll('.tech-thumbnail');
+            thumbs.forEach((t, idx) => {
+                if (idx === activeTechSlideIdx) {
+                    t.classList.add('active');
+                    t.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                } else {
+                    t.classList.remove('active');
+                }
+            });
+        }
+
+        function goToTechSlide(index) {
+            activeTechSlideIdx = index;
+            updateTechSlider();
+        }
+
+        if (prevBtn && nextBtn) {
+            prevBtn.addEventListener('click', () => {
+                activeTechSlideIdx = (activeTechSlideIdx - 1 + totalSlides) % totalSlides;
+                updateTechSlider();
+            });
+
+            nextBtn.addEventListener('click', () => {
+                activeTechSlideIdx = (activeTechSlideIdx + 1) % totalSlides;
+                updateTechSlider();
+            });
+        }
     }
 
     // 3. Portfolio Tab Switcher with Auto Switch (3 seconds)
