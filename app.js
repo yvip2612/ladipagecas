@@ -4,16 +4,10 @@ document.addEventListener('DOMContentLoaded', () => {
         lucide.createIcons();
     }
 
-    // 2. Interactive Technical Standards Slideshow with Category Group Filtering
-    const slidesTrack = document.getElementById('tech-slides-track');
-    const thumbnailsTrack = document.getElementById('tech-thumbnails-track');
-    const prevBtn = document.getElementById('tech-prev-btn');
-    const nextBtn = document.getElementById('tech-next-btn');
-    const currentIdxDisplay = document.getElementById('tech-current-index');
-    const totalSlidesDisplay = document.getElementById('tech-total-slides');
+    // 2. Interactive Technical Standards Grid Layout with Category Filtering
+    const techGrid = document.getElementById('tech-standards-grid');
     const catButtons = document.querySelectorAll('.tech-cat-btn');
     
-    let activeTechSlideIdx = 0;
     let currentRange = '1-9'; // Default range
     let currentFolder = 'DoBeTong'; // Default folder
     let activeImages = []; // List of image indices in the current range
@@ -29,86 +23,42 @@ document.addEventListener('DOMContentLoaded', () => {
         return list;
     }
 
-    function renderTechSlider() {
-        if (!slidesTrack || !thumbnailsTrack) return;
+    function renderTechGrid() {
+        if (!techGrid) return;
 
-        // Clear existing slides and thumbnails
-        slidesTrack.innerHTML = '';
-        thumbnailsTrack.innerHTML = '';
+        // Clear existing grid items
+        techGrid.innerHTML = '';
 
         activeImages = parseRange(currentRange);
-        activeTechSlideIdx = 0;
 
-        if (totalSlidesDisplay) {
-            totalSlidesDisplay.textContent = activeImages.length;
-        }
-
-        // Generate slides and thumbnails for the active range and folder
-        activeImages.forEach((imgNum, idx) => {
+        // Generate grid items for the active range and folder
+        activeImages.forEach((imgNum) => {
             const imgPath = `TieuChuanEdit/${currentFolder}/${imgNum}.png`;
 
-            // Create slide
-            const slide = document.createElement('div');
-            slide.className = 'tech-slide';
-            const slideImg = document.createElement('img');
-            slideImg.src = imgPath;
-            slideImg.alt = `Quy chuẩn thi công ${imgNum}`;
-            slideImg.loading = 'lazy';
+            // Create item card
+            const gridItem = document.createElement('div');
+            gridItem.className = 'tech-grid-item';
             
-            // Fullscreen lightbox trigger
-            slideImg.addEventListener('click', () => {
+            const img = document.createElement('img');
+            img.src = imgPath;
+            img.alt = `Quy chuẩn thi công ${imgNum}`;
+            img.loading = 'lazy';
+            
+            const info = document.createElement('div');
+            info.className = 'tech-grid-info';
+            info.textContent = `Quy chuẩn ${imgNum}`;
+
+            // Fullscreen lightbox preview trigger
+            gridItem.addEventListener('click', () => {
                 if (typeof openImageModal === 'function') {
-                    openImageModal(slideImg.src, slideImg.alt);
+                    openImageModal(img.src, img.alt);
                 }
             });
-            
-            slide.appendChild(slideImg);
-            slidesTrack.appendChild(slide);
 
-            // Create thumbnail
-            const thumb = document.createElement('div');
-            thumb.className = `tech-thumbnail ${idx === 0 ? 'active' : ''}`;
-            const thumbImg = document.createElement('img');
-            thumbImg.src = imgPath;
-            thumbImg.alt = `Quy chuẩn ${imgNum} Thumbnail`;
-            thumbImg.loading = 'lazy';
-            
-            thumb.appendChild(thumbImg);
-            thumb.addEventListener('click', () => {
-                goToTechSlide(idx);
-            });
-            
-            thumbnailsTrack.appendChild(thumb);
+            gridItem.appendChild(img);
+            gridItem.appendChild(info);
+            techGrid.appendChild(gridItem);
         });
-
-        updateTechSlider();
-    }
-
-    function updateTechSlider() {
-        if (!slidesTrack) return;
-        // Translate track
-        slidesTrack.style.transform = `translateX(-${activeTechSlideIdx * 100}%)`;
-
-        // Update counter
-        if (currentIdxDisplay) {
-            currentIdxDisplay.textContent = activeTechSlideIdx + 1;
-        }
-
-        // Sync active thumbnail state
-        const thumbs = thumbnailsTrack.querySelectorAll('.tech-thumbnail');
-        thumbs.forEach((t, idx) => {
-            if (idx === activeTechSlideIdx) {
-                t.classList.add('active');
-                t.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-            } else {
-                t.classList.remove('active');
-            }
-        });
-    }
-
-    function goToTechSlide(index) {
-        activeTechSlideIdx = index;
-        updateTechSlider();
     }
 
     // Set up category button click handlers
@@ -118,27 +68,13 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.classList.add('active');
             currentFolder = btn.getAttribute('data-folder');
             currentRange = btn.getAttribute('data-range');
-            renderTechSlider();
+            renderTechGrid();
         });
     });
 
-    if (prevBtn && nextBtn) {
-        prevBtn.addEventListener('click', () => {
-            const count = activeImages.length;
-            activeTechSlideIdx = (activeTechSlideIdx - 1 + count) % count;
-            updateTechSlider();
-        });
-
-        nextBtn.addEventListener('click', () => {
-            const count = activeImages.length;
-            activeTechSlideIdx = (activeTechSlideIdx + 1) % count;
-            updateTechSlider();
-        });
-    }
-
-    // Initialize
-    if (slidesTrack && thumbnailsTrack) {
-        renderTechSlider();
+    // Initialize Grid
+    if (techGrid) {
+        renderTechGrid();
     }
 
     // 3. Portfolio Tab Switcher with Auto Switch (3 seconds)
