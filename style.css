@@ -446,6 +446,36 @@ section {
     background-color: var(--bg-dark);
 }
 
+.tech-category-nav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 24px;
+}
+
+.tech-cat-btn {
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    color: var(--color-text-muted);
+    font-family: var(--font-title);
+    font-weight: 600;
+    font-size: 0.82rem;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+}
+
+.tech-cat-btn:hover,
+.tech-cat-btn.active {
+    background: var(--color-primary-dark);
+    color: #ffffff;
+    border-color: var(--color-primary-dark);
+    box-shadow: 0 4px 10px rgba(111, 93, 71, 0.15);
+}
+
 .tech-standards-slider-wrapper {
     max-width: 900px;
     margin: 0 auto;
