@@ -807,12 +807,18 @@ section {
 .custom-range::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
-    background: var(--color-primary);
+    background: var(--color-primary-dark);
+    border: 2px solid #ffffff;
     cursor: pointer;
-    box-shadow: 0 0 8px rgba(142, 122, 102, 0.3);
+    box-shadow: 0 4px 10px rgba(111, 93, 71, 0.25);
+    transition: transform var(--transition-fast);
+}
+
+.custom-range::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
 }
 
 .range-labels {
@@ -947,12 +953,13 @@ section {
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
     overflow: hidden;
-    box-shadow: 0 4px 15px rgba(111, 93, 71, 0.03);
-    transition: transform var(--transition-fast);
+    box-shadow: 0 10px 30px rgba(111, 93, 71, 0.06);
+    transition: transform var(--transition-smooth), box-shadow var(--transition-smooth);
 }
 
 .testimonial-video-card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-6px);
+    box-shadow: 0 15px 35px rgba(111, 93, 71, 0.12);
 }
 
 .video-preview-wrapper {
