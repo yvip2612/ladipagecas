@@ -248,13 +248,40 @@ document.addEventListener('DOMContentLoaded', () => {
         updateBook(false);
     });
 
-    // Set up category button click handlers
+    // Set up category select change handler (Mobile)
+    const techCategorySelect = document.getElementById('tech-category-select');
+    if (techCategorySelect) {
+        techCategorySelect.addEventListener('change', (e) => {
+            const selectedOpt = techCategorySelect.options[techCategorySelect.selectedIndex];
+            currentFolder = e.target.value;
+            currentRange = selectedOpt.getAttribute('data-range');
+            
+            // Sync active class on desktop buttons
+            catButtons.forEach(btn => {
+                if (btn.getAttribute('data-folder') === currentFolder) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            
+            initCategoryBook();
+        });
+    }
+
+    // Set up category button click handlers (Desktop)
     catButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             catButtons.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             currentFolder = btn.getAttribute('data-folder');
             currentRange = btn.getAttribute('data-range');
+            
+            // Sync mobile select option
+            if (techCategorySelect) {
+                techCategorySelect.value = currentFolder;
+            }
+            
             initCategoryBook();
         });
     });

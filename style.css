@@ -455,6 +455,10 @@ section {
     margin-bottom: 30px;
 }
 
+.tech-category-select-wrapper {
+    display: none;
+}
+
 .tech-cat-btn {
     background: #ffffff;
     border: 1px solid var(--border-color);
@@ -1742,6 +1746,47 @@ section {
 
     .process-hover-preview {
         display: none !important;
+    }
+
+    .tech-category-nav-buttons {
+        display: none !important;
+    }
+
+    .tech-category-select-wrapper {
+        display: block !important;
+        width: 100%;
+        max-width: 280px;
+        margin: 0 auto 20px;
+        position: relative;
+    }
+
+    .tech-category-select-wrapper::after {
+        content: '▼';
+        font-size: 0.65rem;
+        color: var(--color-primary-dark);
+        position: absolute;
+        right: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        pointer-events: none;
+    }
+
+    .tech-category-select {
+        width: 100%;
+        padding: 10px 36px 10px 16px;
+        border-radius: 20px;
+        border: 1px solid var(--border-color);
+        background-color: #ffffff;
+        color: var(--color-text-main);
+        font-family: var(--font-title);
+        font-weight: 700;
+        font-size: 0.82rem;
+        cursor: pointer;
+        box-shadow: 0 2px 6px rgba(111, 93, 71, 0.05);
+        outline: none;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
     }
 
     .book-viewport {
