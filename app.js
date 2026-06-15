@@ -47,24 +47,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Helper to generate page content HTML
     function getPageHTML(pageIndex, activeImages, catLabel) {
+        const len = activeImages.length;
+        
         // Page 0 is Chapter Cover
         if (pageIndex === 0) {
             return `
                 <div class="book-cover-content">
                     <span class="cover-sub">CAS HOMES &amp; DESIGN</span>
-                    <h3 class="cover-title">CẨM NANG BÀN GIAO</h3>
+                    <h3 class="cover-title">TIÊU CHUẨN THI CÔNG</h3>
                     <div class="cover-divider"></div>
                     <h4 class="cover-chapter">CHƯƠNG: ${catLabel.toUpperCase()}</h4>
-                    <p class="cover-desc">Chi tiết biện pháp kỹ thuật và biên bản nghiệm thu trực quan cho từng hạng mục công trình.</p>
+                    <p class="cover-desc">Hệ thống quy chuẩn thi công chi tiết được kiểm soát chất lượng nghiêm ngặt bởi CAS.</p>
                     <div class="cover-badge"><i data-lucide="check-check"></i> TIÊU CHUẨN VÀNG</div>
                 </div>
             `;
         }
         
-        // Image pages (1 to activeImages.length)
-        const imgIndex = pageIndex - 1;
-        if (imgIndex < activeImages.length) {
-            const imgNum = activeImages[imgIndex];
+        // Image pages (1 to len)
+        if (pageIndex >= 1 && pageIndex <= len) {
+            const imgNum = activeImages[pageIndex - 1];
             const imgPath = `TieuChuanEdit/${currentFolder}/${imgNum}.png`;
             return `
                 <div class="book-image-page" onclick="if(typeof openImageModal === 'function') openImageModal('${imgPath}', 'Quy chuẩn ${imgNum} - ${catLabel}')">
@@ -82,15 +83,37 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
         }
         
-        // Final ending page
+        const totalPages = len % 2 === 0 ? len + 4 : len + 3;
+        
+        // Last page (Logo only)
+        if (pageIndex === totalPages - 1) {
+            return `
+                <div class="book-cover-content logo-only-page" style="border: none; background: #fdfbf7; display: flex; align-items: center; justify-content: center; height: 100%; padding: 0;">
+                    <img src="logo.png" alt="CAS Homes" style="width: 140px; height: auto; opacity: 0.85; filter: grayscale(10%); mix-blend-mode: normal; object-fit: contain;">
+                </div>
+            `;
+        }
+        
+        // Second to last page (Closing content with CTA)
+        if (pageIndex === totalPages - 2) {
+            return `
+                <div class="book-cover-content closing">
+                    <i data-lucide="check-circle-2" class="closing-icon"></i>
+                    <h3>HOÀN THÀNH TIÊU CHUẨN</h3>
+                    <p>CAS cam kết bàn giao chuẩn kỹ thuật 100% cho mọi hạng mục công trình.</p>
+                    <div class="closing-divider"></div>
+                    <a href="#estimator" class="btn btn-primary btn-sm btn-estimator-scroll">Xem dự toán chi phí</a>
+                </div>
+            `;
+        }
+        
+        // Filler page (only occurs when len is even, at pageIndex = len + 1)
         return `
-            <div class="book-cover-content closing">
-                <img src="logo.png" alt="CAS Homes" class="book-closing-logo">
-                <i data-lucide="check-circle-2" class="closing-icon"></i>
-                <h3>HOÀN THÀNH TIÊU CHUẨN</h3>
-                <p>CAS cam kết bàn giao chuẩn kỹ thuật 100% cho mọi hạng mục công trình.</p>
-                <div class="closing-divider"></div>
-                <a href="#estimator" class="btn btn-primary btn-sm btn-estimator-scroll">Xem dự toán chi phí</a>
+            <div class="book-cover-content filler-page" style="background: #fdfcf8;">
+                <span class="cover-sub">CAS QUALITY</span>
+                <h4 style="font-family: var(--font-title); font-size: 1.1rem; font-weight:700; color: var(--color-primary-dark); margin-bottom: 8px;">QUY CHUẨN THI CÔNG</h4>
+                <div class="cover-divider" style="width: 30px; height: 1px; background: var(--color-primary); margin: 12px 0;"></div>
+                <p style="font-size:0.78rem; color: var(--color-text-muted); line-height: 1.5; max-width: 200px;">Cam kết thi công tỉ mỉ, chuẩn kỹ thuật thực tế cho từng cấu kiện công trình.</p>
             </div>
         `;
     }
@@ -103,7 +126,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!pageLeft || !pageRight) return;
         
         const catLabel = getCategoryLabel(currentFolder);
-        const totalPages = activeImages.length + 2; // cover + images + ending
+        const len = activeImages.length;
+        const totalPages = len % 2 === 0 ? len + 4 : len + 3;
         const isMobile = isMobileDevice();
 
         // Disable 3D page flip animation on mobile or if animation is false
@@ -200,7 +224,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (btnNext) {
         btnNext.addEventListener('click', () => {
-            const totalPages = activeImages.length + 2;
+            const len = activeImages.length;
+            const totalPages = len % 2 === 0 ? len + 4 : len + 3;
             const isMobile = isMobileDevice();
             const step = isMobile ? 1 : 2;
             if (currentPageIdx + step < totalPages) {
@@ -213,7 +238,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Recalculate layout on window resize (to handle orientation change etc)
     window.addEventListener('resize', () => {
         const isMobile = isMobileDevice();
-        const totalPages = activeImages.length + 2;
+        const len = activeImages.length;
+        const totalPages = len % 2 === 0 ? len + 4 : len + 3;
         
         // Adjust page index to avoid boundary issues when switching between mobile/desktop
         if (!isMobile && currentPageIdx % 2 !== 0) {
