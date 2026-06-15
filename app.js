@@ -85,6 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Final ending page
         return `
             <div class="book-cover-content closing">
+                <img src="logo.png" alt="CAS Homes" class="book-closing-logo">
                 <i data-lucide="check-circle-2" class="closing-icon"></i>
                 <h3>HOÀN THÀNH TIÊU CHUẨN</h3>
                 <p>CAS cam kết bàn giao chuẩn kỹ thuật 100% cho mọi hạng mục công trình.</p>

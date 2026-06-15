@@ -780,11 +780,35 @@ section {
     background: #fdfcf8;
 }
 
+.book-closing-logo {
+    height: 48px;
+    width: auto;
+    object-fit: contain;
+    margin-bottom: 16px;
+    background: #ffffff;
+    padding: 6px 12px;
+    border-radius: 6px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    border: 1px solid rgba(142, 122, 102, 0.1);
+    display: none; /* Hidden by default on mobile */
+}
+
 .book-cover-content.closing .closing-icon {
     width: 48px;
     height: 48px;
     color: var(--color-accent);
     margin-bottom: 16px;
+    display: block; /* Visible by default on mobile */
+}
+
+@media (min-width: 769px) {
+    .book-closing-logo {
+        display: block; /* Show logo on desktop */
+    }
+    
+    .book-cover-content.closing .closing-icon {
+        display: none; /* Hide icon on desktop to prioritize logo */
+    }
 }
 
 .book-cover-content.closing h3 {
