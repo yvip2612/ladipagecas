@@ -149,11 +149,11 @@ document.addEventListener('DOMContentLoaded', () => {
             // Render actual pages content midway of flip
             setTimeout(() => {
                 renderPagesContent(catLabel, totalPages, isMobile);
-            }, 300);
+            }, 400);
 
             setTimeout(() => {
                 pageFlip.classList.remove(flipClass);
-            }, 600);
+            }, 800);
         } else {
             renderPagesContent(catLabel, totalPages, isMobile);
         }

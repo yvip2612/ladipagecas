@@ -13,8 +13,8 @@
     --border-color-focus: rgba(142, 122, 102, 0.5);
     --font-title: 'Be Vietnam Pro', sans-serif;
     --font-body: 'Inter', sans-serif;
-    --transition-fast: 0.2s ease;
-    --transition-smooth: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-fast: 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+    --transition-smooth: 0.75s cubic-bezier(0.25, 1, 0.5, 1);
     --border-radius: 12px;
     --container-width: 1200px;
 }
@@ -404,7 +404,7 @@ section {
 
 .tab-pane.active {
     display: block;
-    animation: tab-fade-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: tab-fade-in 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
 .gallery-carousel {
@@ -605,14 +605,14 @@ section {
 /* Flip Animations */
 .flip-next-animation {
     display: block;
-    animation: flip-next-kf 0.6s cubic-bezier(0.55, 0.055, 0.675, 0.19) forwards;
+    animation: flip-next-kf 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
 .flip-prev-animation {
     display: block;
     left: calc(50% - 10px);
     transform-origin: left center;
-    animation: flip-prev-kf 0.6s cubic-bezier(0.55, 0.055, 0.675, 0.19) forwards;
+    animation: flip-prev-kf 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
 @keyframes flip-next-kf {
@@ -1580,7 +1580,7 @@ section {
     border-radius: 8px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    animation: zoom-in-anim 0.3s ease;
+    animation: zoom-in-anim 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
 .modal-caption {
@@ -1624,7 +1624,7 @@ section {
 }
 
 @keyframes zoom-in-anim {
-    from { transform: scale(0.9); opacity: 0; }
+    from { transform: scale(0.97); opacity: 0; }
     to { transform: scale(1); opacity: 1; }
 }
 
@@ -1892,7 +1892,7 @@ section {
     padding: 0 !important;
     border: none;
     box-shadow: 0 25px 50px -12px rgba(46, 40, 36, 0.25);
-    animation: zoom-in-anim 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: zoom-in-anim 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
 .process-modal-body {
