@@ -1712,6 +1712,25 @@ section {
 }
 
 @media (max-width: 768px) {
+    .header-container {
+        height: 64px;
+    }
+
+    .logo-img {
+        height: 42px;
+    }
+
+    .btn-phone {
+        padding: 6px 12px !important;
+        font-size: 0.75rem !important;
+        border-radius: 6px !important;
+    }
+
+    .btn-phone i {
+        width: 14px !important;
+        height: 14px !important;
+    }
+
     .hero-content h1 {
         font-size: 1.8rem;
     }
