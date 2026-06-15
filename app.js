@@ -52,10 +52,10 @@ document.addEventListener('DOMContentLoaded', () => {
             return `
                 <div class="book-cover-content">
                     <span class="cover-sub">CAS HOMES &amp; DESIGN</span>
-                    <h3 class="cover-title">TIÊU CHUẨN THI CÔNG</h3>
+                    <h3 class="cover-title">CẨM NANG BÀN GIAO</h3>
                     <div class="cover-divider"></div>
                     <h4 class="cover-chapter">CHƯƠNG: ${catLabel.toUpperCase()}</h4>
-                    <p class="cover-desc">Hệ thống quy chuẩn thi công chi tiết được kiểm soát chất lượng nghiêm ngặt bởi CAS.</p>
+                    <p class="cover-desc">Chi tiết biện pháp kỹ thuật và biên bản nghiệm thu trực quan cho từng hạng mục công trình.</p>
                     <div class="cover-badge"><i data-lucide="check-check"></i> TIÊU CHUẨN VÀNG</div>
                 </div>
             `;
