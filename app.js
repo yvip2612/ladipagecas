@@ -205,10 +205,47 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    let bookAutoPlayTimer;
+    const bookPlayInterval = 3000; // 3 seconds
+
+    function startBookAutoPlay() {
+        if (!bookContainer) return;
+        bookAutoPlayTimer = setInterval(() => {
+            const len = activeImages.length;
+            const totalPages = len % 2 === 0 ? len + 4 : len + 3;
+            const isMobile = isMobileDevice();
+            const step = isMobile ? 1 : 2;
+            
+            if (currentPageIdx + step < totalPages) {
+                currentPageIdx += step;
+                updateBook(true, 'next');
+            } else {
+                currentPageIdx = 0;
+                updateBook(true, 'next');
+            }
+        }, bookPlayInterval);
+    }
+
+    function resetBookAutoPlay() {
+        clearInterval(bookAutoPlayTimer);
+        startBookAutoPlay();
+    }
+
+    // Pause autoplay when hovering over the book viewport
+    if (bookContainer) {
+        bookContainer.addEventListener('mouseenter', () => {
+            clearInterval(bookAutoPlayTimer);
+        });
+        bookContainer.addEventListener('mouseleave', () => {
+            startBookAutoPlay();
+        });
+    }
+
     function initCategoryBook() {
         activeImages = parseRange(currentRange);
         currentPageIdx = 0;
         updateBook(false);
+        resetBookAutoPlay();
     }
 
     if (btnPrev) {
@@ -218,6 +255,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (currentPageIdx >= step) {
                 currentPageIdx -= step;
                 updateBook(true, 'prev');
+                resetBookAutoPlay();
             }
         });
     }
@@ -231,6 +269,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (currentPageIdx + step < totalPages) {
                 currentPageIdx += step;
                 updateBook(true, 'next');
+                resetBookAutoPlay();
+            } else {
+                currentPageIdx = 0;
+                updateBook(true, 'next');
+                resetBookAutoPlay();
             }
         });
     }
@@ -246,6 +289,7 @@ document.addEventListener('DOMContentLoaded', () => {
             currentPageIdx = Math.max(0, currentPageIdx - 1);
         }
         updateBook(false);
+        resetBookAutoPlay();
     });
 
     // Set up category select change handler (Mobile)
