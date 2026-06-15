@@ -220,8 +220,37 @@ document.addEventListener('DOMContentLoaded', () => {
                 currentPageIdx += step;
                 updateBook(true, 'next');
             } else {
-                currentPageIdx = 0;
-                updateBook(true, 'next');
+                // Advance to the next technical category in the sequence!
+                const categoriesList = [
+                    { folder: 'DoBeTong', range: '1-9' },
+                    { folder: 'XayTuong', range: '10-19' },
+                    { folder: 'ToTuong', range: '20-26' },
+                    { folder: 'DienNuoc', range: '27-32' },
+                    { folder: 'SonTuong', range: '33-37' },
+                    { folder: 'ChongTham', range: '38-46' },
+                    { folder: 'CanNen', range: '47-57' }
+                ];
+                let currentIndex = categoriesList.findIndex(c => c.folder === currentFolder);
+                let nextIndex = (currentIndex + 1) % categoriesList.length;
+                
+                currentFolder = categoriesList[nextIndex].folder;
+                currentRange = categoriesList[nextIndex].range;
+                
+                // Sync active class on desktop category buttons
+                catButtons.forEach(btn => {
+                    if (btn.getAttribute('data-folder') === currentFolder) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                });
+                
+                // Sync mobile select options
+                if (techCategorySelect) {
+                    techCategorySelect.value = currentFolder;
+                }
+                
+                initCategoryBook();
             }
         }, bookPlayInterval);
     }
