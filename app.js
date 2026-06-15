@@ -572,4 +572,102 @@ document.addEventListener('DOMContentLoaded', () => {
             slides[currentSlideIdx].classList.add('active');
         }, slideInterval);
     }
+
+    // 10. Process Step Modal Logic
+    const processModal = document.getElementById('process-modal');
+    const processModalImg = document.getElementById('process-modal-img');
+    const processModalStepBadge = document.getElementById('process-modal-step-badge');
+    const processModalTitle = document.getElementById('process-modal-title');
+    const processModalDescText = document.getElementById('process-modal-desc-text');
+    const processModalCloseBtn = document.getElementById('process-modal-close');
+    const processModalCta = document.getElementById('process-modal-cta');
+    const processCards = document.querySelectorAll('.process-item-card');
+
+    const processStepsDetails = [
+        {
+            step: "Bước 1",
+            title: "Tư vấn sơ bộ",
+            img: "https://images.unsplash.com/photo-1431540015161-0bf868a2d407?auto=format&fit=crop&w=600&q=80",
+            desc: "CAS Homes lắng nghe ý tưởng, khảo sát hiện trạng thực địa và đo đạc thông số thực tế của lô đất/nhà cũ. Dựa trên nhu cầu công năng sử dụng, phong thủy và khả năng tài chính của gia chủ, kiến trúc sư trưởng của CAS sẽ tư vấn sơ bộ về phương án quy hoạch mặt bằng, phong cách thiết kế phù hợp và định hướng giải pháp kỹ thuật tối ưu ban đầu."
+        },
+        {
+            step: "Bước 2",
+            title: "Báo giá thiết kế",
+            img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80",
+            desc: "Sau khi thống nhất phương án sơ bộ, CAS sẽ gửi bảng báo giá thiết kế chi tiết bao gồm đơn giá thiết kế kiến trúc, thiết kế nội thất và thiết kế cảnh quan sân vườn (nếu có). Mức giá được tính toán minh bạch dựa trên quy mô và độ phức tạp của công trình, kèm theo dự thảo hợp đồng thiết kế rõ ràng về tiến độ bàn giao và quyền lợi của khách hàng."
+        },
+        {
+            step: "Bước 3",
+            title: "Thiết kế bản vẽ",
+            img: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=600&q=80",
+            desc: "Kiến trúc sư CAS triển khai hồ sơ bản vẽ kỹ thuật chi tiết. Quá trình bao gồm: thiết kế mặt bằng công năng các tầng, dựng mô hình phối cảnh 3D mặt tiền và không gian nội thất trực quan sinh động giúp gia chủ dễ dàng hình dung ngôi nhà tương lai. Đồng thời hoàn thiện hồ sơ xin cấp phép xây dựng và bản vẽ kết cấu, điện nước (ME) chi tiết."
+        },
+        {
+            step: "Bước 4",
+            title: "Báo giá thi công",
+            img: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80",
+            desc: "Dựa trên hồ sơ kỹ thuật thi công đã phê duyệt, phòng dự toán của CAS thực hiện bóc tách khối lượng vật tư chi tiết, báo giá chủng loại vật liệu minh bạch theo từng thương hiệu cụ thể. Bảng chào thầu thi công trọn gói được cam kết bằng hợp đồng pháp lý, đảm bảo chất lượng công trình và không phát sinh bất kỳ khoản chi phí phát sinh nào khác ngoài dự tính."
+        },
+        {
+            step: "Bước 5",
+            title: "Thi công công trình",
+            img: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=600&q=80",
+            desc: "Tiến hành động thổ và triển khai thi công xây dựng thực tế theo tiêu chuẩn kỹ thuật nghiêm ngặt của CAS. Đội ngũ kỹ sư trực tiếp giám sát chặt chẽ các công đoạn từ thi công móng, đổ bê tông cốt thép, xây tô trát tường, lắp đặt hệ thống điện nước ngầm đến hoàn thiện ốp lát nội thất và sơn nước ngoại thất, đảm bảo chất lượng bền vững."
+        },
+        {
+            step: "Bước 6",
+            title: "Nghiệm thu & Bàn giao",
+            img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80",
+            desc: "Sau khi hoàn thiện tất cả các hạng mục thi công và lắp đặt đồ gỗ nội thất, CAS cùng gia chủ thực hiện nghiệm thu thực tế chi tiết từng góc công trình. Sau khi kiểm tra đạt chuẩn chất lượng 100%, CAS thực hiện tổng vệ sinh công nghiệp toàn diện, bàn giao chìa khóa trao tay và kích hoạt chính sách bảo hành, bảo trì định kỳ dài hạn."
+        }
+    ];
+
+    function openProcessModal(index) {
+        if (!processModal || !processModalImg || !processModalStepBadge || !processModalTitle || !processModalDescText) return;
+        const stepData = processStepsDetails[index];
+        if (!stepData) return;
+
+        processModalImg.src = stepData.img;
+        processModalImg.alt = stepData.title;
+        processModalStepBadge.textContent = stepData.step;
+        processModalTitle.textContent = stepData.title;
+        processModalDescText.textContent = stepData.desc;
+
+        processModal.classList.add('show');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeProcessModal() {
+        if (!processModal) return;
+        processModal.classList.remove('show');
+        document.body.style.overflow = '';
+    }
+
+    processCards.forEach((card, idx) => {
+        card.addEventListener('click', () => {
+            openProcessModal(idx);
+        });
+    });
+
+    if (processModalCloseBtn) {
+        processModalCloseBtn.addEventListener('click', closeProcessModal);
+    }
+
+    if (processModal) {
+        processModal.addEventListener('click', (e) => {
+            if (e.target === processModal || e.target.id === 'process-modal-close') {
+                closeProcessModal();
+            }
+        });
+    }
+
+    if (processModalCta) {
+        processModalCta.addEventListener('click', () => {
+            closeProcessModal();
+            const targetSection = document.getElementById('estimator');
+            if (targetSection) {
+                targetSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    }
 });
