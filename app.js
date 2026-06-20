@@ -4,22 +4,16 @@ document.addEventListener('DOMContentLoaded', () => {
         lucide.createIcons();
     }
 
-    // 2. Interactive Technical Standards Book Layout with Category Filtering
-    const bookContainer = document.getElementById('tech-book');
-    const pageLeft = document.getElementById('book-page-left');
-    const pageRight = document.getElementById('book-page-right');
-    const pageFlip = document.getElementById('book-page-flip');
-    const flipFront = document.getElementById('flip-front');
-    const flipBack = document.getElementById('flip-back');
-    const btnPrev = document.getElementById('btn-book-prev');
-    const btnNext = document.getElementById('btn-book-next');
-    const pageIndicator = document.getElementById('book-page-indicator');
+    // 2. Interactive Technical Standards Grid Layout with Category Filtering
+    const techGrid = document.getElementById('tech-standards-grid');
+    const techViewport = document.getElementById('tech-standards-viewport');
+    const btnPrev = document.getElementById('tech-slider-prev');
+    const btnNext = document.getElementById('tech-slider-next');
     const catButtons = document.querySelectorAll('.tech-cat-btn');
+    const techCategorySelect = document.getElementById('tech-category-select');
 
     let currentRange = '1-9'; // Default range
     let currentFolder = 'DoBeTong'; // Default folder
-    let activeImages = []; // List of image indices in the current range
-    let currentPageIdx = 0; // Current left page offset index (always even: 0, 2, 4...)
 
     function parseRange(rangeStr) {
         const parts = rangeStr.split('-');
@@ -45,284 +39,129 @@ document.addEventListener('DOMContentLoaded', () => {
         return labels[folder] || 'Quy Chuẩn';
     }
 
-    // Helper to generate page content HTML
-    function getPageHTML(pageIndex, activeImages, catLabel) {
-        const len = activeImages.length;
-        
-        // Page 0 is Chapter Cover
-        if (pageIndex === 0) {
-            return `
-                <div class="book-cover-content">
-                    <span class="cover-sub">CAS HOMES &amp; DESIGN</span>
-                    <h3 class="cover-title">TIÊU CHUẨN THI CÔNG</h3>
-                    <div class="cover-divider"></div>
-                    <h4 class="cover-chapter">CHƯƠNG: ${catLabel.toUpperCase()}</h4>
-                    <p class="cover-desc">Hệ thống quy chuẩn thi công chi tiết được kiểm soát chất lượng nghiêm ngặt bởi CAS.</p>
-                    <div class="cover-badge"><i data-lucide="check-check"></i> TIÊU CHUẨN VÀNG</div>
-                </div>
-            `;
-        }
-        
-        // Image pages (1 to len)
-        if (pageIndex >= 1 && pageIndex <= len) {
-            const imgNum = activeImages[pageIndex - 1];
-            const imgPath = `TieuChuanEdit/${currentFolder}/${imgNum}.png`;
-            return `
-                <div class="book-image-page" onclick="if(typeof openImageModal === 'function') openImageModal('${imgPath}', 'Quy chuẩn ${imgNum} - ${catLabel}')">
-                    <div class="book-image-wrapper">
-                        <img src="${imgPath}" alt="Quy chuẩn ${imgNum}" loading="lazy">
-                        <div class="book-zoom-indicator">
-                            <i data-lucide="zoom-in"></i> Click để phóng to bản vẽ
-                        </div>
-                    </div>
-                    <div class="book-page-meta">
-                        <span class="meta-cat">${catLabel}</span>
-                        <span class="meta-num">Quy chuẩn #${imgNum.toString().padStart(2, '0')}</span>
-                    </div>
-                </div>
-            `;
-        }
-        
-        const totalPages = len % 2 === 0 ? len + 4 : len + 3;
-        
-        // Last page (Logo only)
-        if (pageIndex === totalPages - 1) {
-            return `
-                <div class="book-cover-content logo-only-page" style="border: none; background: #fdfbf7; display: flex; align-items: center; justify-content: center; height: 100%; padding: 0;">
-                    <img src="logo.png" alt="CAS Homes" style="width: 140px; height: auto; opacity: 0.85; filter: grayscale(10%); mix-blend-mode: normal; object-fit: contain;">
-                </div>
-            `;
-        }
-        
-        // Second to last page (Closing content with CTA)
-        if (pageIndex === totalPages - 2) {
-            return `
-                <div class="book-cover-content closing">
-                    <i data-lucide="check-circle-2" class="closing-icon"></i>
-                    <h3>HOÀN THÀNH TIÊU CHUẨN</h3>
-                    <p>CAS cam kết bàn giao chuẩn kỹ thuật 100% cho mọi hạng mục công trình.</p>
-                    <div class="closing-divider"></div>
-                    <a href="#estimator" class="btn btn-primary btn-sm btn-estimator-scroll">Xem dự toán chi phí</a>
-                </div>
-            `;
-        }
-        
-        // Filler page (only occurs when len is even, at pageIndex = len + 1)
-        return `
-            <div class="book-cover-content filler-page" style="background: #fdfcf8;">
-                <span class="cover-sub">CAS QUALITY</span>
-                <h4 style="font-family: var(--font-title); font-size: 1.1rem; font-weight:700; color: var(--color-primary-dark); margin-bottom: 8px;">QUY CHUẨN THI CÔNG</h4>
-                <div class="cover-divider" style="width: 30px; height: 1px; background: var(--color-primary); margin: 12px 0;"></div>
-                <p style="font-size:0.78rem; color: var(--color-text-muted); line-height: 1.5; max-width: 200px;">Cam kết thi công tỉ mỉ, chuẩn kỹ thuật thực tế cho từng cấu kiện công trình.</p>
-            </div>
-        `;
-    }
-
-    function isMobileDevice() {
-        return window.innerWidth <= 768;
-    }
-
-    function updateBook(animate = false, direction = 'next') {
-        if (!pageLeft || !pageRight) return;
-        
+    function renderCategoryGrid() {
+        if (!techGrid) return;
+        techGrid.innerHTML = '';
+        const activeImages = parseRange(currentRange);
         const catLabel = getCategoryLabel(currentFolder);
-        const len = activeImages.length;
-        const totalPages = len % 2 === 0 ? len + 4 : len + 3;
-        const isMobile = isMobileDevice();
 
-        // Disable 3D page flip animation on mobile or if animation is false
-        if (animate && pageFlip && !isMobile) {
-            // Trigger 3D flip animation
-            const flipClass = direction === 'next' ? 'flip-next-animation' : 'flip-prev-animation';
-            
-            // Set content of the flip layer based on direction
-            if (direction === 'next') {
-                flipFront.innerHTML = getPageHTML(currentPageIdx - 2 + 1, activeImages, catLabel); // Previous right page content
-                flipBack.innerHTML = getPageHTML(currentPageIdx, activeImages, catLabel); // New left page content
-            } else {
-                flipFront.innerHTML = getPageHTML(currentPageIdx + 2, activeImages, catLabel); // Previous left page content
-                flipBack.innerHTML = getPageHTML(currentPageIdx + 1, activeImages, catLabel); // New right page content
-            }
-            
-            pageFlip.classList.add(flipClass);
-            
-            // Render actual pages content midway of flip
-            setTimeout(() => {
-                renderPagesContent(catLabel, totalPages, isMobile);
-            }, 400);
+        activeImages.forEach(imgNum => {
+            const imgPath = `TieuChuanEdit/${currentFolder}/${imgNum}.png`;
+            const card = document.createElement('div');
+            card.className = 'tech-grid-item';
+            card.innerHTML = `
+                <div class="tech-grid-img-wrapper" onclick="if(typeof openImageModal === 'function') openImageModal('${imgPath}', 'Quy chuẩn ${imgNum} - ${catLabel}')">
+                    <img src="${imgPath}" alt="Quy chuẩn ${imgNum}" loading="lazy">
+                    <div class="tech-grid-hover">
+                        <i data-lucide="zoom-in"></i>
+                        <span>Phóng to bản vẽ</span>
+                    </div>
+                </div>
+                <div class="tech-grid-meta">
+                    <span class="tech-grid-num">Quy chuẩn #${imgNum.toString().padStart(2, '0')}</span>
+                    <span class="tech-grid-title">${catLabel}</span>
+                </div>
+            `;
+            techGrid.appendChild(card);
+        });
 
-            setTimeout(() => {
-                pageFlip.classList.remove(flipClass);
-            }, 800);
-        } else {
-            renderPagesContent(catLabel, totalPages, isMobile);
-        }
-    }
-
-    function renderPagesContent(catLabel, totalPages, isMobile) {
-        if (isMobile) {
-            // Mobile Mode: Single page view
-            pageLeft.style.display = 'none';
-            pageRight.style.width = '100%';
-            pageRight.style.borderRadius = '8px';
-            pageRight.innerHTML = getPageHTML(currentPageIdx, activeImages, catLabel);
-            
-            pageIndicator.textContent = `Trang ${currentPageIdx + 1} / ${totalPages}`;
-            
-            btnPrev.disabled = currentPageIdx === 0;
-            btnNext.disabled = currentPageIdx + 1 >= totalPages;
-        } else {
-            // Desktop Mode: Double page view
-            pageLeft.style.display = 'flex';
-            pageRight.style.width = '50%';
-            pageRight.style.borderRadius = '0 6px 6px 0';
-            
-            pageLeft.innerHTML = getPageHTML(currentPageIdx, activeImages, catLabel);
-            pageRight.innerHTML = getPageHTML(currentPageIdx + 1, activeImages, catLabel);
-            
-            const currentDisplayPage = currentPageIdx + 1;
-            const nextDisplayPage = Math.min(currentPageIdx + 2, totalPages);
-            pageIndicator.textContent = `Trang ${currentDisplayPage}-${nextDisplayPage} / ${totalPages}`;
-            
-            btnPrev.disabled = currentPageIdx === 0;
-            btnNext.disabled = currentPageIdx + 2 >= totalPages;
+        // Reset scroll position on category switch
+        if (techViewport) {
+            techViewport.scrollTo({ left: 0, behavior: 'instant' });
         }
 
         if (typeof lucide !== 'undefined') {
             lucide.createIcons();
         }
-        
-        // Add scroll animation to link inside closing page
-        const estScrollLink = document.querySelector('.btn-estimator-scroll');
-        if (estScrollLink) {
-            estScrollLink.addEventListener('click', (e) => {
-                e.preventDefault();
-                const target = document.getElementById('estimator');
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth' });
-                }
-            });
-        }
     }
 
-    let bookAutoPlayTimer;
-    const bookPlayInterval = 3000; // 3 seconds
-
-    function startBookAutoPlay() {
-        if (!bookContainer) return;
-        bookAutoPlayTimer = setInterval(() => {
-            const len = activeImages.length;
-            const totalPages = len % 2 === 0 ? len + 4 : len + 3;
-            const isMobile = isMobileDevice();
-            const step = isMobile ? 1 : 2;
-            
-            if (currentPageIdx + step < totalPages) {
-                currentPageIdx += step;
-                updateBook(true, 'next');
-            } else {
-                // Advance to the next technical category in the sequence!
-                const categoriesList = [
-                    { folder: 'DoBeTong', range: '1-9' },
-                    { folder: 'XayTuong', range: '10-19' },
-                    { folder: 'ToTuong', range: '20-26' },
-                    { folder: 'DienNuoc', range: '27-32' },
-                    { folder: 'SonTuong', range: '33-37' },
-                    { folder: 'ChongTham', range: '38-46' },
-                    { folder: 'CanNen', range: '47-57' }
-                ];
-                let currentIndex = categoriesList.findIndex(c => c.folder === currentFolder);
-                let nextIndex = (currentIndex + 1) % categoriesList.length;
+    let techAutoPlayTimer;
+    
+    function startTechAutoPlay() {
+        if (!techViewport) return;
+        techAutoPlayTimer = setInterval(() => {
+            const items = techGrid.querySelectorAll('.tech-grid-item');
+            if (items.length > 0) {
+                const itemWidth = items[0].getBoundingClientRect().width + 24; // width + gap
+                const maxScroll = techViewport.scrollWidth - techViewport.clientWidth;
                 
-                currentFolder = categoriesList[nextIndex].folder;
-                currentRange = categoriesList[nextIndex].range;
-                
-                // Sync active class on desktop category buttons
-                catButtons.forEach(btn => {
-                    if (btn.getAttribute('data-folder') === currentFolder) {
-                        btn.classList.add('active');
-                    } else {
-                        btn.classList.remove('active');
+                if (techViewport.scrollLeft >= maxScroll - 20) {
+                    // Switch to the next technical category!
+                    const categoriesList = [
+                        { folder: 'DoBeTong', range: '1-9' },
+                        { folder: 'XayTuong', range: '10-19' },
+                        { folder: 'ToTuong', range: '20-26' },
+                        { folder: 'DienNuoc', range: '47-57' },
+                        { folder: 'SonTuong', range: '33-37' },
+                        { folder: 'ChongTham', range: '38-46' },
+                        { folder: 'CanNen', range: '27-32' }
+                    ];
+                    let currentIndex = categoriesList.findIndex(c => c.folder === currentFolder);
+                    let nextIndex = (currentIndex + 1) % categoriesList.length;
+                    
+                    currentFolder = categoriesList[nextIndex].folder;
+                    currentRange = categoriesList[nextIndex].range;
+                    
+                    // Sync active class on desktop category buttons
+                    catButtons.forEach(btn => {
+                        if (btn.getAttribute('data-folder') === currentFolder) {
+                            btn.classList.add('active');
+                        } else {
+                            btn.classList.remove('active');
+                        }
+                    });
+                    
+                    // Sync mobile select options
+                    if (techCategorySelect) {
+                        techCategorySelect.value = currentFolder;
                     }
-                });
-                
-                // Sync mobile select options
-                if (techCategorySelect) {
-                    techCategorySelect.value = currentFolder;
+                    
+                    renderCategoryGrid();
+                } else {
+                    techViewport.scrollBy({ left: itemWidth, behavior: 'smooth' });
                 }
-                
-                initCategoryBook();
             }
-        }, bookPlayInterval);
+        }, 3000);
     }
 
-    function resetBookAutoPlay() {
-        clearInterval(bookAutoPlayTimer);
-        startBookAutoPlay();
+    function resetTechAutoPlay() {
+        clearInterval(techAutoPlayTimer);
+        startTechAutoPlay();
     }
 
-    // Pause autoplay when hovering over the book viewport
-    if (bookContainer) {
-        bookContainer.addEventListener('mouseenter', () => {
-            clearInterval(bookAutoPlayTimer);
+    if (techViewport) {
+        techViewport.addEventListener('mouseenter', () => {
+            clearInterval(techAutoPlayTimer);
         });
-        bookContainer.addEventListener('mouseleave', () => {
-            startBookAutoPlay();
+        techViewport.addEventListener('mouseleave', () => {
+            startTechAutoPlay();
         });
     }
 
-    function initCategoryBook() {
-        activeImages = parseRange(currentRange);
-        currentPageIdx = 0;
-        updateBook(false);
-        resetBookAutoPlay();
-    }
-
-    if (btnPrev) {
+    // Set up slider arrow controls
+    if (btnPrev && techViewport) {
         btnPrev.addEventListener('click', () => {
-            const isMobile = isMobileDevice();
-            const step = isMobile ? 1 : 2;
-            if (currentPageIdx >= step) {
-                currentPageIdx -= step;
-                updateBook(true, 'prev');
-                resetBookAutoPlay();
+            const items = techGrid.querySelectorAll('.tech-grid-item');
+            if (items.length > 0) {
+                const scrollAmount = items[0].getBoundingClientRect().width + 24; // width + gap
+                techViewport.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+                resetTechAutoPlay();
             }
         });
     }
 
-    if (btnNext) {
+    if (btnNext && techViewport) {
         btnNext.addEventListener('click', () => {
-            const len = activeImages.length;
-            const totalPages = len % 2 === 0 ? len + 4 : len + 3;
-            const isMobile = isMobileDevice();
-            const step = isMobile ? 1 : 2;
-            if (currentPageIdx + step < totalPages) {
-                currentPageIdx += step;
-                updateBook(true, 'next');
-                resetBookAutoPlay();
-            } else {
-                currentPageIdx = 0;
-                updateBook(true, 'next');
-                resetBookAutoPlay();
+            const items = techGrid.querySelectorAll('.tech-grid-item');
+            if (items.length > 0) {
+                const scrollAmount = items[0].getBoundingClientRect().width + 24; // width + gap
+                techViewport.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+                resetTechAutoPlay();
             }
         });
     }
-
-    // Recalculate layout on window resize (to handle orientation change etc)
-    window.addEventListener('resize', () => {
-        const isMobile = isMobileDevice();
-        const len = activeImages.length;
-        const totalPages = len % 2 === 0 ? len + 4 : len + 3;
-        
-        // Adjust page index to avoid boundary issues when switching between mobile/desktop
-        if (!isMobile && currentPageIdx % 2 !== 0) {
-            currentPageIdx = Math.max(0, currentPageIdx - 1);
-        }
-        updateBook(false);
-        resetBookAutoPlay();
-    });
 
     // Set up category select change handler (Mobile)
-    const techCategorySelect = document.getElementById('tech-category-select');
     if (techCategorySelect) {
         techCategorySelect.addEventListener('change', (e) => {
             const selectedOpt = techCategorySelect.options[techCategorySelect.selectedIndex];
@@ -338,7 +177,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
             
-            initCategoryBook();
+            renderCategoryGrid();
+            resetTechAutoPlay();
         });
     }
 
@@ -355,13 +195,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 techCategorySelect.value = currentFolder;
             }
             
-            initCategoryBook();
+            renderCategoryGrid();
+            resetTechAutoPlay();
         });
     });
 
-    // Initialize Book
-    if (bookContainer) {
-        initCategoryBook();
+    // Initialize Grid & Autoplay
+    if (techGrid) {
+        renderCategoryGrid();
+        startTechAutoPlay();
     }
 
     // 3. Portfolio Tab Switcher with Auto Switch (3 seconds)
@@ -373,9 +215,50 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function startTabAutoSwitch() {
         tabAutoSwitchTimer = setInterval(() => {
+            if (window.innerWidth <= 768) {
+                // Mobile behavior: scroll images inside active tab first
+                if (isTouchingGallery) return; // user is interacting, pause auto switch
+
+                const activePane = document.querySelector('.tab-pane.active');
+                if (activePane) {
+                    const activeInner = activePane.querySelector('.carousel-inner');
+                    if (activeInner) {
+                        const slides = activeInner.querySelectorAll('.gallery-img');
+                        if (slides.length > 0) {
+                            const slideWidth = slides[0].getBoundingClientRect().width;
+                            const maxScroll = activeInner.scrollWidth - activeInner.clientWidth;
+                            
+                            // Check if we can scroll further in the current tab
+                            if (activeInner.scrollLeft < maxScroll - 20) {
+                                activeInner.scrollTo({
+                                    left: activeInner.scrollLeft + slideWidth,
+                                    behavior: 'smooth'
+                                });
+                                return; // Stop here, do not switch tabs yet!
+                            } else {
+                                // Reset scroll of this tab to 0 before switching
+                                activeInner.scrollTo({ left: 0, behavior: 'instant' });
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Desktop behavior or Mobile when finished scrolling all images: switch styles/tabs
             activeTabIdx = (activeTabIdx + 1) % tabButtons.length;
             const nextBtn = tabButtons[activeTabIdx];
             switchTab(nextBtn);
+
+            // Ensure the newly active tab's scroll is reset to 0
+            setTimeout(() => {
+                const newActivePane = document.querySelector('.tab-pane.active');
+                if (newActivePane) {
+                    const newInner = newActivePane.querySelector('.carousel-inner');
+                    if (newInner) {
+                        newInner.scrollTo({ left: 0, behavior: 'instant' });
+                    }
+                }
+            }, 50);
         }, tabSwitchInterval);
     }
 
@@ -437,142 +320,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 5. Cost Estimator Calculator Multi-Step Logic
-    const steps = document.querySelectorAll('.est-step');
-    const stepPanes = document.querySelectorAll('.step-pane');
-    const btnNextSteps = document.querySelectorAll('.btn-next-step');
-    const btnPrevSteps = document.querySelectorAll('.btn-prev-step');
-    
-    // Inputs
-    const inputArea = document.getElementById('input-area');
-    const inputFloors = document.getElementById('input-floors');
-    
-    // Displays
-    const areaValDisplay = document.getElementById('area-val-display');
-    const floorsValDisplay = document.getElementById('floors-val-display');
-    const estimatedCostOutput = document.getElementById('estimated-cost-output');
-    const estDataSummary = document.getElementById('est-data-summary');
-
-    let currentStep = 1;
-
-    // Helper to format currency
-    function formatVND(value) {
-        return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
-    }
-
-    // Live update slider labels
-    if (inputArea) {
-        inputArea.addEventListener('input', (e) => {
-            areaValDisplay.textContent = `${e.target.value} m²`;
-        });
-    }
-
-    if (inputFloors) {
-        inputFloors.addEventListener('input', (e) => {
-            floorsValDisplay.textContent = `${e.target.value} Tầng`;
-        });
-    }
-
-    // Move to next step
-    function goToStep(stepNumber) {
-        currentStep = stepNumber;
-
-        steps.forEach((step, idx) => {
-            step.classList.remove('active', 'completed');
-            const stepNum = idx + 1;
-            if (stepNum === currentStep) {
-                step.classList.add('active');
-            } else if (stepNum < currentStep) {
-                step.classList.add('completed');
-            }
-        });
-
-        stepPanes.forEach((pane) => {
-            pane.classList.remove('active');
-        });
-        const currentPane = document.getElementById(`step-${currentStep}-pane`);
-        if (currentPane) {
-            currentPane.classList.add('active');
-        }
-    }
-
-    btnNextSteps.forEach(btn => {
-        btn.addEventListener('click', () => {
-            if (currentStep === 2) {
-                calculateEstimate();
-            }
-            if (currentStep < 3) {
-                goToStep(currentStep + 1);
-            }
-        });
-    });
-
-    btnPrevSteps.forEach(btn => {
-        btn.addEventListener('click', () => {
-            if (currentStep > 1) {
-                goToStep(currentStep - 1);
-            }
-        });
-    });
-
-    // Price calculations
-    function calculateEstimate() {
-        const styleInput = document.querySelector('input[name="est_style"]:checked');
-        const pkgInput = document.querySelector('input[name="est_package"]:checked');
-        
-        if (!styleInput || !pkgInput) return;
-        
-        const style = styleInput.value;
-        const pkg = pkgInput.value;
-        const area = parseFloat(inputArea.value);
-        const floors = parseFloat(inputFloors.value);
-
-        // Price mapping per square meter based on Style and Gói vật tư
-        const prices = {
-            modern: { standard: 5500000, premium: 8500000 },
-            indochine: { standard: 6500000, premium: 9500000 },
-            classic: { standard: 8000000, premium: 12000000 }
-        };
-
-        const unitPrice = prices[style][pkg];
-        const multiplier = 1.3; // Foundation & roof factor
-        
-        const totalCost = area * floors * unitPrice * multiplier;
-
-        if (estimatedCostOutput) {
-            estimatedCostOutput.textContent = formatVND(totalCost);
-        }
-        
-        const styleText = style === 'modern' ? 'Hiện đại' : style === 'indochine' ? 'Đông Dương' : 'Cổ điển';
-        const pkgText = pkg === 'standard' ? 'Tiêu Chuẩn' : 'Cao Cấp Lux';
-        if (estDataSummary) {
-            estDataSummary.value = `Phong cách: ${styleText}, Gói: ${pkgText}, Diện tích: ${area}m2, Số tầng: ${floors}, Ước tính: ${formatVND(totalCost)}`;
-        }
-    }
-
-    // 6. Form submissions & Webhook pushing
-    const estimatorLeadForm = document.getElementById('estimator-lead-form');
-    const estimatorSuccess = document.getElementById('estimator-success');
-
-    if (estimatorLeadForm) {
-        estimatorLeadForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const name = document.getElementById('est-name').value;
-            const phone = document.getElementById('est-phone').value;
-            const summary = estDataSummary ? estDataSummary.value : '';
-
-            // Webhook CRM payloads
-            const webhookPayload = {
-                event: "estimator_lead",
-                timestamp: new Date().toISOString(),
-                data: { name, phone, details: summary }
-            };
-            console.log('Sending Webhook Data to CRM:', webhookPayload);
-
-            estimatorLeadForm.style.display = 'none';
-            if (estimatorSuccess) estimatorSuccess.style.display = 'flex';
-        });
-    }
+    // 5. Cost Estimator Calculator logic has been replaced by static image in index.html.
 
     const mainContactForm = document.getElementById('main-contact-form');
     const mainFormSuccess = document.getElementById('main-form-success');
@@ -582,13 +330,14 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             const name = document.getElementById('m-name').value;
             const phone = document.getElementById('m-phone').value;
+            const location = document.getElementById('m-location').value;
             const style = document.getElementById('m-style').value;
 
             // Webhook CRM payloads
             const webhookPayload = {
                 event: "main_consultation_request",
                 timestamp: new Date().toISOString(),
-                data: { name, phone, favorite_style: style }
+                data: { name, phone, location, favorite_style: style }
             };
             console.log('Sending Webhook Data to CRM:', webhookPayload);
 
@@ -628,59 +377,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    document.querySelectorAll('.gallery-img, .image-wrapper img').forEach(img => {
+    document.querySelectorAll('.gallery-img, .image-wrapper img, .diary-img').forEach(img => {
         img.addEventListener('click', () => {
             openImageModal(img.src, img.alt || 'CAS Homes & Design Project');
         });
     });
-
-    // 8. Video Testimonial Modal Player logic
-    const videoModal = document.getElementById('video-modal');
-    const videoPlayer = document.getElementById('testimonial-video-player');
-    const videoCaptionTarget = document.getElementById('video-modal-caption');
-    const videoCloseBtn = document.getElementById('video-modal-close');
-    const videoPlayButtons = document.querySelectorAll('.video-play-btn');
-
-    // Video URLs mapping
-    const videoUrls = [
-        "https://player.vimeo.com/external/371433846.sd.mp4?s=236da2f3c054ba20aa6c35b120be74c7e6c06387&profile_id=139&oauth2_token_id=57447761",
-        "https://player.vimeo.com/external/435674703.sd.mp4?s=7fdfb1754942b04f76ccb6b3e6488d3f3f01c801&profile_id=139&oauth2_token_id=57447761"
-    ];
-
-    videoPlayButtons.forEach((btn, index) => {
-        btn.addEventListener('click', () => {
-            const card = btn.closest('.testimonial-video-card');
-            const title = card ? card.querySelector('h4').textContent : '';
-            const quote = card ? card.querySelector('p').textContent : '';
-            
-            if (videoModal && videoPlayer && videoCaptionTarget) {
-                videoPlayer.src = videoUrls[index] || videoUrls[0];
-                videoCaptionTarget.textContent = `${title} : "${quote}"`;
-                videoModal.classList.add('show');
-                document.body.style.overflow = 'hidden';
-                videoPlayer.play().catch(e => console.log('Video play blocked:', e));
-            }
-        });
-    });
-
-    function closeVideoModal() {
-        if (!videoModal || !videoPlayer) return;
-        videoPlayer.pause();
-        videoPlayer.src = "";
-        videoModal.classList.remove('show');
-        document.body.style.overflow = '';
-    }
-
-    if (videoCloseBtn) {
-        videoCloseBtn.addEventListener('click', closeVideoModal);
-    }
-    if (videoModal) {
-        videoModal.addEventListener('click', (e) => {
-            if (e.target === videoModal || e.target.id === 'video-modal-close') {
-                closeVideoModal();
-            }
-        });
-    }
 
     // 9. Auto-cycle Hero Banner Slideshow
     const slides = document.querySelectorAll('.hero-slide');
@@ -700,101 +401,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }, slideInterval);
     }
 
-    // 10. Process Step Modal Logic
-    const processModal = document.getElementById('process-modal');
-    const processModalImg = document.getElementById('process-modal-img');
-    const processModalStepBadge = document.getElementById('process-modal-step-badge');
-    const processModalTitle = document.getElementById('process-modal-title');
-    const processModalDescText = document.getElementById('process-modal-desc-text');
-    const processModalCloseBtn = document.getElementById('process-modal-close');
-    const processModalCta = document.getElementById('process-modal-cta');
-    const processCards = document.querySelectorAll('.process-item-card');
 
-    const processStepsDetails = [
-        {
-            step: "Bước 1",
-            title: "Tư vấn sơ bộ",
-            img: "https://images.unsplash.com/photo-1431540015161-0bf868a2d407?auto=format&fit=crop&w=600&q=80",
-            desc: "CAS Homes lắng nghe ý tưởng, khảo sát hiện trạng thực địa và đo đạc thông số thực tế của lô đất/nhà cũ. Dựa trên nhu cầu công năng sử dụng, phong thủy và khả năng tài chính của gia chủ, kiến trúc sư trưởng của CAS sẽ tư vấn sơ bộ về phương án quy hoạch mặt bằng, phong cách thiết kế phù hợp và định hướng giải pháp kỹ thuật tối ưu ban đầu."
-        },
-        {
-            step: "Bước 2",
-            title: "Báo giá thiết kế",
-            img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80",
-            desc: "Sau khi thống nhất phương án sơ bộ, CAS sẽ gửi bảng báo giá thiết kế chi tiết bao gồm đơn giá thiết kế kiến trúc, thiết kế nội thất và thiết kế cảnh quan sân vườn (nếu có). Mức giá được tính toán minh bạch dựa trên quy mô và độ phức tạp của công trình, kèm theo dự thảo hợp đồng thiết kế rõ ràng về tiến độ bàn giao và quyền lợi của khách hàng."
-        },
-        {
-            step: "Bước 3",
-            title: "Thiết kế bản vẽ",
-            img: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=600&q=80",
-            desc: "Kiến trúc sư CAS triển khai hồ sơ bản vẽ kỹ thuật chi tiết. Quá trình bao gồm: thiết kế mặt bằng công năng các tầng, dựng mô hình phối cảnh 3D mặt tiền và không gian nội thất trực quan sinh động giúp gia chủ dễ dàng hình dung ngôi nhà tương lai. Đồng thời hoàn thiện hồ sơ xin cấp phép xây dựng và bản vẽ kết cấu, điện nước (ME) chi tiết."
-        },
-        {
-            step: "Bước 4",
-            title: "Báo giá thi công",
-            img: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80",
-            desc: "Dựa trên hồ sơ kỹ thuật thi công đã phê duyệt, phòng dự toán của CAS thực hiện bóc tách khối lượng vật tư chi tiết, báo giá chủng loại vật liệu minh bạch theo từng thương hiệu cụ thể. Bảng chào thầu thi công trọn gói được cam kết bằng hợp đồng pháp lý, đảm bảo chất lượng công trình và không phát sinh bất kỳ khoản chi phí phát sinh nào khác ngoài dự tính."
-        },
-        {
-            step: "Bước 5",
-            title: "Thi công công trình",
-            img: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=600&q=80",
-            desc: "Tiến hành động thổ và triển khai thi công xây dựng thực tế theo tiêu chuẩn kỹ thuật nghiêm ngặt của CAS. Đội ngũ kỹ sư trực tiếp giám sát chặt chẽ các công đoạn từ thi công móng, đổ bê tông cốt thép, xây tô trát tường, lắp đặt hệ thống điện nước ngầm đến hoàn thiện ốp lát nội thất và sơn nước ngoại thất, đảm bảo chất lượng bền vững."
-        },
-        {
-            step: "Bước 6",
-            title: "Nghiệm thu & Bàn giao",
-            img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80",
-            desc: "Sau khi hoàn thiện tất cả các hạng mục thi công và lắp đặt đồ gỗ nội thất, CAS cùng gia chủ thực hiện nghiệm thu thực tế chi tiết từng góc công trình. Sau khi kiểm tra đạt chuẩn chất lượng 100%, CAS thực hiện tổng vệ sinh công nghiệp toàn diện, bàn giao chìa khóa trao tay và kích hoạt chính sách bảo hành, bảo trì định kỳ dài hạn."
+
+    // 9. Gallery Touch Interaction Listeners
+    document.addEventListener('touchstart', (e) => {
+        if (e.target.closest('.carousel-inner')) {
+            isTouchingGallery = true;
         }
-    ];
-
-    function openProcessModal(index) {
-        if (!processModal || !processModalImg || !processModalStepBadge || !processModalTitle || !processModalDescText) return;
-        const stepData = processStepsDetails[index];
-        if (!stepData) return;
-
-        processModalImg.src = stepData.img;
-        processModalImg.alt = stepData.title;
-        processModalStepBadge.textContent = stepData.step;
-        processModalTitle.textContent = stepData.title;
-        processModalDescText.textContent = stepData.desc;
-
-        processModal.classList.add('show');
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closeProcessModal() {
-        if (!processModal) return;
-        processModal.classList.remove('show');
-        document.body.style.overflow = '';
-    }
-
-    processCards.forEach((card, idx) => {
-        card.addEventListener('click', () => {
-            openProcessModal(idx);
-        });
-    });
-
-    if (processModalCloseBtn) {
-        processModalCloseBtn.addEventListener('click', closeProcessModal);
-    }
-
-    if (processModal) {
-        processModal.addEventListener('click', (e) => {
-            if (e.target === processModal || e.target.id === 'process-modal-close') {
-                closeProcessModal();
-            }
-        });
-    }
-
-    if (processModalCta) {
-        processModalCta.addEventListener('click', () => {
-            closeProcessModal();
-            const targetSection = document.getElementById('estimator');
-            if (targetSection) {
-                targetSection.scrollIntoView({ behavior: 'smooth' });
-            }
-        });
-    }
+    }, { passive: true });
+    
+    document.addEventListener('touchend', () => {
+        isTouchingGallery = false;
+    }, { passive: true });
 });
