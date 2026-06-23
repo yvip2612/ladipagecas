@@ -1243,6 +1243,7 @@ section {
     grid-template-columns: 1fr 1fr;
     gap: 40px;
     padding-bottom: 40px;
+    align-items: start;
 }
 
 .brand-desc {
@@ -1363,14 +1364,14 @@ section {
 /* Footer Logo adjustments */
 .footer .logo-container-link {
     background: #ffffff;
-    padding: 10px 20px;
+    padding: 8px 14px;
     border-radius: 6px;
     display: inline-flex;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .footer-logo-img {
-    height: 68px;
+    height: 44px;
     width: auto;
     object-fit: contain;
     mix-blend-mode: normal;
