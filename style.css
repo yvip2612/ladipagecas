@@ -236,12 +236,25 @@ img {
     box-sizing: border-box;
 }
 
+.hero-image-link {
+    display: block;
+    width: 100%;
+    cursor: pointer;
+    text-decoration: none;
+}
+
 .hero-static-img {
     width: 100%;
     height: auto;
     display: block;
     border-radius: 8px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hero-image-link:hover .hero-static-img {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
 }
 
 .hero-container.full-center {
