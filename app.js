@@ -254,50 +254,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function startTabAutoSwitch() {
         tabAutoSwitchTimer = setInterval(() => {
-            if (window.innerWidth <= 768) {
-                // Mobile behavior: scroll images inside active tab first
-                if (isTouchingGallery) return; // user is interacting, pause auto switch
-
-                const activePane = document.querySelector('.tab-pane.active');
-                if (activePane) {
-                    const activeInner = activePane.querySelector('.carousel-inner');
-                    if (activeInner) {
-                        const slides = activeInner.querySelectorAll('.gallery-img');
-                        if (slides.length > 0) {
-                            const slideWidth = slides[0].getBoundingClientRect().width;
-                            const maxScroll = activeInner.scrollWidth - activeInner.clientWidth;
-                            
-                            // Check if we can scroll further in the current tab
-                            if (activeInner.scrollLeft < maxScroll - 20) {
-                                activeInner.scrollTo({
-                                    left: activeInner.scrollLeft + slideWidth,
-                                    behavior: 'smooth'
-                                });
-                                return; // Stop here, do not switch tabs yet!
-                            } else {
-                                // Reset scroll of this tab to 0 before switching
-                                activeInner.scrollTo({ left: 0, behavior: 'instant' });
-                            }
-                        }
-                    }
-                }
-            }
-
-            // Desktop behavior or Mobile when finished scrolling all images: switch styles/tabs
+            // Switch style tabs every 3 seconds
             activeTabIdx = (activeTabIdx + 1) % tabButtons.length;
             const nextBtn = tabButtons[activeTabIdx];
             switchTab(nextBtn);
-
-            // Ensure the newly active tab's scroll is reset to 0
-            setTimeout(() => {
-                const newActivePane = document.querySelector('.tab-pane.active');
-                if (newActivePane) {
-                    const newInner = newActivePane.querySelector('.carousel-inner');
-                    if (newInner) {
-                        newInner.scrollTo({ left: 0, behavior: 'instant' });
-                    }
-                }
-            }, 50);
         }, tabSwitchInterval);
     }
 
