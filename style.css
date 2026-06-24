@@ -642,19 +642,19 @@ section {
     width: 100%;
     height: 100%;
     position: relative;
-    background: #ffffff;
+    background: #eae5db; /* A soft matching beige/sand color that matches standard cards background */
     cursor: pointer;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0; /* Changed to 0 so the image fills the card completely */
+    padding: 0;
 }
 
 .tech-grid-img-wrapper img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* changed from contain to cover so it fills the card and displays fully like the portfolio gallery */
+    object-fit: contain; /* changed back to contain so the entire image including all text is visible and readable */
     display: block;
     transition: transform 0.4s ease;
 }
