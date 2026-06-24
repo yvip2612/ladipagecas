@@ -84,26 +84,64 @@ document.addEventListener('DOMContentLoaded', () => {
         techGrid.innerHTML = '';
         const activeImages = parseRange(currentRange);
         const catLabel = getCategoryLabel(currentFolder);
+        
+        // Split activeImages: item 1 goes to the left container, items 2-5 go to the right container
+        const leftImgNum = activeImages[0];
+        const rightImgNums = activeImages.slice(1, 5); // get up to 4 items for the right grid
+        
+        const totalItemsCount = activeImages.length;
+        const hiddenMoreCount = totalItemsCount - 5; // how many are hidden beyond the first 5
 
-        activeImages.forEach(imgNum => {
-            const imgPath = `TieuChuanEdit/${currentFolder}/${imgNum}.png`;
-            const card = document.createElement('div');
-            card.className = 'tech-grid-item';
-            card.innerHTML = `
-                <div class="tech-grid-img-wrapper" onclick="if(typeof openImageModal === 'function') openImageModal('${imgPath}', 'Quy chuẩn ${imgNum} - ${catLabel}')">
-                    <img src="${imgPath}" alt="Quy chuẩn ${imgNum}" loading="lazy">
+        const leftImgPath = `TieuChuanEdit/${currentFolder}/${leftImgNum}.png`;
+
+        // Left Container (Big) HTML
+        const leftSideDiv = document.createElement('div');
+        leftSideDiv.className = 'tech-grid-left-side';
+        leftSideDiv.innerHTML = `
+            <div class="tech-grid-item-big" onclick="if(typeof openImageModal === 'function') openImageModal('${leftImgPath}', 'Quy chuẩn ${leftImgNum} - ${catLabel}')">
+                <div class="tech-grid-img-wrapper" style="height: 100%; aspect-ratio: 4/5;">
+                    <img src="${leftImgPath}" alt="Quy chuẩn ${leftImgNum}" loading="lazy">
                     <div class="tech-grid-hover">
                         <i data-lucide="zoom-in"></i>
                         <span>Phóng to bản vẽ</span>
                     </div>
                 </div>
-                <div class="tech-grid-meta">
-                    <span class="tech-grid-num">Quy chuẩn #${imgNum.toString().padStart(2, '0')}</span>
-                    <span class="tech-grid-title">${catLabel}</span>
+            </div>
+        `;
+
+        // Right Container (Small Grids) HTML
+        const rightSideDiv = document.createElement('div');
+        rightSideDiv.className = 'tech-grid-right-side';
+
+        rightImgNums.forEach((imgNum, idx) => {
+            const imgPath = `TieuChuanEdit/${currentFolder}/${imgNum}.png`;
+            const isLastThumbnail = (idx === 3 && hiddenMoreCount > 0);
+            
+            const card = document.createElement('div');
+            card.className = isLastThumbnail ? 'tech-grid-item overflow-overlay' : 'tech-grid-item';
+            if (isLastThumbnail) {
+                card.onclick = () => {
+                    if (typeof openImageModal === 'function') {
+                        openImageModal(imgPath, `Quy chuẩn ${imgNum} - ${catLabel} (Xem tất cả)`);
+                    }
+                };
+            }
+            
+            card.innerHTML = `
+                <div class="tech-grid-img-wrapper" ${!isLastThumbnail ? `onclick="if(typeof openImageModal === 'function') openImageModal('${imgPath}', 'Quy chuẩn ${imgNum} - ${catLabel}')"` : ''}>
+                    <img src="${imgPath}" alt="Quy chuẩn ${imgNum}" loading="lazy">
+                    ${!isLastThumbnail ? `
+                    <div class="tech-grid-hover">
+                        <i data-lucide="zoom-in"></i>
+                    </div>` : ''}
                 </div>
+                ${isLastThumbnail ? `<div class="overlay-more-count">+${hiddenMoreCount + 1}</div>` : ''}
             `;
-            techGrid.appendChild(card);
+            rightSideDiv.appendChild(card);
         });
+
+        techGrid.appendChild(leftSideDiv);
+        techGrid.appendChild(rightSideDiv);
 
         // Preload next folder images in advance when current render is done
         const currentIndex = allCategoriesList.findIndex(c => c.folder === currentFolder);
@@ -113,91 +151,9 @@ document.addEventListener('DOMContentLoaded', () => {
             preloadCategoryImages(nextCat.folder, nextCat.range);
         }, 500);
 
-        // Reset scroll position on category switch
-        if (techViewport) {
-            techViewport.scrollTo({ left: 0, behavior: 'instant' });
-        }
-
         if (typeof lucide !== 'undefined') {
             lucide.createIcons();
         }
-    }
-
-    let techAutoPlayTimer;
-    
-    function startTechAutoPlay() {
-        if (!techViewport) return;
-        techAutoPlayTimer = setInterval(() => {
-            const items = techGrid.querySelectorAll('.tech-grid-item');
-            if (items.length > 0) {
-                const itemWidth = items[0].getBoundingClientRect().width + 24; // width + gap
-                const maxScroll = techViewport.scrollWidth - techViewport.clientWidth;
-                
-                if (techViewport.scrollLeft >= maxScroll - 20) {
-                    // Switch to the next technical category!
-                    let currentIndex = allCategoriesList.findIndex(c => c.folder === currentFolder);
-                    let nextIndex = (currentIndex + 1) % allCategoriesList.length;
-                    
-                    currentFolder = allCategoriesList[nextIndex].folder;
-                    currentRange = allCategoriesList[nextIndex].range;
-                    
-                    // Sync active class on desktop category buttons
-                    catButtons.forEach(btn => {
-                        if (btn.getAttribute('data-folder') === currentFolder) {
-                            btn.classList.add('active');
-                        } else {
-                            btn.classList.remove('active');
-                        }
-                    });
-                    
-                    // Sync mobile select options
-                    if (techCategorySelect) {
-                        techCategorySelect.value = currentFolder;
-                    }
-                    
-                    renderCategoryGrid();
-                } else {
-                    techViewport.scrollBy({ left: itemWidth, behavior: 'smooth' });
-                }
-            }
-        }, 3000);
-    }
-
-    function resetTechAutoPlay() {
-        clearInterval(techAutoPlayTimer);
-        startTechAutoPlay();
-    }
-
-    if (techViewport) {
-        techViewport.addEventListener('mouseenter', () => {
-            clearInterval(techAutoPlayTimer);
-        });
-        techViewport.addEventListener('mouseleave', () => {
-            startTechAutoPlay();
-        });
-    }
-
-    // Set up slider arrow controls
-    if (btnPrev && techViewport) {
-        btnPrev.addEventListener('click', () => {
-            const items = techGrid.querySelectorAll('.tech-grid-item');
-            if (items.length > 0) {
-                const scrollAmount = items[0].getBoundingClientRect().width + 24; // width + gap
-                techViewport.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-                resetTechAutoPlay();
-            }
-        });
-    }
-
-    if (btnNext && techViewport) {
-        btnNext.addEventListener('click', () => {
-            const items = techGrid.querySelectorAll('.tech-grid-item');
-            if (items.length > 0) {
-                const scrollAmount = items[0].getBoundingClientRect().width + 24; // width + gap
-                techViewport.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-                resetTechAutoPlay();
-            }
-        });
     }
 
     // Set up category select change handler (Mobile)
@@ -217,7 +173,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             
             renderCategoryGrid();
-            resetTechAutoPlay();
         });
     }
 
@@ -235,14 +190,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             
             renderCategoryGrid();
-            resetTechAutoPlay();
         });
     });
 
-    // Initialize Grid & Autoplay
+    // Initialize Grid
     if (techGrid) {
         renderCategoryGrid();
-        startTechAutoPlay();
     }
 
     // 3. Portfolio Tab Switcher with Auto Switch (3 seconds)
