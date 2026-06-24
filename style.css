@@ -249,13 +249,19 @@ img {
     transition: opacity 1.8s ease-in-out, transform 8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
+.hero-slide:first-child {
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-color: #f8f6f2; /* Match the document sand/beige color background */
+}
+
 .hero-slide.active {
     opacity: 1;
     transform: scale(1);
 }
 
 .dark-overlay {
-    background: rgba(30, 26, 23, 0.65);
+    background: rgba(30, 26, 23, 0.1);
     z-index: 2;
     position: absolute;
     top: 0;
