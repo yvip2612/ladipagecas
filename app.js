@@ -39,6 +39,46 @@ document.addEventListener('DOMContentLoaded', () => {
         return labels[folder] || 'Quy Chuẩn';
     }
 
+    // Dynamic Preload Utility
+    function preloadImages(paths) {
+        paths.forEach(path => {
+            const link = document.createElement('link');
+            link.rel = 'preload';
+            link.as = 'image';
+            link.href = path;
+            document.head.appendChild(link);
+        });
+    }
+
+    // Preload next categories to reduce delay when user interacts
+    const allCategoriesList = [
+        { folder: 'DoBeTong', range: '1-9' },
+        { folder: 'XayTuong', range: '10-19' },
+        { folder: 'ToTuong', range: '20-26' },
+        { folder: 'DienNuoc', range: '47-57' },
+        { folder: 'SonTuong', range: '33-37' },
+        { folder: 'ChongTham', range: '38-46' },
+        { folder: 'CanNen', range: '27-32' }
+    ];
+
+    function preloadCategoryImages(folder, rangeStr) {
+        const activeImages = parseRange(rangeStr);
+        const paths = activeImages.map(imgNum => `TieuChuanEdit/${folder}/${imgNum.png || imgNum + '.png'}`);
+        preloadImages(paths);
+    }
+
+    // Pre-cache other categories right after DOM load with a slight delay
+    setTimeout(() => {
+        // Preload next category (XayTuong) and a few portfolio tabs images
+        preloadCategoryImages('XayTuong', '10-19');
+        preloadImages([
+            'BoSuuTap/ĐỊA TRUNG HẢI/1.png',
+            'BoSuuTap/ĐỊA TRUNG HẢI/2.png',
+            'BoSuuTap/INDOCHINE 9/1.png',
+            'BoSuuTap/INDOCHINE 9/2.png'
+        ]);
+    }, 1500);
+
     function renderCategoryGrid() {
         if (!techGrid) return;
         techGrid.innerHTML = '';
@@ -65,6 +105,14 @@ document.addEventListener('DOMContentLoaded', () => {
             techGrid.appendChild(card);
         });
 
+        // Preload next folder images in advance when current render is done
+        const currentIndex = allCategoriesList.findIndex(c => c.folder === currentFolder);
+        const nextIndex = (currentIndex + 1) % allCategoriesList.length;
+        const nextCat = allCategoriesList[nextIndex];
+        setTimeout(() => {
+            preloadCategoryImages(nextCat.folder, nextCat.range);
+        }, 500);
+
         // Reset scroll position on category switch
         if (techViewport) {
             techViewport.scrollTo({ left: 0, behavior: 'instant' });
@@ -87,20 +135,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 if (techViewport.scrollLeft >= maxScroll - 20) {
                     // Switch to the next technical category!
-                    const categoriesList = [
-                        { folder: 'DoBeTong', range: '1-9' },
-                        { folder: 'XayTuong', range: '10-19' },
-                        { folder: 'ToTuong', range: '20-26' },
-                        { folder: 'DienNuoc', range: '47-57' },
-                        { folder: 'SonTuong', range: '33-37' },
-                        { folder: 'ChongTham', range: '38-46' },
-                        { folder: 'CanNen', range: '27-32' }
-                    ];
-                    let currentIndex = categoriesList.findIndex(c => c.folder === currentFolder);
-                    let nextIndex = (currentIndex + 1) % categoriesList.length;
+                    let currentIndex = allCategoriesList.findIndex(c => c.folder === currentFolder);
+                    let nextIndex = (currentIndex + 1) % allCategoriesList.length;
                     
-                    currentFolder = categoriesList[nextIndex].folder;
-                    currentRange = categoriesList[nextIndex].range;
+                    currentFolder = allCategoriesList[nextIndex].folder;
+                    currentRange = allCategoriesList[nextIndex].range;
                     
                     // Sync active class on desktop category buttons
                     catButtons.forEach(btn => {
@@ -282,6 +321,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const targetPane = document.getElementById(`pane-${targetTab}`);
         if (targetPane) {
             targetPane.classList.add('active');
+            // Lazy preloading of all images in the newly selected tab
+            const images = targetPane.querySelectorAll('.gallery-img');
+            images.forEach(img => {
+                if (img.src) {
+                    const link = document.createElement('link');
+                    link.rel = 'preload';
+                    link.as = 'image';
+                    link.href = img.src;
+                    document.head.appendChild(link);
+                }
+            });
         }
     }
 
@@ -293,6 +343,23 @@ document.addEventListener('DOMContentLoaded', () => {
             clearInterval(tabAutoSwitchTimer);
             startTabAutoSwitch();
         });
+        // Preload on mouseover/hover for ultra-fast instant load
+        btn.addEventListener('mouseenter', () => {
+            const targetTab = btn.getAttribute('data-tab');
+            const targetPane = document.getElementById(`pane-${targetTab}`);
+            if (targetPane) {
+                const images = targetPane.querySelectorAll('.gallery-img');
+                images.forEach(img => {
+                    if (img.src) {
+                        const link = document.createElement('link');
+                        link.rel = 'preload';
+                        link.as = 'image';
+                        link.href = img.src;
+                        document.head.appendChild(link);
+                    }
+                });
+            }
+        }, { passive: true });
     });
 
     if (tabButtons.length > 0) {
