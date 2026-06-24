@@ -32,90 +32,45 @@
     </header>
 
     <main>
-        <!-- Section 1: Hero Section (Single Process Image) -->
+        <!-- Section 1: Hero Section (Image Slideshow Background - Autoplay - Fade) -->
         <section class="hero-section image-hero">
-            <div class="hero-static-container">
-                <a href="#contact-form-section" class="hero-image-link">
-                    <img src="quy_trinh_lam_viec.jpg" alt="Quy Trình Đồng Hành Cùng Khách Hàng - CAS Design" class="hero-static-img">
-                </a>
+            <div class="hero-slider">
+                <div class="hero-slide active" style="background-image: url('banner1.jpg');"></div>
+                <div class="hero-slide" style="background-image: url('banner2.jpg');"></div>
+                <div class="hero-slide" style="background-image: url('banner3.jpg');"></div>
+                <div class="hero-slide" style="background-image: url('banner4.jpg');"></div>
+            </div>
+            <div class="hero-bg-overlay dark-overlay"></div>
+            
+            <div class="container hero-container full-center">
+                <div class="hero-content text-center">
+                    <div class="badge-new animate-pulse">
+                        <i data-lucide="sparkles" class="icon-gold"></i> Thiết Kế &amp; Thi Công Trọn Gói
+                    </div>
+                    <h1>Kiến tạo không gian sống đậm chất riêng <br><span class="gradient-text">Từ Thiết thiết kế đến Thi công trọn gói</span></h1>
+                    
+                    <div class="hero-actions-group">
+                        <a href="#contact-form-section" class="btn btn-primary btn-lg btn-cta-shimmer">
+                            Nhận Báo Giá &amp; Tư Vấn Ngay <i data-lucide="arrow-right" class="icon-end"></i>
+                        </a>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <!-- Section 2: Trực quan hóa quy trình làm việc bằng Icon/Timeline -->
+        <!-- Section 2: Quy trình đồng hành cùng khách hàng (Workflow Infographic) -->
         <section class="process-section">
             <div class="container">
                 <div class="section-header text-center">
                     <span class="section-tag">Quy trình chuẩn</span>
-                    <h2>Quy Trình Làm Việc Chuyên Nghiệp</h2>
+                    <h2>Quy Trình Đồng Hành Cùng Khách Hàng</h2>
+                    <p class="section-desc">6 bước kiến tạo tổ ấm độc bản cùng CAS DESIGN.</p>
                 </div>
-
-                <!-- Rebuilt 6-step icon timeline layout with hover image description -->
-                <div class="icon-process-grid">
-                    <!-- Step 1 -->
-                    <div class="process-item-card">
-                        <div class="process-card-default">
-                            <span class="process-step-num">01</span>
-                            <div class="process-icon-box">
-                                <i data-lucide="message-square"></i>
-                            </div>
-                            <h4>Tư vấn sơ bộ</h4>
-                        </div>
-                    </div>
-
-                    <!-- Step 2 -->
-                    <div class="process-item-card">
-                        <div class="process-card-default">
-                            <span class="process-step-num">02</span>
-                            <div class="process-icon-box">
-                                <i data-lucide="file-text"></i>
-                            </div>
-                            <h4>Báo giá thiết kế</h4>
-                        </div>
-                    </div>
-
-                    <!-- Step 3 -->
-                    <div class="process-item-card">
-                        <div class="process-card-default">
-                            <span class="process-step-num">03</span>
-                            <div class="process-icon-box">
-                                <i data-lucide="pen-tool"></i>
-                            </div>
-                            <h4>Thiết kế bản vẽ</h4>
-                        </div>
-                    </div>
-
-                    <!-- Step 4 -->
-                    <div class="process-item-card">
-                        <div class="process-card-default">
-                            <span class="process-step-num">04</span>
-                            <div class="process-icon-box">
-                                <i data-lucide="receipt"></i>
-                            </div>
-                            <h4>Báo giá thi công</h4>
-                        </div>
-                    </div>
-
-                    <!-- Step 5 -->
-                    <div class="process-item-card">
-                        <div class="process-card-default">
-                            <span class="process-step-num">05</span>
-                            <div class="process-icon-box">
-                                <i data-lucide="hammer"></i>
-                            </div>
-                            <h4>Thi công xây dựng</h4>
-                        </div>
-                    </div>
-
-                    <!-- Step 6 -->
-                    <div class="process-item-card">
-                        <div class="process-card-default">
-                            <span class="process-step-num">06</span>
-                            <div class="process-icon-box">
-                                <i data-lucide="key"></i>
-                            </div>
-                            <h4>Nghiệm thu bàn giao</h4>
-                        </div>
-                    </div>
+                
+                <div class="process-image-layout-wrapper" style="max-width: 900px; margin: 0 auto; background: #ffffff; padding: 16px; border-radius: 16px; border: 1px solid var(--border-color); box-shadow: 0 20px 45px rgba(111, 93, 71, 0.08);">
+                    <a href="#contact-form-section" class="process-image-link" style="display: block; cursor: pointer;">
+                        <img src="quy_trinh_lam_viec.jpg" alt="Quy Trình Đồng Hành Cùng Khách Hàng - CAS Design" style="width: 100%; height: auto; border-radius: 12px; display: block; transition: transform var(--transition-smooth);" class="process-static-img">
+                    </a>
                 </div>
             </div>
         </section>
