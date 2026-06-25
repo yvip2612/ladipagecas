@@ -579,7 +579,7 @@ section {
     border: 1px solid var(--border-color);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
     overflow: hidden;
-    background: #eae5db; /* Sand beige matching background of the technical images */
+    background: #eae5db; /* Beige background matching the visual mockup cards */
 }
 
 .tech-grid-right-side {
@@ -590,7 +590,7 @@ section {
 }
 
 .tech-grid-item {
-    background: #eae5db; /* Sand beige matching background of the technical images */
+    background: #eae5db; /* Beige background matching the visual mockup cards */
     border-radius: 12px;
     overflow: hidden;
     border: 1px solid var(--border-color);
@@ -611,7 +611,7 @@ section {
     width: 100%;
     height: 100%;
     position: relative;
-    background: transparent; /* Changed to transparent so card background is uniform */
+    background: #eae5db; /* Clean beige matching background */
     cursor: pointer;
     overflow: hidden;
     display: flex;
@@ -623,17 +623,17 @@ section {
 .tech-grid-img-wrapper img {
     width: 100%;
     height: 100%;
-    object-fit: contain; /* Set back to contain so that the technical text/content is readable */
+    object-fit: contain; /* changed back to contain so that images and texts are completely visible and readable */
     display: block;
     transition: transform 0.4s ease;
 }
 
 .tech-grid-left-side .tech-grid-img-wrapper {
-    aspect-ratio: 1/1; /* Set aspect-ratio to 1/1 square format */
+    aspect-ratio: 1/1; /* Square ratio as shown in the mockup screenshot */
 }
 
 .tech-grid-right-side .tech-grid-img-wrapper {
-    aspect-ratio: 1/1; /* Set aspect-ratio to 1/1 square format */
+    aspect-ratio: 1/1; /* Square ratio as shown in the mockup screenshot */
 }
 
 .tech-grid-item:hover .tech-grid-img-wrapper img {
