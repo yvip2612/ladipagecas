@@ -34,24 +34,7 @@
     <main>
 
 
-        <!-- Section 2: Quy trình đồng hành cùng khách hàng (Workflow Infographic) -->
-        <section class="process-section">
-            <div class="container">
-                <div class="section-header text-center">
-                    <span class="section-tag">Quy trình chuẩn</span>
-                    <h2>Quy Trình Đồng Hành Cùng Khách Hàng</h2>
-                    <p class="section-desc">6 bước kiến tạo tổ ấm độc bản cùng CAS DESIGN.</p>
-                </div>
-                
-                <div class="process-image-layout-wrapper" style="max-width: 900px; margin: 0 auto; background: #ffffff; padding: 16px; border-radius: 16px; border: 1px solid var(--border-color); box-shadow: 0 20px 45px rgba(111, 93, 71, 0.08);">
-                    <a href="#contact-form-section" class="process-image-link" style="display: block; cursor: pointer;">
-                        <img src="quy_trinh_lam_viec.jpg" alt="Quy Trình Đồng Hành Cùng Khách Hàng - CAS Design" style="width: 100%; height: auto; border-radius: 12px; display: block; transition: transform var(--transition-smooth);" class="process-static-img">
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section 3: Khám phá Portfolio bằng Tabbed Gallery (Interest) -->
+        <!-- Section 2: Khám phá Portfolio bằng Tabbed Gallery (Interest) -->
         <section class="styles-section">
             <div class="container">
                 <div class="section-header text-center">
@@ -156,6 +139,24 @@
                             </button>
                         </div>
                     </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Section 3: Quy trình đồng hành cùng khách hàng (Workflow Infographic) -->
+        <section class="process-section">
+            <div class="container">
+                <div class="section-header text-center">
+                    <span class="section-tag">Quy trình chuẩn</span>
+                    <h2>Quy Trình Đồng Hành Cùng Khách Hàng</h2>
+                    <p class="section-desc">6 bước kiến tạo tổ ấm độc bản cùng CAS DESIGN.</p>
+                </div>
+                
+                <div class="process-image-layout-wrapper" style="max-width: 900px; margin: 0 auto; background: #ffffff; padding: 16px; border-radius: 16px; border: 1px solid var(--border-color); box-shadow: 0 20px 45px rgba(111, 93, 71, 0.08);">
+                    <a href="#contact-form-section" class="process-image-link" style="display: block; cursor: pointer;">
+                        <img src="quy_trinh_lam_viec.jpg" alt="Quy Trình Đồng Hành Cùng Khách Hàng - CAS Design" style="width: 100%; height: auto; border-radius: 12px; display: block; transition: transform var(--transition-smooth);" class="process-static-img">
+                    </a>
                 </div>
             </div>
         </section>
@@ -354,6 +355,80 @@
         </div>
         <button id="modal-next-arrow" class="modal-arrow next-arrow" aria-label="Next image">&rsaquo;</button>
     </div>
+
+    <!-- Sticky Bottom CTA Bar (LadiPage style) -->
+    <div id="sticky-cta-bar" class="sticky-cta-bar">
+        <div class="sticky-cta-container">
+            <div class="sticky-cta-text">
+                🎉 Đăng ký thi công trọn gói ngay — <span>Miễn phí 100% bản vẽ thiết kế 3D!</span>
+            </div>
+            <button class="sticky-cta-btn" onclick="if(typeof openRegisterPopup === 'function') openRegisterPopup()">
+                ĐĂNG KÝ TƯ VẤN NGAY
+            </button>
+        </div>
+    </div>
+
+    <!-- Floating Contact Widgets -->
+    <div class="floating-widgets">
+        <a href="https://zalo.me/0901234567" target="_blank" class="floating-btn btn-zalo" aria-label="Chat Zalo">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Icon_of_Zalo.svg" alt="Zalo" style="width: 28px; height: 28px; filter: brightness(0) invert(1);">
+        </a>
+        <a href="tel:0901234567" class="floating-btn btn-call" aria-label="Call Hotline">
+            <i data-lucide="phone-call" style="width: 24px; height: 24px;"></i>
+        </a>
+    </div>
+
+    <!-- Popup Registration Modal -->
+    <div id="register-popup-modal" class="image-modal">
+        <span class="popup-modal-close" onclick="if(typeof closeRegisterPopup === 'function') closeRegisterPopup()">&times;</span>
+        <div class="popup-modal-content">
+            <h3 style="font-family: var(--font-title); font-size: 1.4rem; color: var(--color-text-main); margin-bottom: 6px; text-align: center; font-weight: 700;">Đăng Ký Tư Vấn &amp; Ưu Đãi</h3>
+            <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 20px; text-align: center;">Vui lòng gửi thông tin để CAS DESIGN hỗ trợ bạn khảo sát mặt bằng miễn phí.</p>
+            
+            <form id="popup-contact-form" class="main-contact-form" style="padding: 0; background: transparent; border: none; box-shadow: none;">
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <div class="form-field">
+                        <input type="text" id="p-name" placeholder="Họ và tên của bạn *" required style="width: 100%; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px;">
+                    </div>
+                    <div class="form-field">
+                        <input type="tel" id="p-phone" placeholder="Số điện thoại / Zalo *" required style="width: 100%; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px;">
+                    </div>
+                    <div class="form-field">
+                        <select id="p-service" required style="width: 100%; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; height: 45px; background: #fff;">
+                            <option value="" disabled selected>Chọn dịch vụ bạn cần *</option>
+                            <option value="Thiết kế">Chỉ Thiết kế</option>
+                            <option value="Thi công">Chỉ Thi công</option>
+                            <option value="Thiết kế &amp; Thi công">Thiết kế &amp; Thi công trọn gói</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <select id="p-building-type" style="width: 100%; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; height: 45px; background: #fff;">
+                            <option value="" selected>Chọn loại hình công trình (Không bắt buộc)</option>
+                            <option value="Nhà phố">Nhà phố</option>
+                            <option value="Biệt thự">Biệt thự</option>
+                            <option value="Căn hộ">Căn hộ</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <select id="p-project-type" style="width: 100%; border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; height: 45px; background: #fff;">
+                            <option value="" selected>Chọn hình thức thi công (Không bắt buộc)</option>
+                            <option value="Xây mới">Xây mới</option>
+                            <option value="Cải tạo">Cải tạo / Sửa chữa</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg btn-cta-shimmer w-full" style="margin-top: 20px; width: 100%;">
+                    Gửi Yêu Cầu <i data-lucide="send" class="icon-end"></i>
+                </button>
+            </form>
+            
+            <div class="success-alert" id="popup-form-success" style="display: none; margin-top: 15px;">
+                <i data-lucide="check-circle-2"></i>
+                <div>
+                    <strong>Thành công!</strong> Chuyên viên CAS sẽ liên hệ tư vấn trong 5-10 phút.
+                </div>
+            </div>
+        </div>
 
 
 

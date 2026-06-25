@@ -584,4 +584,75 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('touchend', () => {
         isTouchingGallery = false;
     }, { passive: true });
+
+    // 10. Sticky Bottom CTA Bar scroll visibility controller
+    const stickyBar = document.getElementById('sticky-cta-bar');
+    if (stickyBar) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                stickyBar.classList.add('show');
+            } else {
+                stickyBar.classList.remove('show');
+            }
+        });
+    }
+
+    // 11. Popup Registration Modal logic
+    const registerPopupModal = document.getElementById('register-popup-modal');
+    const popupContactForm = document.getElementById('popup-contact-form');
+    const popupFormSuccess = document.getElementById('popup-form-success');
+
+    function openRegisterPopup() {
+        if (!registerPopupModal) return;
+        registerPopupModal.classList.add('show');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeRegisterPopup() {
+        if (!registerPopupModal) return;
+        registerPopupModal.classList.remove('show');
+        document.body.style.overflow = '';
+        // Reset form and success alert when closing
+        if (popupContactForm) popupContactForm.reset();
+        if (popupFormSuccess) popupFormSuccess.style.display = 'none';
+        if (popupContactForm) popupContactForm.style.display = 'block';
+    }
+
+    // Expose functions globally for inline HTML onclick calls
+    window.openRegisterPopup = openRegisterPopup;
+    window.closeRegisterPopup = closeRegisterPopup;
+
+    // Connect all Page CTA Buttons to open the Popup Form instead of just scrolling
+    document.querySelectorAll('.btn-quote-style, .btn-cta-shimmer, .process-image-link').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            // If it's a link or button, prevent default to open popup
+            e.preventDefault();
+            openRegisterPopup();
+        });
+    });
+
+    // Close popup on outside click
+    if (registerPopupModal) {
+        registerPopupModal.addEventListener('click', (e) => {
+            if (e.target === registerPopupModal || e.target.classList.contains('popup-modal-close')) {
+                closeRegisterPopup();
+            }
+        });
+    }
+
+    // Handle Popup Form Submission
+    if (popupContactForm) {
+        popupContactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            // In a real LadiPage, this pushes leads to Google Sheets, CRM, or email.
+            // We simulate a successful submission with a sleek fade transition
+            popupContactForm.style.display = 'none';
+            if (popupFormSuccess) popupFormSuccess.style.display = 'flex';
+
+            // Auto-close popup after 3 seconds on success
+            setTimeout(() => {
+                closeRegisterPopup();
+            }, 3000);
+        });
+    }
 });
