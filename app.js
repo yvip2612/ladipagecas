@@ -279,15 +279,15 @@ document.addEventListener('DOMContentLoaded', () => {
         startTabAutoSwitch();
     }
 
-    // 4. Style Quick Consult Buttons (Pre-select service and scroll down)
+    // 4. Style Quick Consult Buttons (Pre-select style and scroll down)
     const styleQuoteButtons = document.querySelectorAll('.btn-quote-style');
-    const mainServiceSelect = document.getElementById('m-service');
+    const mainStyleSelect = document.getElementById('m-style');
 
     styleQuoteButtons.forEach(btn => {
         btn.addEventListener('click', () => {
-            // Set default service to 'Thiết kế và Thi công' trọn gói
-            if (mainServiceSelect) {
-                mainServiceSelect.value = 'Thiết kế và Thi công';
+            const selectedStyle = btn.getAttribute('data-style');
+            if (mainStyleSelect && selectedStyle) {
+                mainStyleSelect.value = selectedStyle;
             }
 
             // Scroll down
@@ -308,9 +308,8 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             const name = document.getElementById('m-name').value;
             const phone = document.getElementById('m-phone').value;
-            const service = document.getElementById('m-service').value;
-            const property = document.getElementById('m-property').value;
-            const projectType = document.getElementById('m-project-type').value;
+            const location = document.getElementById('m-location').value;
+            const style = document.getElementById('m-style').value;
 
             // Webhook CRM payloads
             const webhookPayload = {
@@ -319,9 +318,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 data: { 
                     name: name, 
                     phone: phone, 
-                    requested_service: service, 
-                    property_type: property, 
-                    project_nature: projectType || 'Chưa cung cấp' 
+                    location: location, 
+                    favorite_style: style 
                 }
             };
             console.log('Sending Webhook Data to CRM:', webhookPayload);

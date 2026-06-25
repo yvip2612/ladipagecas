@@ -1289,10 +1289,6 @@ section {
     grid-column: span 2;
 }
 
-.form-field-full {
-    grid-column: span 2;
-}
-
 .btn-detect-location {
     position: absolute;
     right: 8px;
@@ -1546,9 +1542,6 @@ section {
         grid-template-columns: 1fr;
         gap: 12px;
     }
-    .form-grid-4 .form-field {
-        grid-column: span 1 !important;
-    }
 
     .footer-grid {
         grid-template-columns: 1fr;
@@ -1777,15 +1770,7 @@ section {
     }
 
     .main-contact-form {
-        padding: 12px;
-    }
-
-    .main-contact-form input,
-    .main-contact-form select {
-        padding: 10px 30px 10px 12px !important; /* Decrease padding to fit long text */
-        font-size: 0.8rem !important; /* Smaller text size for mobile readability */
-        background-position: right 10px center !important; /* Move down arrow to the right edge */
-        background-size: 14px !important; /* Scale down indicator icon */
+        padding: 16px;
     }
 
     .urgency-banner {
