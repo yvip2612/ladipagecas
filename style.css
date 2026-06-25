@@ -1139,33 +1139,61 @@ section {
     background-color: var(--bg-dark);
 }
 
-.diary-grid {
+/* Diary Asymmetric Grid Layout */
+.diary-grid-layout {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    padding: 12px;
+    background: #ffffff;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 10px 30px rgba(111, 93, 71, 0.08);
     max-width: 1000px;
     margin: 40px auto 0;
 }
 
-.diary-item {
-    overflow: hidden;
-    border-radius: var(--border-radius);
-    border: 1px solid var(--border-color);
-    box-shadow: 0 10px 25px rgba(111, 93, 71, 0.05);
-    background: #ffffff;
+.diary-grid-left {
+    display: flex;
+    width: 100%;
 }
 
-.diary-img {
+.diary-grid-left .diary-img {
     width: 100%;
-    aspect-ratio: 4/3;
+    height: 100%;
+    aspect-ratio: 4/5;
     object-fit: cover;
-    display: block;
+    border-radius: 8px;
     cursor: pointer;
     transition: transform var(--transition-smooth);
 }
 
-.diary-img:hover {
-    transform: scale(1.04);
+.diary-grid-right {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 12px;
+}
+
+.diary-grid-item-small {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.diary-grid-item-small .diary-img {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform var(--transition-smooth);
+}
+
+.diary-grid-left .diary-img:hover,
+.diary-grid-item-small .diary-img:hover {
+    transform: scale(1.03);
 }
 
 /* Final Lead Capture Section & Urgency */
@@ -1784,28 +1812,18 @@ section {
 
 
 
-    .diary-grid {
-        display: flex !important;
-        overflow-x: auto !important;
-        scroll-snap-type: x mandatory !important;
-        gap: 0px !important;
-        padding: 0px !important;
-        grid-template-columns: none !important;
-        margin: 20px auto 0;
-        -webkit-overflow-scrolling: touch;
+    .diary-grid-layout {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding: 8px;
     }
-
-    .diary-item {
-        flex: 0 0 100% !important;
-        width: 100% !important;
-        scroll-snap-align: start !important;
-        border: none !important;
-        box-shadow: none !important;
-        border-radius: 8px;
+    
+    .diary-grid-left .diary-img {
+        aspect-ratio: 16/10;
     }
-
-    .diary-img {
-        aspect-ratio: 4/3 !important;
+    
+    .diary-grid-right {
+        gap: 8px;
     }
 }
 
