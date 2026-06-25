@@ -402,7 +402,8 @@ section {
     width: 100%;
     height: 100%;
     aspect-ratio: 4/5;
-    object-fit: cover;
+    object-fit: contain; /* Changed from cover to contain to show the full image */
+    background-color: #eae5db; /* matching beige background for letterboxing */
     border-radius: 8px;
     cursor: pointer;
 }
@@ -424,7 +425,8 @@ section {
     width: 100%;
     height: 100%;
     aspect-ratio: 1/1;
-    object-fit: cover;
+    object-fit: contain; /* Changed from cover to contain to show the full image */
+    background-color: #eae5db; /* matching beige background for letterboxing */
     border-radius: 8px;
     cursor: pointer;
     transition: transform var(--transition-smooth);
@@ -1162,7 +1164,8 @@ section {
     width: 100%;
     height: 100%;
     aspect-ratio: 4/5;
-    object-fit: cover;
+    object-fit: contain; /* Changed from cover to contain */
+    background-color: #eae5db; /* matching beige background for letterboxing */
     border-radius: 8px;
     cursor: pointer;
     transition: transform var(--transition-smooth);
@@ -1185,7 +1188,8 @@ section {
     width: 100%;
     height: 100%;
     aspect-ratio: 1/1;
-    object-fit: cover;
+    object-fit: contain; /* Changed from cover to contain */
+    background-color: #eae5db; /* matching beige background for letterboxing */
     border-radius: 8px;
     cursor: pointer;
     transition: transform var(--transition-smooth);
