@@ -1770,7 +1770,15 @@ section {
     }
 
     .main-contact-form {
-        padding: 16px;
+        padding: 12px;
+    }
+
+    .main-contact-form input,
+    .main-contact-form select {
+        padding: 10px 30px 10px 12px !important; /* Decrease padding to fit long text */
+        font-size: 0.8rem !important; /* Smaller text size for mobile readability */
+        background-position: right 10px center !important; /* Move down arrow to the right edge */
+        background-size: 14px !important; /* Scale down indicator icon */
     }
 
     .urgency-banner {
