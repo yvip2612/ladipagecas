@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
         leftSideDiv.className = 'tech-grid-left-side';
         leftSideDiv.innerHTML = `
             <div class="tech-grid-item-big" onclick="if(typeof openImageModal === 'function') openImageModal('${leftImgPath}', 'Quy chuẩn ${leftImgNum} - ${catLabel}')">
-                <div class="tech-grid-img-wrapper" style="height: 100%; aspect-ratio: 1/1;">
+                <div class="tech-grid-img-wrapper" style="height: 100%; aspect-ratio: 4/5;">
                     <img src="${leftImgPath}" alt="Quy chuẩn ${leftImgNum}" loading="lazy">
                     <div class="tech-grid-hover">
                         <i data-lucide="zoom-in"></i>
