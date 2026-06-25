@@ -24,8 +24,8 @@
                 <img src="logo.png" alt="CAS Homes" class="logo-img">
             </a>
             <div class="header-actions">
-                <a href="tel:0901234567" class="btn btn-outline btn-phone">
-                    <i data-lucide="phone" class="icon-sm"></i> Hotline: 090.123.4567
+                <a href="tel:0938498589" class="btn btn-outline btn-phone">
+                    <i data-lucide="phone" class="icon-sm"></i> Hotline: 093 849 85 89
                 </a>
             </div>
         </div>
@@ -34,7 +34,24 @@
     <main>
 
 
-        <!-- Section 2: Khám phá Portfolio bằng Tabbed Gallery (Interest) -->
+        <!-- Section 2: Quy trình đồng hành cùng khách hàng (Workflow Infographic) -->
+        <section class="process-section">
+            <div class="container">
+                <div class="section-header text-center">
+                    <span class="section-tag">Quy trình chuẩn</span>
+                    <h2>Quy Trình Đồng Hành Cùng Khách Hàng</h2>
+                    <p class="section-desc">6 bước kiến tạo tổ ấm độc bản cùng CAS DESIGN.</p>
+                </div>
+                
+                <div class="process-image-layout-wrapper" style="max-width: 900px; margin: 0 auto; background: #ffffff; padding: 16px; border-radius: 16px; border: 1px solid var(--border-color); box-shadow: 0 20px 45px rgba(111, 93, 71, 0.08);">
+                    <a href="#contact-form-section" class="process-image-link" style="display: block; cursor: pointer;">
+                        <img src="quy_trinh_lam_viec.jpg" alt="Quy Trình Đồng Hành Cùng Khách Hàng - CAS Design" style="width: 100%; height: auto; border-radius: 12px; display: block; transition: transform var(--transition-smooth);" class="process-static-img">
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Khám phá Portfolio bằng Tabbed Gallery (Interest) -->
         <section class="styles-section">
             <div class="container">
                 <div class="section-header text-center">
@@ -55,99 +72,146 @@
                 <div class="styles-tab-content">
                     <!-- Tab Modern -->
                     <div class="tab-pane active" id="pane-modern">
-                        <div class="gallery-slider-container" id="slider-modern" data-category="modern">
-                            <div class="gallery-main-view">
-                                <button type="button" class="gallery-slider-arrow prev" onclick="if(typeof navigateGallerySlider === 'function') navigateGallerySlider('modern', -1)">&lsaquo;</button>
-                                <img id="gallery-main-img-modern" src="BoSuuTap/BIỆT THỰ 20/2.png" alt="Biệt thự Hiện đại - Mặt tiền" class="gallery-main-img">
-                                <button type="button" class="gallery-slider-arrow next" onclick="if(typeof navigateGallerySlider === 'function') navigateGallerySlider('modern', 1)">&rsaquo;</button>
-                            </div>
-                            
-                            <div class="gallery-thumbnails-wrapper">
-                                <button type="button" class="gallery-thumb-arrow prev" onclick="if(typeof scrollGalleryThumbs === 'function') scrollGalleryThumbs('modern', -1)">&lsaquo;</button>
-                                <div class="gallery-thumbnails-viewport">
-                                    <div class="gallery-thumbnails" id="gallery-thumbs-modern">
-                                        <!-- Populated dynamically by JS -->
+                        <div class="gallery-mix-grid">
+                            <!-- Top Block -->
+                            <div class="gallery-mix-top">
+                                <!-- Left: Main Image -->
+                                <div class="gallery-mix-img-item gallery-mix-left-main" onclick="if(typeof openImageModal === 'function') openImageModal('BoSuuTap/BIỆT THỰ 20/10.png', 'Biệt thự Hiện đại - Không gian chính')">
+                                    <img src="BoSuuTap/BIỆT THỰ 20/10.png" alt="Biệt thự Hiện đại - Không gian chính" loading="lazy">
+                                </div>
+                                <!-- Right: Stacked Images -->
+                                <div class="gallery-mix-right-stack">
+                                    <!-- Top: 2x2 Subgrid -->
+                                    <div class="gallery-mix-subgrid">
+                                        <div class="gallery-mix-img-item" onclick="if(typeof openImageModal === 'function') openImageModal('BoSuuTap/BIỆT THỰ 20/2.png', 'Biệt thự Hiện đại - Thiết kế 1')">
+                                            <img src="BoSuuTap/BIỆT THỰ 20/2.png" alt="Biệt thự Hiện đại - Thiết kế 1" loading="lazy">
+                                        </div>
+                                        <div class="gallery-mix-img-item" onclick="if(typeof openImageModal === 'function') openImageModal('BoSuuTap/BIỆT THỰ 20/3.png', 'Biệt thự Hiện đại - Thiết kế 2')">
+                                            <img src="BoSuuTap/BIỆT THỰ 20/3.png" alt="Biệt thự Hiện đại - Thiết kế 2" loading="lazy">
+                                        </div>
+                                        <div class="gallery-mix-img-item" onclick="if(typeof openImageModal === 'function') openImageModal('BoSuuTap/BIỆT THỰ 20/7.png', 'Biệt thự Hiện đại - Thiết kế 3')">
+                                            <img src="BoSuuTap/BIỆT THỰ 20/7.png" alt="Biệt thự Hiện đại - Thiết kế 3" loading="lazy">
+                                        </div>
+                                        <div class="gallery-mix-img-item" onclick="if(typeof openImageModal === 'function') openImageModal('BoSuuTap/BIỆT THỰ 20/8.png', 'Biệt thự Hiện đại - Thiết kế 4')">
+                                            <img src="BoSuuTap/BIỆT THỰ 20/8.png" alt="Biệt thự Hiện đại - Thiết kế 4" loading="lazy">
+                                        </div>
+                                    </div>
+                                    <!-- Bottom: Single Image -->
+                                    <div class="gallery-mix-img-item" onclick="if(typeof openImageModal === 'function') openImageModal('BoSuuTap/BIỆT THỰ 20/9.png', 'Biệt thự Hiện đại - Thiết kế 5')">
+                                        <img src="BoSuuTap/BIỆT THỰ 20/9.png" alt="Biệt thự Hiện đại - Thiết kế 5" loading="lazy">
                                     </div>
                                 </div>
-                                <button type="button" class="gallery-thumb-arrow next" onclick="if(typeof scrollGalleryThumbs === 'function') scrollGalleryThumbs('modern', 1)">&rsaquo;</button>
                             </div>
-                        </div>
-                        <div class="tab-action text-center">
-                            <button type="button" class="btn btn-primary btn-quote-style" data-style="modern">
-                                Tư vấn phong cách Biệt Thự Hiện Đại <i data-lucide="arrow-right"></i>
-                            </button>
+                            <!-- Bottom Row -->
+                            <div class="gallery-mix-bottom-row">
+                                <div class="gallery-mix-img-item" onclick="if(typeof openImageModal === 'function') openImageModal('BoSuuTap/BIỆT THỰ 20/4.png', 'Biệt thự Hiện đại - Phòng ngủ')">
+                                    <img src="BoSuuTap/BIỆT THỰ 20/4.png" alt="Biệt thự Hiện đại - Phòng ngủ" loading="lazy">
+                                </div>
+                                <div class="gallery-mix-img-item" onclick="if(typeof openImageModal === 'function') openImageModal('BoSuuTap/BIỆT THỰ 20/5.png', 'Biệt thự Hiện đại - Sân vườn')">
+                                    <img src="BoSuuTap/BIỆT THỰ 20/5.png" alt="Biệt thự Hiện đại - Sân vườn" loading="lazy">
+                                </div>
+                                <div class="gallery-mix-img-item overflow-overlay" onclick="if(typeof openImageModal === 'function') openImageModal('BoSuuTap/BIỆT THỰ 20/6.png', 'Biệt thự Hiện đại - Xem tất cả')">
+                                    <img src="BoSuuTap/BIỆT THỰ 20/6.png" alt="Biệt thự Hiện đại - Chi tiết" loading="lazy">
+                                    <div class="overlay-more-count">+36</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Tab Classic -->
                     <div class="tab-pane" id="pane-classic">
-                        <div class="gallery-slider-container" id="slider-classic" data-category="classic">
-                            <div class="gallery-main-view">
-                                <button type="button" class="gallery-slider-arrow prev" onclick="if(typeof navigateGallerySlider === 'function') navigateGallerySlider('classic', -1)">&lsaquo;</button>
-                                <img id="gallery-main-img-classic" src="BoSuuTap/ĐỊA TRUNG HẢI/1.png" alt="Phong cách Địa Trung Hải - Mặt tiền" class="gallery-main-img">
-                                <button type="button" class="gallery-slider-arrow next" onclick="if(typeof navigateGallerySlider === 'function') navigateGallerySlider('classic', 1)">&rsaquo;</button>
-                            </div>
-                            
-                            <div class="gallery-thumbnails-wrapper">
-                                <button type="button" class="gallery-thumb-arrow prev" onclick="if(typeof scrollGalleryThumbs === 'function') scrollGalleryThumbs('classic', -1)">&lsaquo;</button>
-                                <div class="gallery-thumbnails-viewport">
-                                    <div class="gallery-thumbnails" id="gallery-thumbs-classic">
-                                        <!-- Populated dynamically by JS -->
+                        <div class="gallery-mix-grid">
+                            <!-- Top Block -->
+                            <div class="gallery-mix-top">
+                                <!-- Left: Main Image -->
+                                <div class="gallery-mix-img-item gallery-mix-left-main" onclick="if(typeof openImageModal === 'function') openImageModal('BoSuuTap/ĐỊA TRUNG HẢI/9.png', 'Địa Trung Hải - Không gian chính')">
+                                    <img src="BoSuuTap/ĐỊA TRUNG HẢI/9.png" alt="Địa Trung Hải - Không gian chính" loading="lazy">
+                                </div>
+                                <!-- Right: Stacked Images -->
+                                <div class="gallery-mix-right-stack">
+                                    <!-- Top: 2x2 Subgrid -->
+                                    <div class="gallery-mix-subgrid">
+                                        <div class="gallery-mix-img-item" onclick="if(typeof openImageModal === 'function') openImageModal('BoSuuTap/ĐỊA TRUNG HẢI/1.png', 'Địa Trung Hải - Thiết kế 1')">
+                                            <img src="BoSuuTap/ĐỊA TRUNG HẢI/1.png" alt="Địa Trung Hải - Thiết kế 1" loading="lazy">
+                                        </div>
+                                        <div class="gallery-mix-img-item" onclick="if(typeof openImageModal === 'function') openImageModal('BoSuuTap/ĐỊA TRUNG HẢI/2.png', 'Địa Trung Hải - Thiết kế 2')">
+                                            <img src="BoSuuTap/ĐỊA TRUNG HẢI/2.png" alt="Địa Trung Hải - Thiết kế 2" loading="lazy">
+                                        </div>
+                                        <div class="gallery-mix-img-item" onclick="if(typeof openImageModal === 'function') openImageModal('BoSuuTap/ĐỊA TRUNG HẢI/6.png', 'Địa Trung Hải - Thiết kế 3')">
+                                            <img src="BoSuuTap/ĐỊA TRUNG HẢI/6.png" alt="Địa Trung Hải - Thiết kế 3" loading="lazy">
+                                        </div>
+                                        <div class="gallery-mix-img-item" onclick="if(typeof openImageModal === 'function') openImageModal('BoSuuTap/ĐỊA TRUNG HẢI/7.png', 'Địa Trung Hải - Thiết kế 4')">
+                                            <img src="BoSuuTap/ĐỊA TRUNG HẢI/7.png" alt="Địa Trung Hải - Thiết kế 4" loading="lazy">
+                                        </div>
+                                    </div>
+                                    <!-- Bottom: Single Image -->
+                                    <div class="gallery-mix-img-item" onclick="if(typeof openImageModal === 'function') openImageModal('BoSuuTap/ĐỊA TRUNG HẢI/8.png', 'Địa Trung Hải - Thiết kế 5')">
+                                        <img src="BoSuuTap/ĐỊA TRUNG HẢI/8.png" alt="Địa Trung Hải - Thiết kế 5" loading="lazy">
                                     </div>
                                 </div>
-                                <button type="button" class="gallery-thumb-arrow next" onclick="if(typeof scrollGalleryThumbs === 'function') scrollGalleryThumbs('classic', 1)">&rsaquo;</button>
                             </div>
-                        </div>
-                        <div class="tab-action text-center">
-                            <button type="button" class="btn btn-primary btn-quote-style" data-style="classic">
-                                Tư vấn phong cách Địa Trung Hải <i data-lucide="arrow-right"></i>
-                            </button>
+                            <!-- Bottom Row -->
+                            <div class="gallery-mix-bottom-row">
+                                <div class="gallery-mix-img-item" onclick="if(typeof openImageModal === 'function') openImageModal('BoSuuTap/ĐỊA TRUNG HẢI/3.png', 'Địa Trung Hải - Chi tiết vòm')">
+                                    <img src="BoSuuTap/ĐỊA TRUNG HẢI/3.png" alt="Địa Trung Hải - Chi tiết vòm" loading="lazy">
+                                </div>
+                                <div class="gallery-mix-img-item" onclick="if(typeof openImageModal === 'function') openImageModal('BoSuuTap/ĐỊA TRUNG HẢI/4.png', 'Địa Trung Hải - Góc thư giãn')">
+                                    <img src="BoSuuTap/ĐỊA TRUNG HẢI/4.png" alt="Địa Trung Hải - Góc thư giãn" loading="lazy">
+                                </div>
+                                <div class="gallery-mix-img-item" onclick="if(typeof openImageModal === 'function') openImageModal('BoSuuTap/ĐỊA TRUNG HẢI/5.png', 'Địa Trung Hải - Phòng ăn')">
+                                    <img src="BoSuuTap/ĐỊA TRUNG HẢI/5.png" alt="Địa Trung Hải - Phòng ăn" loading="lazy">
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Tab Indochine -->
                     <div class="tab-pane" id="pane-indochine">
-                        <div class="gallery-slider-container" id="slider-indochine" data-category="indochine">
-                            <div class="gallery-main-view">
-                                <button type="button" class="gallery-slider-arrow prev" onclick="if(typeof navigateGallerySlider === 'function') navigateGallerySlider('indochine', -1)">&lsaquo;</button>
-                                <img id="gallery-main-img-indochine" src="BoSuuTap/INDOCHINE 9/1.png" alt="Phong cách Indochine - Phòng khách" class="gallery-main-img">
-                                <button type="button" class="gallery-slider-arrow next" onclick="if(typeof navigateGallerySlider === 'function') navigateGallerySlider('indochine', 1)">&rsaquo;</button>
-                            </div>
-                            
-                            <div class="gallery-thumbnails-wrapper">
-                                <button type="button" class="gallery-thumb-arrow prev" onclick="if(typeof scrollGalleryThumbs === 'function') scrollGalleryThumbs('indochine', -1)">&lsaquo;</button>
-                                <div class="gallery-thumbnails-viewport">
-                                    <div class="gallery-thumbnails" id="gallery-thumbs-indochine">
-                                        <!-- Populated dynamically by JS -->
+                        <div class="gallery-mix-grid">
+                            <!-- Top Block -->
+                            <div class="gallery-mix-top">
+                                <!-- Left: Main Image -->
+                                <div class="gallery-mix-img-item gallery-mix-left-main" onclick="if(typeof openImageModal === 'function') openImageModal('BoSuuTap/INDOCHINE 9/9.png', 'Indochine - Không gian chính')">
+                                    <img src="BoSuuTap/INDOCHINE 9/9.png" alt="Indochine - Không gian chính" loading="lazy">
+                                </div>
+                                <!-- Right: Stacked Images -->
+                                <div class="gallery-mix-right-stack">
+                                    <!-- Top: 2x2 Subgrid -->
+                                    <div class="gallery-mix-subgrid">
+                                        <div class="gallery-mix-img-item" onclick="if(typeof openImageModal === 'function') openImageModal('BoSuuTap/INDOCHINE 9/1.png', 'Indochine - Thiết kế 1')">
+                                            <img src="BoSuuTap/INDOCHINE 9/1.png" alt="Indochine - Thiết kế 1" loading="lazy">
+                                        </div>
+                                        <div class="gallery-mix-img-item" onclick="if(typeof openImageModal === 'function') openImageModal('BoSuuTap/INDOCHINE 9/2.png', 'Indochine - Thiết kế 2')">
+                                            <img src="BoSuuTap/INDOCHINE 9/2.png" alt="Indochine - Thiết kế 2" loading="lazy">
+                                        </div>
+                                        <div class="gallery-mix-img-item" onclick="if(typeof openImageModal === 'function') openImageModal('BoSuuTap/INDOCHINE 9/6.png', 'Indochine - Thiết kế 3')">
+                                            <img src="BoSuuTap/INDOCHINE 9/6.png" alt="Indochine - Thiết kế 3" loading="lazy">
+                                        </div>
+                                        <div class="gallery-mix-img-item" onclick="if(typeof openImageModal === 'function') openImageModal('BoSuuTap/INDOCHINE 9/7.png', 'Indochine - Thiết kế 4')">
+                                            <img src="BoSuuTap/INDOCHINE 9/7.png" alt="Indochine - Thiết kế 4" loading="lazy">
+                                        </div>
+                                    </div>
+                                    <!-- Bottom: Single Image -->
+                                    <div class="gallery-mix-img-item" onclick="if(typeof openImageModal === 'function') openImageModal('BoSuuTap/INDOCHINE 9/8.png', 'Indochine - Thiết kế 5')">
+                                        <img src="BoSuuTap/INDOCHINE 9/8.png" alt="Indochine - Thiết kế 5" loading="lazy">
                                     </div>
                                 </div>
-                                <button type="button" class="gallery-thumb-arrow next" onclick="if(typeof scrollGalleryThumbs === 'function') scrollGalleryThumbs('indochine', 1)">&rsaquo;</button>
+                            </div>
+                            <!-- Bottom Row -->
+                            <div class="gallery-mix-bottom-row">
+                                <div class="gallery-mix-img-item" onclick="if(typeof openImageModal === 'function') openImageModal('BoSuuTap/INDOCHINE 9/3.png', 'Indochine - Nội thất gỗ')">
+                                    <img src="BoSuuTap/INDOCHINE 9/3.png" alt="Indochine - Nội thất gỗ" loading="lazy">
+                                </div>
+                                <div class="gallery-mix-img-item" onclick="if(typeof openImageModal === 'function') openImageModal('BoSuuTap/INDOCHINE 9/4.png', 'Indochine - Phòng ngủ')">
+                                    <img src="BoSuuTap/INDOCHINE 9/4.png" alt="Indochine - Phòng ngủ" loading="lazy">
+                                </div>
+                                <div class="gallery-mix-img-item overflow-overlay" onclick="if(typeof openImageModal === 'function') openImageModal('BoSuuTap/INDOCHINE 9/5.png', 'Indochine - Xem tất cả')">
+                                    <img src="BoSuuTap/INDOCHINE 9/5.png" alt="Indochine - Hành lang" loading="lazy">
+                                    <div class="overlay-more-count">+26</div>
+                                </div>
                             </div>
                         </div>
-                        <div class="tab-action text-center">
-                            <button type="button" class="btn btn-primary btn-quote-style" data-style="indochine">
-                                Tư vấn phong cách Indochine <i data-lucide="arrow-right"></i>
-                            </button>
-                        </div>
                     </div>
-                </div>
-            </div>
-        </section>
-
-
-        <!-- Section 3: Quy trình đồng hành cùng khách hàng (Workflow Infographic) -->
-        <section class="process-section">
-            <div class="container">
-                <div class="section-header text-center">
-                    <span class="section-tag">Quy trình chuẩn</span>
-                    <h2>Quy Trình Đồng Hành Cùng Khách Hàng</h2>
-                    <p class="section-desc">6 bước kiến tạo tổ ấm độc bản cùng CAS DESIGN.</p>
-                </div>
-                
-                <div class="process-image-layout-wrapper" style="max-width: 900px; margin: 0 auto; background: #ffffff; padding: 16px; border-radius: 16px; border: 1px solid var(--border-color); box-shadow: 0 20px 45px rgba(111, 93, 71, 0.08);">
-                    <a href="#contact-form-section" class="process-image-link" style="display: block; cursor: pointer;">
-                        <img src="quy_trinh_lam_viec.jpg" alt="Quy Trình Đồng Hành Cùng Khách Hàng - CAS Design" style="width: 100%; height: auto; border-radius: 12px; display: block; transition: transform var(--transition-smooth);" class="process-static-img">
-                    </a>
                 </div>
             </div>
         </section>
@@ -228,23 +292,46 @@
                 </div>
 
                 <!-- Diary Grid layout matching Portfolio Gallery layout -->
-                <div class="gallery-grid-layout">
-                    <div class="gallery-grid-left">
-                        <img src="NhatKyCongTrinh/Công Trình Chị Hương/z7950445480851_c73fd547e7e3c8c2ba1420c16c15a6cb.jpg" alt="Nhật ký công trình Chị Hương - Hoàn thiện thô" class="gallery-img" loading="lazy">
+                <div class="gallery-mix-grid">
+                    <!-- Top Block -->
+                    <div class="gallery-mix-top">
+                        <!-- Left: Main Image -->
+                        <div class="gallery-mix-img-item gallery-mix-left-main" onclick="if(typeof openImageModal === 'function') openImageModal('NhatKyCongTrinh/Công Trình Chị Hương/z7954219043783_bd34d812898a6e398a861e5e1d6ded66.jpg', 'Nhật ký công trình Chị Hương - Hoàn thiện mặt ngoài')">
+                            <img src="NhatKyCongTrinh/Công Trình Chị Hương/z7954219043783_bd34d812898a6e398a861e5e1d6ded66.jpg" alt="Nhật ký công trình Chị Hương - Hoàn thiện mặt ngoài" loading="lazy">
+                        </div>
+                        <!-- Right: Stacked Images -->
+                        <div class="gallery-mix-right-stack">
+                            <!-- Top: 2x2 Subgrid -->
+                            <div class="gallery-mix-subgrid">
+                                <div class="gallery-mix-img-item" onclick="if(typeof openImageModal === 'function') openImageModal('NhatKyCongTrinh/Công Trình Chị Hương/z7950445480851_c73fd547e7e3c8c2ba1420c16c15a6cb.jpg', 'Nhật ký công trình Chị Hương - Hoàn thiện thô')">
+                                    <img src="NhatKyCongTrinh/Công Trình Chị Hương/z7950445480851_c73fd547e7e3c8c2ba1420c16c15a6cb.jpg" alt="Nhật ký công trình Chị Hương - Hoàn thiện thô" loading="lazy">
+                                </div>
+                                <div class="gallery-mix-img-item" onclick="if(typeof openImageModal === 'function') openImageModal('NhatKyCongTrinh/Công Trình Chị Hương/z7950445493253_4cb1433d62fe79d37ff06d6df02b49e9.jpg', 'Nhật ký công trình Chị Hương - Kiểm tra cốt thép')">
+                                    <img src="NhatKyCongTrinh/Công Trình Chị Hương/z7950445493253_4cb1433d62fe79d37ff06d6df02b49e9.jpg" alt="Nhật ký công trình Chị Hương - Kiểm tra cốt thép" loading="lazy">
+                                </div>
+                                <div class="gallery-mix-img-item" onclick="if(typeof openImageModal === 'function') openImageModal('NhatKyCongTrinh/Công Trình Chị Hương/z7950445500078_b175ff5e4913da3503c10d5a70c9064d.jpg', 'Nhật ký công trình Chị Hương - Đổ bê tông sàn')">
+                                    <img src="NhatKyCongTrinh/Công Trình Chị Hương/z7950445500078_b175ff5e4913da3503c10d5a70c9064d.jpg" alt="Nhật ký công trình Chị Hương - Đổ bê tông sàn" loading="lazy">
+                                </div>
+                                <div class="gallery-mix-img-item" onclick="if(typeof openImageModal === 'function') openImageModal('NhatKyCongTrinh/Công Trình Chị Hương/z7950445514868_44d643305fad884bcca84c910cfbcccf.jpg', 'Nhật ký công trình Chị Hương - Xây tô trát tường')">
+                                    <img src="NhatKyCongTrinh/Công Trình Chị Hương/z7950445514868_44d643305fad884bcca84c910cfbcccf.jpg" alt="Nhật ký công trình Chị Hương - Xây tô trát tường" loading="lazy">
+                                </div>
+                            </div>
+                            <!-- Bottom: Single Image -->
+                            <div class="gallery-mix-img-item" onclick="if(typeof openImageModal === 'function') openImageModal('NhatKyCongTrinh/Công Trình Chị Hương/z7950445520293_1a94e9eee262e09d0d2f2e0c17b73381.jpg', 'Nhật ký công trình Chị Hương - Đi đường ống ME ngầm')">
+                                <img src="NhatKyCongTrinh/Công Trình Chị Hương/z7950445520293_1a94e9eee262e09d0d2f2e0c17b73381.jpg" alt="Nhật ký công trình Chị Hương - Đi đường ống ME ngầm" loading="lazy">
+                            </div>
+                        </div>
                     </div>
-                    <div class="gallery-grid-right">
-                        <div class="gallery-grid-item-small">
-                            <img src="NhatKyCongTrinh/Công Trình Chị Hương/z7950445493253_4cb1433d62fe79d37ff06d6df02b49e9.jpg" alt="Nhật ký công trình Chị Hương - Kiểm tra cốt thép" class="gallery-img" loading="lazy">
+                    <!-- Bottom Row -->
+                    <div class="gallery-mix-bottom-row">
+                        <div class="gallery-mix-img-item" onclick="if(typeof openImageModal === 'function') openImageModal('NhatKyCongTrinh/Công Trình Chị Hương/z7950445526801_deb73374f2801fb92c54549215714134.jpg', 'Nhật ký công trình Chị Hương - Thi công thạch cao')">
+                            <img src="NhatKyCongTrinh/Công Trình Chị Hương/z7950445526801_deb73374f2801fb92c54549215714134.jpg" alt="Nhật ký công trình Chị Hương - Thi công thạch cao" loading="lazy">
                         </div>
-                        <div class="gallery-grid-item-small">
-                            <img src="NhatKyCongTrinh/Công Trình Chị Hương/z7950445500078_b175ff5e4913da3503c10d5a70c9064d.jpg" alt="Nhật ký công trình Chị Hương - Đổ bê tông sàn" class="gallery-img" loading="lazy">
+                        <div class="gallery-mix-img-item" onclick="if(typeof openImageModal === 'function') openImageModal('NhatKyCongTrinh/Công Trình Chị Hương/z7950445532650_b2b8d81285a14d2746eaa773eceb1951.jpg', 'Nhật ký công trình Chị Hương - Lát nền gạch')">
+                            <img src="NhatKyCongTrinh/Công Trình Chị Hương/z7950445532650_b2b8d81285a14d2746eaa773eceb1951.jpg" alt="Nhật ký công trình Chị Hương - Lát nền gạch" loading="lazy">
                         </div>
-                        <div class="gallery-grid-item-small">
-                            <img src="NhatKyCongTrinh/Công Trình Chị Hương/z7950445514868_44d643305fad884bcca84c910cfbcccf.jpg" alt="Nhật ký công trình Chị Hương - Xây tô trát tường" class="gallery-img" loading="lazy">
-                        </div>
-                        <div class="gallery-grid-item-small overflow-overlay" onclick="if(typeof openImageModal === 'function') openImageModal('NhatKyCongTrinh/Công Trình Chị Hương/z7950445520293_1a94e9eee262e09d0d2f2e0c17b73381.jpg', 'Nhật ký công trình Chị Hương - Xem tất cả')">
-                            <img src="NhatKyCongTrinh/Công Trình Chị Hương/z7950445520293_1a94e9eee262e09d0d2f2e0c17b73381.jpg" alt="Nhật ký công trình Chị Hương - Đi đường ống ME ngầm" class="gallery-img" loading="lazy">
-                            <div class="overlay-more-count">+5</div>
+                        <div class="gallery-mix-img-item" onclick="if(typeof openImageModal === 'function') openImageModal('NhatKyCongTrinh/Công Trình Chị Hương/z7950445539537_5a61bfc069b96dcd69cdbde2285a19b1.jpg', 'Nhật ký công trình Chị Hương - Sơn nước hoàn thiện')">
+                            <img src="NhatKyCongTrinh/Công Trình Chị Hương/z7950445539537_5a61bfc069b96dcd69cdbde2285a19b1.jpg" alt="Nhật ký công trình Chị Hương - Sơn nước hoàn thiện" loading="lazy">
                         </div>
                     </div>
                 </div>
@@ -323,9 +410,9 @@
 
             <div class="footer-info">
                 <ul class="info-list">
-                    <li><i data-lucide="map-pin"></i><span>Tòa nhà Landmark 81, Vinhomes Central Park, Phường 22, Quận Bình Thạnh, TP. Hồ Chí Minh</span></li>
-                    <li><i data-lucide="phone-call"></i><span>Hotline: <a href="tel:0901234567">090.123.4567</a></span></li>
-                    <li><i data-lucide="mail"></i><span>Email: <a href="mailto:contact@casgroup.vn">contact@casgroup.vn</a></span></li>
+                    <li><i data-lucide="map-pin"></i><span>Số 5, đường 623D, Phường Phước Long B, Thủ Đức, Vietnam</span></li>
+                    <li><i data-lucide="phone-call"></i><span>Hotline: <a href="tel:0938498589">093 849 85 89</a></span></li>
+                    <li><i data-lucide="mail"></i><span>Email: <a href="mailto:Company.cashomes@gmail.com">Company.cashomes@gmail.com</a></span></li>
                 </ul>
             </div>
         </div>
@@ -361,10 +448,10 @@
 
     <!-- Floating Contact Widgets -->
     <div class="floating-widgets">
-        <a href="https://zalo.me/0901234567" target="_blank" class="floating-btn btn-zalo" aria-label="Chat Zalo">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Icon_of_Zalo.svg" alt="Zalo" style="width: 28px; height: 28px; filter: brightness(0) invert(1);">
+        <a href="https://zalo.me/0969158169" target="_blank" class="floating-btn btn-zalo" aria-label="Chat Zalo">
+            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/zalo.svg" alt="Zalo" style="width: 28px; height: 28px; filter: brightness(0) invert(1);">
         </a>
-        <a href="tel:0901234567" class="floating-btn btn-call" aria-label="Call Hotline">
+        <a href="tel:0938498589" class="floating-btn btn-call" aria-label="Call Hotline">
             <i data-lucide="phone-call" style="width: 24px; height: 24px;"></i>
         </a>
     </div>

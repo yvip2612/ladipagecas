@@ -82,60 +82,113 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderCategoryGrid() {
         if (!techGrid) return;
         techGrid.innerHTML = '';
+        techGrid.className = 'gallery-mix-grid tech-grid-custom';
+
         const activeImages = parseRange(currentRange);
         const catLabel = getCategoryLabel(currentFolder);
-        
-        // Split activeImages: item 1 goes to the left container, items 2-5 go to the right container
-        const leftImgNum = activeImages[0];
-        const rightImgNums = activeImages.slice(1, 5); // get up to 4 items for the right grid
-        
         const totalItemsCount = activeImages.length;
-        const hiddenMoreCount = totalItemsCount - 5; // how many are hidden beyond the first 5
-
+        
+        const leftImgNum = activeImages[0];
+        const subgridNums = activeImages.slice(1, 5);
+        const rightBottomNum = activeImages[5];
+        const bottomRowNums = activeImages.slice(6, 9);
+        
+        const hiddenMoreCount = totalItemsCount - 9;
         const leftImgPath = `TieuChuanEdit/${currentFolder}/${leftImgNum}.png`;
 
-        // Left Container (Big) HTML
-        const leftSideDiv = document.createElement('div');
-        leftSideDiv.className = 'gallery-grid-left';
-        leftSideDiv.innerHTML = `
-            <img src="${leftImgPath}" alt="Quy chuẩn ${leftImgNum}" class="gallery-img tech-contain-img" loading="lazy" onclick="if(typeof openImageModal === 'function') openImageModal('${leftImgPath}', 'Quy chuẩn ${leftImgNum} - ${catLabel}')">
-            <div class="tech-grid-hover" onclick="if(typeof openImageModal === 'function') openImageModal('${leftImgPath}', 'Quy chuẩn ${leftImgNum} - ${catLabel}')">
+        // Create Top Block
+        const topBlock = document.createElement('div');
+        topBlock.className = 'gallery-mix-top';
+
+        // Left Main Image
+        const leftMainDiv = document.createElement('div');
+        leftMainDiv.className = 'gallery-mix-img-item gallery-mix-left-main';
+        leftMainDiv.onclick = () => {
+            if (typeof openImageModal === 'function') openImageModal(leftImgPath, `Quy chuẩn ${leftImgNum} - ${catLabel}`);
+        };
+        leftMainDiv.innerHTML = `
+            <img src="${leftImgPath}" alt="Quy chuẩn ${leftImgNum}" loading="lazy">
+            <div class="tech-grid-hover">
                 <i data-lucide="zoom-in"></i>
                 <span>Phóng to bản vẽ</span>
             </div>
         `;
+        topBlock.appendChild(leftMainDiv);
 
-        // Right Container (Small Grids) HTML
-        const rightSideDiv = document.createElement('div');
-        rightSideDiv.className = 'gallery-grid-right';
+        // Right Stack
+        const rightStackDiv = document.createElement('div');
+        rightStackDiv.className = 'gallery-mix-right-stack';
 
-        rightImgNums.forEach((imgNum, idx) => {
-            const imgPath = `TieuChuanEdit/${currentFolder}/${imgNum}.png`;
-            const isLastThumbnail = (idx === 3 && hiddenMoreCount > 0);
-            
-            const card = document.createElement('div');
-            card.className = isLastThumbnail ? 'gallery-grid-item-small overflow-overlay' : 'gallery-grid-item-small';
-            if (isLastThumbnail) {
-                card.onclick = () => {
-                    if (typeof openImageModal === 'function') {
-                        openImageModal(imgPath, `Quy chuẩn ${imgNum} - ${catLabel} (Xem tất cả)`);
-                    }
+        // Subgrid (2x2)
+        if (subgridNums.length > 0) {
+            const subgridDiv = document.createElement('div');
+            subgridDiv.className = 'gallery-mix-subgrid';
+            subgridNums.forEach(imgNum => {
+                const imgPath = `TieuChuanEdit/${currentFolder}/${imgNum}.png`;
+                const item = document.createElement('div');
+                item.className = 'gallery-mix-img-item';
+                item.onclick = () => {
+                    if (typeof openImageModal === 'function') openImageModal(imgPath, `Quy chuẩn ${imgNum} - ${catLabel}`);
                 };
-            }
-            
-            card.innerHTML = `
-                <img src="${imgPath}" alt="Quy chuẩn ${imgNum}" class="gallery-img tech-contain-img" loading="lazy" ${!isLastThumbnail ? `onclick="if(typeof openImageModal === 'function') openImageModal('${imgPath}', 'Quy chuẩn ${imgNum} - ${catLabel}')"` : ''}>
-                ${!isLastThumbnail ? `
-                <div class="tech-grid-hover" onclick="if(typeof openImageModal === 'function') openImageModal('${imgPath}', 'Quy chuẩn ${imgNum} - ${catLabel}')">
-                    <i data-lucide="zoom-in"></i>
-                </div>` : ''}
-                ${isLastThumbnail ? `<div class="overlay-more-count">+${hiddenMoreCount + 1}</div>` : ''}
-            `;
-            rightSideDiv.appendChild(card);
-        });
+                item.innerHTML = `
+                    <img src="${imgPath}" alt="Quy chuẩn ${imgNum}" loading="lazy">
+                    <div class="tech-grid-hover">
+                        <i data-lucide="zoom-in"></i>
+                    </div>
+                `;
+                subgridDiv.appendChild(item);
+            });
+            rightStackDiv.appendChild(subgridDiv);
+        }
 
-        techGrid.appendChild(leftSideDiv);
-        techGrid.appendChild(rightSideDiv);
+        // Single Image Bottom
+        if (rightBottomNum) {
+            const imgPath = `TieuChuanEdit/${currentFolder}/${rightBottomNum}.png`;
+            const item = document.createElement('div');
+            item.className = 'gallery-mix-img-item';
+            item.onclick = () => {
+                if (typeof openImageModal === 'function') openImageModal(imgPath, `Quy chuẩn ${rightBottomNum} - ${catLabel}`);
+            };
+            item.innerHTML = `
+                <img src="${imgPath}" alt="Quy chuẩn ${rightBottomNum}" loading="lazy">
+                <div class="tech-grid-hover">
+                    <i data-lucide="zoom-in"></i>
+                </div>
+            `;
+            rightStackDiv.appendChild(item);
+        }
+
+        topBlock.appendChild(rightStackDiv);
+        techGrid.appendChild(topBlock);
+
+        // Bottom Row
+        if (bottomRowNums.length > 0) {
+            const bottomRowDiv = document.createElement('div');
+            bottomRowDiv.className = 'gallery-mix-bottom-row';
+
+            bottomRowNums.forEach((imgNum, idx) => {
+                const imgPath = `TieuChuanEdit/${currentFolder}/${imgNum}.png`;
+                const isLastItem = (idx === bottomRowNums.length - 1 && hiddenMoreCount > 0);
+
+                const item = document.createElement('div');
+                item.className = isLastItem ? 'gallery-mix-img-item overflow-overlay' : 'gallery-mix-img-item';
+                item.onclick = () => {
+                    if (typeof openImageModal === 'function') openImageModal(imgPath, `Quy chuẩn ${imgNum} - ${catLabel}`);
+                };
+
+                item.innerHTML = `
+                    <img src="${imgPath}" alt="Quy chuẩn ${imgNum}" loading="lazy">
+                    ${!isLastItem ? `
+                    <div class="tech-grid-hover">
+                        <i data-lucide="zoom-in"></i>
+                    </div>` : ''}
+                    ${isLastItem ? `<div class="overlay-more-count">+${hiddenMoreCount + 1}</div>` : ''}
+                `;
+                bottomRowDiv.appendChild(item);
+            });
+
+            techGrid.appendChild(bottomRowDiv);
+        }
 
         // Preload next folder images in advance when current render is done
         const currentIndex = allCategoriesList.findIndex(c => c.folder === currentFolder);
@@ -374,92 +427,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     // 7.5. Gallery Slider Layout logic
-    const activeGalleryIndices = {
-        modern: 0,
-        classic: 0,
-        indochine: 0
-    };
-    const galleryImageLists = {
-        modern: modernImages,
-        classic: classicImages,
-        indochine: indochineImages
-    };
-
-    function initGallerySliders() {
-        Object.keys(galleryImageLists).forEach(category => {
-            const list = galleryImageLists[category];
-            const thumbsContainer = document.getElementById(`gallery-thumbs-${category}`);
-            const mainImg = document.getElementById(`gallery-main-img-${category}`);
-            
-            if (thumbsContainer) {
-                thumbsContainer.innerHTML = '';
-                list.forEach((src, idx) => {
-                    const thumb = document.createElement('div');
-                    thumb.className = idx === 0 ? 'gallery-thumb-item active' : 'gallery-thumb-item';
-                    thumb.innerHTML = `<img src="${src}" alt="Ảnh ${idx + 1}" loading="lazy">`;
-                    thumb.addEventListener('click', () => {
-                        setActiveGalleryImage(category, idx);
-                    });
-                    thumbsContainer.appendChild(thumb);
-                });
-            }
-            
-            if (mainImg) {
-                mainImg.addEventListener('click', () => {
-                    openImageModal(list, activeGalleryIndices[category]);
-                });
-            }
-        });
-    }
-
-    function setActiveGalleryImage(category, index) {
-        const list = galleryImageLists[category];
-        if (!list || index < 0 || index >= list.length) return;
-        
-        activeGalleryIndices[category] = index;
-        
-        const mainImg = document.getElementById(`gallery-main-img-${category}`);
-        if (mainImg) {
-            mainImg.src = list[index];
-        }
-        
-        // Update active class on thumbnails
-        const thumbsContainer = document.getElementById(`gallery-thumbs-${category}`);
-        if (thumbsContainer) {
-            const thumbs = thumbsContainer.querySelectorAll('.gallery-thumb-item');
-            thumbs.forEach((thumb, idx) => {
-                if (idx === index) {
-                    thumb.classList.add('active');
-                    // Scroll active thumb into view
-                    thumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-                } else {
-                    thumb.classList.remove('active');
-                }
-            });
-        }
-    }
-
-    function navigateGallerySlider(category, direction) {
-        const list = galleryImageLists[category];
-        if (!list) return;
-        
-        let newIndex = (activeGalleryIndices[category] + direction + list.length) % list.length;
-        setActiveGalleryImage(category, newIndex);
-    }
-
-    function scrollGalleryThumbs(category, direction) {
-        const viewport = document.querySelector(`#slider-${category} .gallery-thumbnails-viewport`);
-        if (viewport) {
-            viewport.scrollBy({ left: direction * 160, behavior: 'smooth' });
-        }
-    }
-
-    // Expose functions globally for HTML inline onclick
-    window.navigateGallerySlider = navigateGallerySlider;
-    window.scrollGalleryThumbs = scrollGalleryThumbs;
-
-    // Initialize all sliders on DOM ready
-    initGallerySliders();
+    // Deprecated slider controls removed as the gallery is now a static grid layout
 
     // 8. Image Lightbox Modal logic with Slideshow Slider Navigation
     const imageModal = document.getElementById('image-modal');
