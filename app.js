@@ -286,7 +286,9 @@ document.addEventListener('DOMContentLoaded', () => {
     styleQuoteButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             const selectedStyle = btn.getAttribute('data-style');
-            if (mainStyleSelect && selectedStyle) {
+            
+            // Set value in dropdown
+            if (mainStyleSelect) {
                 mainStyleSelect.value = selectedStyle;
             }
 
@@ -308,18 +310,20 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             const name = document.getElementById('m-name').value;
             const phone = document.getElementById('m-phone').value;
-            const location = document.getElementById('m-location').value;
-            const style = document.getElementById('m-style').value;
+            const service = document.getElementById('m-service').value;
+            const buildingType = document.getElementById('m-building-type').value;
+            const projectType = document.getElementById('m-project-type').value;
 
             // Webhook CRM payloads
             const webhookPayload = {
                 event: "main_consultation_request",
                 timestamp: new Date().toISOString(),
                 data: { 
-                    name: name, 
-                    phone: phone, 
-                    location: location, 
-                    favorite_style: style 
+                    name, 
+                    phone, 
+                    service, 
+                    building_type: buildingType || "Không cung cấp", 
+                    project_type: projectType || "Không cung cấp" 
                 }
             };
             console.log('Sending Webhook Data to CRM:', webhookPayload);
