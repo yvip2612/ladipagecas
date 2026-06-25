@@ -1289,6 +1289,10 @@ section {
     grid-column: span 2;
 }
 
+.form-field-full {
+    grid-column: span 2;
+}
+
 .btn-detect-location {
     position: absolute;
     right: 8px;
