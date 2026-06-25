@@ -1253,6 +1253,10 @@ section {
     padding-right: 46px !important;
 }
 
+.form-field-full-mobile {
+    grid-column: span 2;
+}
+
 .btn-detect-location {
     position: absolute;
     right: 8px;
