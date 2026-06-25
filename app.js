@@ -349,6 +349,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 5. Cost Estimator Calculator logic has been replaced by static image in index.html.
 
+    // Google Sheets Integration Config
+    // Spreadsheet Link: https://docs.google.com/spreadsheets/d/184tIgbMX29F4UXUxhzhHlB7emr6M1POD30kifAW6oGk/edit
+    // STEP 1: Paste Google Apps Script Web App URL here after deploying:
+    const GOOGLE_SHEET_WEBAPP_URL = 'YOUR_GOOGLE_APPS_SCRIPT_WEBAPP_URL';
+
+    function sendLeadToGoogleSheet(data) {
+        if (!GOOGLE_SHEET_WEBAPP_URL || GOOGLE_SHEET_WEBAPP_URL === 'YOUR_GOOGLE_APPS_SCRIPT_WEBAPP_URL') {
+            console.warn('Google Sheet Web App URL is not set. Data:', data);
+            return;
+        }
+
+        const formData = new URLSearchParams();
+        for (const key in data) {
+            formData.append(key, data[key]);
+        }
+
+        fetch(GOOGLE_SHEET_WEBAPP_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: formData
+        })
+        .then(() => console.log('Lead successfully sent to Google Sheet.'))
+        .catch(error => console.error('Error sending lead to Google Sheet:', error));
+    }
+
     const mainContactForm = document.getElementById('main-contact-form');
     const mainFormSuccess = document.getElementById('main-form-success');
 
@@ -360,6 +388,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const service = document.getElementById('m-service').value;
             const buildingType = document.getElementById('m-building-type').value;
             const projectType = document.getElementById('m-project-type').value;
+
+            // Submit to Google Sheet
+            sendLeadToGoogleSheet({
+                name,
+                phone,
+                service,
+                buildingType: buildingType || "Không cung cấp",
+                projectType: projectType || "Không cung cấp",
+                source: "Form chính trang chủ"
+            });
 
             // Webhook CRM payloads
             const webhookPayload = {
@@ -679,7 +717,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.closeRegisterPopup = closeRegisterPopup;
 
     // Connect all Page CTA Buttons to open the Popup Form instead of just scrolling
-    document.querySelectorAll('.btn-quote-style, .btn-cta-shimmer, .process-image-link').forEach(btn => {
+    document.querySelectorAll('.btn-quote-style, .btn-cta-shimmer:not([type="submit"]), .process-image-link').forEach(btn => {
         btn.addEventListener('click', (e) => {
             // If it's a link or button, prevent default to open popup
             e.preventDefault();
@@ -700,8 +738,22 @@ document.addEventListener('DOMContentLoaded', () => {
     if (popupContactForm) {
         popupContactForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            // In a real LadiPage, this pushes leads to Google Sheets, CRM, or email.
-            // We simulate a successful submission with a sleek fade transition
+            const name = document.getElementById('p-name').value;
+            const phone = document.getElementById('p-phone').value;
+            const service = document.getElementById('p-service').value;
+            const buildingType = document.getElementById('p-building-type').value;
+            const projectType = document.getElementById('p-project-type').value;
+
+            // Submit to Google Sheet
+            sendLeadToGoogleSheet({
+                name,
+                phone,
+                service,
+                buildingType: buildingType || "Không cung cấp",
+                projectType: projectType || "Không cung cấp",
+                source: "Form popup đăng ký"
+            });
+
             popupContactForm.style.display = 'none';
             if (popupFormSuccess) popupFormSuccess.style.display = 'flex';
 
