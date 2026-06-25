@@ -497,21 +497,6 @@ section {
     .overlay-more-count {
         font-size: 1.6rem;
     }
-
-    /* Tech grid mobile layout matches gallery grid exactly */
-    .tech-grid-layout-container {
-        grid-template-columns: 1fr;
-        gap: 8px;
-        padding: 8px;
-    }
-    
-    .tech-grid-left-side .tech-grid-item-big {
-        aspect-ratio: 16/10;
-    }
-    
-    .tech-grid-right-side {
-        gap: 8px;
-    }
 }
 
 /* Section 3: Technical Standards Slideshow */
@@ -571,63 +556,29 @@ section {
     padding: 0 16px;
 }
 
-.tech-grid-layout-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    padding: 12px;
-    background: #ffffff;
-    border-radius: var(--border-radius);
-    border: 1px solid var(--border-color);
-    box-shadow: 0 10px 30px rgba(111, 93, 71, 0.08);
-}
-
-.tech-grid-left-side {
-    display: flex;
-    width: 100%;
-}
-
-.tech-grid-left-side .tech-grid-item-big {
-    width: 100%;
+.tech-grid-custom .gallery-grid-left,
+.tech-grid-custom .gallery-grid-item-small {
+    background: #eae5db; /* Beige background to keep technical drawings fully readable */
     position: relative;
     border-radius: 8px;
     overflow: hidden;
-    background: #eae5db; /* Beige background to keep technical images fully visible */
-    aspect-ratio: 4/5;
     cursor: pointer;
 }
 
-.tech-grid-right-side {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    gap: 12px;
-}
-
-.tech-grid-item-small {
-    background: #eae5db; /* Beige background to keep technical images fully visible */
-    border-radius: 8px;
-    overflow: hidden;
-    position: relative;
-    aspect-ratio: 1/1;
-    cursor: pointer;
-}
-
-.tech-img {
+.tech-grid-custom .tech-contain-img {
     width: 100%;
     height: 100%;
-    object-fit: contain; /* keep it contain so text is fully readable */
+    object-fit: contain; /* Keep it contain so technical drawings are not cropped */
     display: block;
     transition: transform var(--transition-smooth);
 }
 
-/* Hover Zoom effects matching portfolio gallery section exactly */
-.tech-grid-item-big .tech-img:hover,
-.tech-grid-item-small .tech-img:hover {
+.tech-grid-custom .gallery-grid-left:hover .tech-contain-img,
+.tech-grid-custom .gallery-grid-item-small:hover .tech-contain-img {
     transform: scale(1.03);
 }
 
-.tech-grid-hover {
+.tech-grid-custom .tech-grid-hover {
     position: absolute;
     inset: 0;
     background: rgba(46, 40, 36, 0.45);
@@ -639,21 +590,22 @@ section {
     opacity: 0;
     transition: opacity 0.3s ease;
     gap: 8px;
-    pointer-events: none; /* Let hover zoom trigger on image */
+    pointer-events: none; /* Let zoom-in click event pass through to image/container */
+    z-index: 2;
 }
 
-.tech-grid-item-big:hover .tech-grid-hover,
-.tech-grid-item-small:hover .tech-grid-hover {
+.tech-grid-custom .gallery-grid-left:hover .tech-grid-hover,
+.tech-grid-custom .gallery-grid-item-small:hover .tech-grid-hover {
     opacity: 1;
 }
 
-.tech-grid-hover i {
+.tech-grid-custom .tech-grid-hover i {
     width: 24px;
     height: 24px;
     stroke-width: 2.5;
 }
 
-.tech-grid-hover span {
+.tech-grid-custom .tech-grid-hover span {
     font-size: 0.8rem;
     font-weight: 700;
     letter-spacing: 0.5px;

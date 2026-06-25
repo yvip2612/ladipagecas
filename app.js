@@ -96,27 +96,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Left Container (Big) HTML
         const leftSideDiv = document.createElement('div');
-        leftSideDiv.className = 'tech-grid-left-side';
+        leftSideDiv.className = 'gallery-grid-left';
         leftSideDiv.innerHTML = `
-            <div class="tech-grid-item-big" onclick="if(typeof openImageModal === 'function') openImageModal('${leftImgPath}', 'Quy chuẩn ${leftImgNum} - ${catLabel}')">
-                <img src="${leftImgPath}" alt="Quy chuẩn ${leftImgNum}" class="tech-img" loading="lazy">
-                <div class="tech-grid-hover">
-                    <i data-lucide="zoom-in"></i>
-                    <span>Phóng to bản vẽ</span>
-                </div>
+            <img src="${leftImgPath}" alt="Quy chuẩn ${leftImgNum}" class="gallery-img tech-contain-img" loading="lazy" onclick="if(typeof openImageModal === 'function') openImageModal('${leftImgPath}', 'Quy chuẩn ${leftImgNum} - ${catLabel}')">
+            <div class="tech-grid-hover" onclick="if(typeof openImageModal === 'function') openImageModal('${leftImgPath}', 'Quy chuẩn ${leftImgNum} - ${catLabel}')">
+                <i data-lucide="zoom-in"></i>
+                <span>Phóng to bản vẽ</span>
             </div>
         `;
 
         // Right Container (Small Grids) HTML
         const rightSideDiv = document.createElement('div');
-        rightSideDiv.className = 'tech-grid-right-side';
+        rightSideDiv.className = 'gallery-grid-right';
 
         rightImgNums.forEach((imgNum, idx) => {
             const imgPath = `TieuChuanEdit/${currentFolder}/${imgNum}.png`;
             const isLastThumbnail = (idx === 3 && hiddenMoreCount > 0);
             
             const card = document.createElement('div');
-            card.className = isLastThumbnail ? 'tech-grid-item-small overflow-overlay' : 'tech-grid-item-small';
+            card.className = isLastThumbnail ? 'gallery-grid-item-small overflow-overlay' : 'gallery-grid-item-small';
             if (isLastThumbnail) {
                 card.onclick = () => {
                     if (typeof openImageModal === 'function') {
@@ -126,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             
             card.innerHTML = `
-                <img src="${imgPath}" alt="Quy chuẩn ${imgNum}" class="tech-img" loading="lazy" ${!isLastThumbnail ? `onclick="if(typeof openImageModal === 'function') openImageModal('${imgPath}', 'Quy chuẩn ${imgNum} - ${catLabel}')"` : ''}>
+                <img src="${imgPath}" alt="Quy chuẩn ${imgNum}" class="gallery-img tech-contain-img" loading="lazy" ${!isLastThumbnail ? `onclick="if(typeof openImageModal === 'function') openImageModal('${imgPath}', 'Quy chuẩn ${imgNum} - ${catLabel}')"` : ''}>
                 ${!isLastThumbnail ? `
                 <div class="tech-grid-hover" onclick="if(typeof openImageModal === 'function') openImageModal('${imgPath}', 'Quy chuẩn ${imgNum} - ${catLabel}')">
                     <i data-lucide="zoom-in"></i>
