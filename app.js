@@ -327,18 +327,149 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 7. Image Lightbox Modal logic
+    // 7. Define full image lists for each tab/gallery category to support browsing all images in modal
+    const modernImages = [
+        'BoSuuTap/BIỆT THỰ 20/2.png', 'BoSuuTap/BIỆT THỰ 20/3.png', 'BoSuuTap/BIỆT THỰ 20/4.png', 'BoSuuTap/BIỆT THỰ 20/5.png',
+        'BoSuuTap/BIỆT THỰ 20/6.png', 'BoSuuTap/BIỆT THỰ 20/1.2.png', 'BoSuuTap/BIỆT THỰ 20/7.png', 'BoSuuTap/BIỆT THỰ 20/8.png',
+        'BoSuuTap/BIỆT THỰ 20/9.png', 'BoSuuTap/BIỆT THỰ 20/10.png', 'BoSuuTap/BIỆT THỰ 20/11.png', 'BoSuuTap/BIỆT THỰ 20/12.png',
+        'BoSuuTap/BIỆT THỰ 20/13.png', 'BoSuuTap/BIỆT THỰ 20/14.png', 'BoSuuTap/BIỆT THỰ 20/15.png', 'BoSuuTap/BIỆT THỰ 20/16.png',
+        'BoSuuTap/BIỆT THỰ 20/17.png', 'BoSuuTap/BIỆT THỰ 20/18.png', 'BoSuuTap/BIỆT THỰ 20/19.png', 'BoSuuTap/BIỆT THỰ 20/20.png',
+        'BoSuuTap/BIỆT THỰ 20/21.png', 'BoSuuTap/BIỆT THỰ 20/22.png', 'BoSuuTap/BIỆT THỰ 20/23.png', 'BoSuuTap/BIỆT THỰ 20/24.png',
+        'BoSuuTap/BIỆT THỰ 20/25.png', 'BoSuuTap/BIỆT THỰ 20/26.png', 'BoSuuTap/BIỆT THỰ 20/27.png', 'BoSuuTap/BIỆT THỰ 20/28.png',
+        'BoSuuTap/BIỆT THỰ 20/29.png', 'BoSuuTap/BIỆT THỰ 20/30.png', 'BoSuuTap/BIỆT THỰ 20/31.png', 'BoSuuTap/BIỆT THỰ 20/32.png',
+        'BoSuuTap/BIỆT THỰ 20/33.png', 'BoSuuTap/BIỆT THỰ 20/34.png', 'BoSuuTap/BIỆT THỰ 20/35.png', 'BoSuuTap/BIỆT THỰ 20/36.png',
+        'BoSuuTap/BIỆT THỰ 20/37.png', 'BoSuuTap/BIỆT THỰ 20/38.png', 'BoSuuTap/BIỆT THỰ 20/39.png', 'BoSuuTap/BIỆT THỰ 20/40.png',
+        'BoSuuTap/BIỆT THỰ 20/41.png', 'BoSuuTap/BIỆT THỰ 20/42.png', 'BoSuuTap/BIỆT THỰ 20/43.png', 'BoSuuTap/BIỆT THỰ 20/44.png',
+        'BoSuuTap/BIỆT THỰ 20/45.png'
+    ];
+
+    const classicImages = [
+        'BoSuuTap/ĐỊA TRUNG HẢI/1.png', 'BoSuuTap/ĐỊA TRUNG HẢI/2.png', 'BoSuuTap/ĐỊA TRUNG HẢI/3.png',
+        'BoSuuTap/ĐỊA TRUNG HẢI/4.png', 'BoSuuTap/ĐỊA TRUNG HẢI/5.png', 'BoSuuTap/ĐỊA TRUNG HẢI/6.png',
+        'BoSuuTap/ĐỊA TRUNG HẢI/7.png', 'BoSuuTap/ĐỊA TRUNG HẢI/8.png', 'BoSuuTap/ĐỊA TRUNG HẢI/9.png'
+    ];
+
+    const indochineImages = [
+        'BoSuuTap/INDOCHINE 9/1.png', 'BoSuuTap/INDOCHINE 9/2.png', 'BoSuuTap/INDOCHINE 9/3.png', 'BoSuuTap/INDOCHINE 9/4.png',
+        'BoSuuTap/INDOCHINE 9/5.png', 'BoSuuTap/INDOCHINE 9/6.png', 'BoSuuTap/INDOCHINE 9/7.png', 'BoSuuTap/INDOCHINE 9/8.png',
+        'BoSuuTap/INDOCHINE 9/9.png', 'BoSuuTap/INDOCHINE 9/10.png', 'BoSuuTap/INDOCHINE 9/11.png', 'BoSuuTap/INDOCHINE 9/12.png',
+        'BoSuuTap/INDOCHINE 9/13.png', 'BoSuuTap/INDOCHINE 9/14.png', 'BoSuuTap/INDOCHINE 9/15.png', 'BoSuuTap/INDOCHINE 9/16.png',
+        'BoSuuTap/INDOCHINE 9/17.png', 'BoSuuTap/INDOCHINE 9/18.png', 'BoSuuTap/INDOCHINE 9/19.png', 'BoSuuTap/INDOCHINE 9/20.png',
+        'BoSuuTap/INDOCHINE 9/21.png', 'BoSuuTap/INDOCHINE 9/22.png', 'BoSuuTap/INDOCHINE 9/23.png', 'BoSuuTap/INDOCHINE 9/24.png',
+        'BoSuuTap/INDOCHINE 9/25.png', 'BoSuuTap/INDOCHINE 9/26.png', 'BoSuuTap/INDOCHINE 9/27.png', 'BoSuuTap/INDOCHINE 9/28.png',
+        'BoSuuTap/INDOCHINE 9/29.png', 'BoSuuTap/INDOCHINE 9/30.png', 'BoSuuTap/INDOCHINE 9/31.png', 'BoSuuTap/INDOCHINE 9/32.png',
+        'BoSuuTap/INDOCHINE 9/33.png', 'BoSuuTap/INDOCHINE 9/34.png', 'BoSuuTap/INDOCHINE 9/35.png'
+    ];
+
+    const diaryImages = [
+        'NhatKyCongTrinh/Công Trình Chị Hương/z7950445480851_c73fd547e7e3c8c2ba1420c16c15a6cb.jpg',
+        'NhatKyCongTrinh/Công Trình Chị Hương/z7950445493253_4cb1433d62fe79d37ff06d6df02b49e9.jpg',
+        'NhatKyCongTrinh/Công Trình Chị Hương/z7950445500078_b175ff5e4913da3503c10d5a70c9064d.jpg',
+        'NhatKyCongTrinh/Công Trình Chị Hương/z7950445514868_44d643305fad884bcca84c910cfbcccf.jpg',
+        'NhatKyCongTrinh/Công Trình Chị Hương/z7950445520293_1a94e9eee262e09d0d2f2e0c17b73381.jpg',
+        'NhatKyCongTrinh/Công Trình Chị Hương/z7950445526801_deb73374f2801fb92c54549215714134.jpg',
+        'NhatKyCongTrinh/Công Trình Chị Hương/z7950445532650_b2b8d81285a14d2746eaa773eceb1951.jpg',
+        'NhatKyCongTrinh/Công Trình Chị Hương/z7950445539537_5a61bfc069b96dcd69cdbde2285a19b1.jpg',
+        'NhatKyCongTrinh/Công Trình Chị Hương/z7954219043783_bd34d812898a6e398a861e5e1d6ded66.jpg'
+    ];
+
+    // 8. Image Lightbox Modal logic with Slideshow Slider Navigation
     const imageModal = document.getElementById('image-modal');
     const modalImgTarget = document.getElementById('modal-img-target');
     const modalCaptionTarget = document.getElementById('modal-caption-target');
     const modalCloseBtn = document.querySelector('.modal-close');
+    const prevArrow = document.getElementById('modal-prev-arrow');
+    const nextArrow = document.getElementById('modal-next-arrow');
 
-    function openImageModal(src, caption) {
+    let currentModalImageList = [];
+    let currentModalImageIndex = 0;
+    let currentModalCaptionList = [];
+
+    function openImageModal(imgList, startIndex, captionList = []) {
         if (!imageModal || !modalImgTarget || !modalCaptionTarget) return;
-        modalImgTarget.src = src;
-        modalCaptionTarget.textContent = caption;
+
+        // Auto-resolve string parameters from inline HTML calls
+        if (typeof imgList === 'string') {
+            const srcStr = imgList;
+            const captionStr = startIndex || 'CAS Design';
+            
+            if (srcStr.includes('BIỆT THỰ 20')) {
+                currentModalImageList = modernImages;
+                currentModalCaptionList = modernImages.map(src => {
+                    const filename = src.split('/').pop().replace('.png', '');
+                    return `Biệt thự Hiện đại - Ảnh ${filename}`;
+                });
+            } else if (srcStr.includes('ĐỊA TRUNG HẢI')) {
+                currentModalImageList = classicImages;
+                currentModalCaptionList = classicImages.map(src => {
+                    const filename = src.split('/').pop().replace('.png', '');
+                    return `Địa Trung Hải - Ảnh ${filename}`;
+                });
+            } else if (srcStr.includes('INDOCHINE 9')) {
+                currentModalImageList = indochineImages;
+                currentModalCaptionList = indochineImages.map(src => {
+                    const filename = src.split('/').pop().replace('.png', '');
+                    return `Phong Cách Indochine - Ảnh ${filename}`;
+                });
+            } else if (srcStr.includes('NhatKyCongTrinh')) {
+                currentModalImageList = diaryImages;
+                currentModalCaptionList = diaryImages.map((src, i) => `Nhật ký công trình - Ảnh ${i + 1}`);
+            } else if (srcStr.includes('TieuChuanEdit')) {
+                // Determine the range from active variables in the scope
+                const activeRangeImages = parseRange(currentRange);
+                currentModalImageList = activeRangeImages.map(imgNum => `TieuChuanEdit/${currentFolder}/${imgNum}.png`);
+                currentModalCaptionList = activeRangeImages.map(imgNum => `Quy chuẩn ${imgNum} - ${getCategoryLabel(currentFolder)}`);
+            } else {
+                currentModalImageList = [srcStr];
+                currentModalCaptionList = [captionStr];
+            }
+
+            currentModalImageIndex = currentModalImageList.findIndex(src => srcStr.endsWith(src) || src === srcStr);
+            if (currentModalImageIndex === -1) currentModalImageIndex = 0;
+        } else {
+            currentModalImageList = imgList;
+            currentModalImageIndex = startIndex;
+            currentModalCaptionList = captionList;
+        }
+
+        updateModalImage();
         imageModal.classList.add('show');
         document.body.style.overflow = 'hidden';
+    }
+
+    // Expose to window object for global inline HTML onclick support
+    window.openImageModal = openImageModal;
+
+    function updateModalImage() {
+        if (currentModalImageList.length === 0) return;
+        const src = currentModalImageList[currentModalImageIndex];
+        modalImgTarget.src = src;
+
+        const caption = currentModalCaptionList[currentModalImageIndex] || 'CAS Design';
+        modalCaptionTarget.innerHTML = `${caption} <span style="opacity: 0.7; font-size: 0.85rem; margin-left: 10px;">(${currentModalImageIndex + 1}/${currentModalImageList.length})</span>`;
+
+        // Toggle navigation arrow visibility
+        if (prevArrow && nextArrow) {
+            if (currentModalImageList.length > 1) {
+                prevArrow.style.display = 'flex';
+                nextArrow.style.display = 'flex';
+            } else {
+                prevArrow.style.display = 'none';
+                nextArrow.style.display = 'none';
+            }
+        }
+    }
+
+    function modalPrev() {
+        if (currentModalImageList.length <= 1) return;
+        currentModalImageIndex = (currentModalImageIndex - 1 + currentModalImageList.length) % currentModalImageList.length;
+        updateModalImage();
+    }
+
+    function modalNext() {
+        if (currentModalImageList.length <= 1) return;
+        currentModalImageIndex = (currentModalImageIndex + 1) % currentModalImageList.length;
+        updateModalImage();
     }
 
     function closeImageModal() {
@@ -350,6 +481,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (modalCloseBtn) {
         modalCloseBtn.addEventListener('click', closeImageModal);
     }
+
+    if (prevArrow) prevArrow.addEventListener('click', (e) => { e.stopPropagation(); modalPrev(); });
+    if (nextArrow) nextArrow.addEventListener('click', (e) => { e.stopPropagation(); modalNext(); });
+
     if (imageModal) {
         imageModal.addEventListener('click', (e) => {
             if (e.target === imageModal || e.target.classList.contains('modal-close')) {
@@ -358,9 +493,62 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Keyboard navigation handlers
+    document.addEventListener('keydown', (e) => {
+        if (!imageModal || !imageModal.classList.contains('show')) return;
+        if (e.key === 'ArrowLeft') {
+            modalPrev();
+        } else if (e.key === 'ArrowRight') {
+            modalNext();
+        } else if (e.key === 'Escape') {
+            closeImageModal();
+        }
+    });
+
+    // Handle generic image grid clicks dynamically
     document.querySelectorAll('.gallery-img, .image-wrapper img, .diary-img').forEach(img => {
-        img.addEventListener('click', () => {
-            openImageModal(img.src, img.alt || 'CAS Homes & Design Project');
+        img.addEventListener('click', (e) => {
+            // Let overflow overlay clicks be handled by their inline onclick handler
+            if (img.parentElement.classList.contains('overflow-overlay')) return;
+
+            let imgList = [img.getAttribute('src')];
+            let startIndex = 0;
+            let captionList = [img.alt || 'CAS Homes & Design Project'];
+
+            const pane = img.closest('.tab-pane');
+            const diary = img.closest('#trust');
+
+            if (pane) {
+                const paneId = pane.id;
+                if (paneId === 'pane-modern') {
+                    imgList = modernImages;
+                    captionList = modernImages.map(src => {
+                        const filename = src.split('/').pop().replace('.png', '');
+                        return `Biệt thự Hiện đại - Ảnh ${filename}`;
+                    });
+                } else if (paneId === 'pane-classic') {
+                    imgList = classicImages;
+                    captionList = classicImages.map(src => {
+                        const filename = src.split('/').pop().replace('.png', '');
+                        return `Địa Trung Hải - Ảnh ${filename}`;
+                    });
+                } else if (paneId === 'pane-indochine') {
+                    imgList = indochineImages;
+                    captionList = indochineImages.map(src => {
+                        const filename = src.split('/').pop().replace('.png', '');
+                        return `Phong Cách Indochine - Ảnh ${filename}`;
+                    });
+                }
+            } else if (diary) {
+                imgList = diaryImages;
+                captionList = diaryImages.map((src, i) => `Nhật ký công trình - Ảnh ${i + 1}`);
+            }
+
+            const cleanSrc = img.getAttribute('src');
+            startIndex = imgList.findIndex(src => src === cleanSrc || img.src.endsWith(src));
+            if (startIndex === -1) startIndex = 0;
+
+            openImageModal(imgList, startIndex, captionList);
         });
     });
 
