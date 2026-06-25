@@ -497,6 +497,21 @@ section {
     .overlay-more-count {
         font-size: 1.6rem;
     }
+
+    /* Tech grid mobile layout matches gallery grid exactly */
+    .tech-grid-layout-container {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding: 8px;
+    }
+    
+    .tech-grid-left-side .tech-grid-item-big {
+        aspect-ratio: 16/10;
+    }
+    
+    .tech-grid-right-side {
+        gap: 8px;
+    }
 }
 
 /* Section 3: Technical Standards Slideshow */
@@ -559,9 +574,9 @@ section {
 .tech-grid-layout-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 16px;
+    gap: 12px;
+    padding: 12px;
     background: #ffffff;
-    padding: 16px;
     border-radius: var(--border-radius);
     border: 1px solid var(--border-color);
     box-shadow: 0 10px 30px rgba(111, 93, 71, 0.08);
@@ -575,68 +590,40 @@ section {
 .tech-grid-left-side .tech-grid-item-big {
     width: 100%;
     position: relative;
-    border-radius: 12px;
-    border: 1px solid var(--border-color);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+    border-radius: 8px;
     overflow: hidden;
-    background: #eae5db; /* Beige background matching the visual mockup cards */
+    background: #eae5db; /* Beige background to keep technical images fully visible */
+    aspect-ratio: 4/5;
+    cursor: pointer;
 }
 
 .tech-grid-right-side {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
-    gap: 16px;
+    gap: 12px;
 }
 
-.tech-grid-item {
-    background: #eae5db; /* Beige background matching the visual mockup cards */
-    border-radius: 12px;
+.tech-grid-item-small {
+    background: #eae5db; /* Beige background to keep technical images fully visible */
+    border-radius: 8px;
     overflow: hidden;
-    border: 1px solid var(--border-color);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
-    display: flex;
-    flex-direction: column;
     position: relative;
-}
-
-.tech-grid-item:hover,
-.tech-grid-left-side .tech-grid-item-big:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(111, 93, 71, 0.09);
-    transition: transform var(--transition-smooth), box-shadow var(--transition-smooth);
-}
-
-.tech-grid-img-wrapper {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    background: #eae5db; /* Clean beige matching background */
+    aspect-ratio: 1/1;
     cursor: pointer;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
 }
 
-.tech-grid-img-wrapper img {
+.tech-img {
     width: 100%;
     height: 100%;
-    object-fit: contain; /* changed back to contain so that images and texts are completely visible and readable */
+    object-fit: contain; /* keep it contain so text is fully readable */
     display: block;
-    transition: transform 0.4s ease;
+    transition: transform var(--transition-smooth);
 }
 
-.tech-grid-left-side .tech-grid-img-wrapper {
-    aspect-ratio: 1/1; /* Square ratio as shown in the mockup screenshot */
-}
-
-.tech-grid-right-side .tech-grid-img-wrapper {
-    aspect-ratio: 1/1; /* Square ratio as shown in the mockup screenshot */
-}
-
-.tech-grid-item:hover .tech-grid-img-wrapper img {
+/* Hover Zoom effects matching portfolio gallery section exactly */
+.tech-grid-item-big .tech-img:hover,
+.tech-grid-item-small .tech-img:hover {
     transform: scale(1.03);
 }
 
@@ -652,9 +639,11 @@ section {
     opacity: 0;
     transition: opacity 0.3s ease;
     gap: 8px;
+    pointer-events: none; /* Let hover zoom trigger on image */
 }
 
-.tech-grid-img-wrapper:hover .tech-grid-hover {
+.tech-grid-item-big:hover .tech-grid-hover,
+.tech-grid-item-small:hover .tech-grid-hover {
     opacity: 1;
 }
 
@@ -669,33 +658,6 @@ section {
     font-weight: 700;
     letter-spacing: 0.5px;
     text-transform: uppercase;
-}
-
-.tech-grid-meta {
-    padding: 16px 20px;
-    background: #fdfcf9;
-    border-top: 1px solid var(--border-color);
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    flex-grow: 1;
-    justify-content: center;
-}
-
-.tech-grid-num {
-    font-family: var(--font-body);
-    font-size: 0.72rem;
-    font-weight: 700;
-    color: var(--color-accent);
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-}
-
-.tech-grid-title {
-    font-family: var(--font-title);
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--color-text-main);
 }
 
 

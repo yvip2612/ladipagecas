@@ -99,12 +99,10 @@ document.addEventListener('DOMContentLoaded', () => {
         leftSideDiv.className = 'tech-grid-left-side';
         leftSideDiv.innerHTML = `
             <div class="tech-grid-item-big" onclick="if(typeof openImageModal === 'function') openImageModal('${leftImgPath}', 'Quy chuẩn ${leftImgNum} - ${catLabel}')">
-                <div class="tech-grid-img-wrapper" style="height: 100%; aspect-ratio: 1/1;">
-                    <img src="${leftImgPath}" alt="Quy chuẩn ${leftImgNum}" loading="lazy">
-                    <div class="tech-grid-hover">
-                        <i data-lucide="zoom-in"></i>
-                        <span>Phóng to bản vẽ</span>
-                    </div>
+                <img src="${leftImgPath}" alt="Quy chuẩn ${leftImgNum}" class="tech-img" loading="lazy">
+                <div class="tech-grid-hover">
+                    <i data-lucide="zoom-in"></i>
+                    <span>Phóng to bản vẽ</span>
                 </div>
             </div>
         `;
@@ -118,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const isLastThumbnail = (idx === 3 && hiddenMoreCount > 0);
             
             const card = document.createElement('div');
-            card.className = isLastThumbnail ? 'tech-grid-item overflow-overlay' : 'tech-grid-item';
+            card.className = isLastThumbnail ? 'tech-grid-item-small overflow-overlay' : 'tech-grid-item-small';
             if (isLastThumbnail) {
                 card.onclick = () => {
                     if (typeof openImageModal === 'function') {
@@ -128,13 +126,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             
             card.innerHTML = `
-                <div class="tech-grid-img-wrapper" ${!isLastThumbnail ? `onclick="if(typeof openImageModal === 'function') openImageModal('${imgPath}', 'Quy chuẩn ${imgNum} - ${catLabel}')"` : ''}>
-                    <img src="${imgPath}" alt="Quy chuẩn ${imgNum}" loading="lazy">
-                    ${!isLastThumbnail ? `
-                    <div class="tech-grid-hover">
-                        <i data-lucide="zoom-in"></i>
-                    </div>` : ''}
-                </div>
+                <img src="${imgPath}" alt="Quy chuẩn ${imgNum}" class="tech-img" loading="lazy" ${!isLastThumbnail ? `onclick="if(typeof openImageModal === 'function') openImageModal('${imgPath}', 'Quy chuẩn ${imgNum} - ${catLabel}')"` : ''}>
+                ${!isLastThumbnail ? `
+                <div class="tech-grid-hover" onclick="if(typeof openImageModal === 'function') openImageModal('${imgPath}', 'Quy chuẩn ${imgNum} - ${catLabel}')">
+                    <i data-lucide="zoom-in"></i>
+                </div>` : ''}
                 ${isLastThumbnail ? `<div class="overlay-more-count">+${hiddenMoreCount + 1}</div>` : ''}
             `;
             rightSideDiv.appendChild(card);
