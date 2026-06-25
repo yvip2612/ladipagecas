@@ -373,6 +373,94 @@ document.addEventListener('DOMContentLoaded', () => {
         'NhatKyCongTrinh/Công Trình Chị Hương/z7954219043783_bd34d812898a6e398a861e5e1d6ded66.jpg'
     ];
 
+    // 7.5. Gallery Slider Layout logic
+    const activeGalleryIndices = {
+        modern: 0,
+        classic: 0,
+        indochine: 0
+    };
+    const galleryImageLists = {
+        modern: modernImages,
+        classic: classicImages,
+        indochine: indochineImages
+    };
+
+    function initGallerySliders() {
+        Object.keys(galleryImageLists).forEach(category => {
+            const list = galleryImageLists[category];
+            const thumbsContainer = document.getElementById(`gallery-thumbs-${category}`);
+            const mainImg = document.getElementById(`gallery-main-img-${category}`);
+            
+            if (thumbsContainer) {
+                thumbsContainer.innerHTML = '';
+                list.forEach((src, idx) => {
+                    const thumb = document.createElement('div');
+                    thumb.className = idx === 0 ? 'gallery-thumb-item active' : 'gallery-thumb-item';
+                    thumb.innerHTML = `<img src="${src}" alt="Ảnh ${idx + 1}" loading="lazy">`;
+                    thumb.addEventListener('click', () => {
+                        setActiveGalleryImage(category, idx);
+                    });
+                    thumbsContainer.appendChild(thumb);
+                });
+            }
+            
+            if (mainImg) {
+                mainImg.addEventListener('click', () => {
+                    openImageModal(list, activeGalleryIndices[category]);
+                });
+            }
+        });
+    }
+
+    function setActiveGalleryImage(category, index) {
+        const list = galleryImageLists[category];
+        if (!list || index < 0 || index >= list.length) return;
+        
+        activeGalleryIndices[category] = index;
+        
+        const mainImg = document.getElementById(`gallery-main-img-${category}`);
+        if (mainImg) {
+            mainImg.src = list[index];
+        }
+        
+        // Update active class on thumbnails
+        const thumbsContainer = document.getElementById(`gallery-thumbs-${category}`);
+        if (thumbsContainer) {
+            const thumbs = thumbsContainer.querySelectorAll('.gallery-thumb-item');
+            thumbs.forEach((thumb, idx) => {
+                if (idx === index) {
+                    thumb.classList.add('active');
+                    // Scroll active thumb into view
+                    thumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                } else {
+                    thumb.classList.remove('active');
+                }
+            });
+        }
+    }
+
+    function navigateGallerySlider(category, direction) {
+        const list = galleryImageLists[category];
+        if (!list) return;
+        
+        let newIndex = (activeGalleryIndices[category] + direction + list.length) % list.length;
+        setActiveGalleryImage(category, newIndex);
+    }
+
+    function scrollGalleryThumbs(category, direction) {
+        const viewport = document.querySelector(`#slider-${category} .gallery-thumbnails-viewport`);
+        if (viewport) {
+            viewport.scrollBy({ left: direction * 160, behavior: 'smooth' });
+        }
+    }
+
+    // Expose functions globally for HTML inline onclick
+    window.navigateGallerySlider = navigateGallerySlider;
+    window.scrollGalleryThumbs = scrollGalleryThumbs;
+
+    // Initialize all sliders on DOM ready
+    initGallerySliders();
+
     // 8. Image Lightbox Modal logic with Slideshow Slider Navigation
     const imageModal = document.getElementById('image-modal');
     const modalImgTarget = document.getElementById('modal-img-target');

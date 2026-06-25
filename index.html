@@ -55,24 +55,21 @@
                 <div class="styles-tab-content">
                     <!-- Tab Modern -->
                     <div class="tab-pane active" id="pane-modern">
-                        <div class="gallery-grid-layout">
-                            <div class="gallery-grid-left">
-                                <img src="BoSuuTap/BIỆT THỰ 20/2.png" alt="Biệt thự Hiện đại - Mặt tiền" class="gallery-img" loading="lazy">
+                        <div class="gallery-slider-container" id="slider-modern" data-category="modern">
+                            <div class="gallery-main-view">
+                                <button type="button" class="gallery-slider-arrow prev" onclick="if(typeof navigateGallerySlider === 'function') navigateGallerySlider('modern', -1)">&lsaquo;</button>
+                                <img id="gallery-main-img-modern" src="BoSuuTap/BIỆT THỰ 20/2.png" alt="Biệt thự Hiện đại - Mặt tiền" class="gallery-main-img">
+                                <button type="button" class="gallery-slider-arrow next" onclick="if(typeof navigateGallerySlider === 'function') navigateGallerySlider('modern', 1)">&rsaquo;</button>
                             </div>
-                            <div class="gallery-grid-right">
-                                <div class="gallery-grid-item-small">
-                                    <img src="BoSuuTap/BIỆT THỰ 20/3.png" alt="Biệt thự Hiện đại - Phòng khách" class="gallery-img" loading="lazy">
+                            
+                            <div class="gallery-thumbnails-wrapper">
+                                <button type="button" class="gallery-thumb-arrow prev" onclick="if(typeof scrollGalleryThumbs === 'function') scrollGalleryThumbs('modern', -1)">&lsaquo;</button>
+                                <div class="gallery-thumbnails-viewport">
+                                    <div class="gallery-thumbnails" id="gallery-thumbs-modern">
+                                        <!-- Populated dynamically by JS -->
+                                    </div>
                                 </div>
-                                <div class="gallery-grid-item-small">
-                                    <img src="BoSuuTap/BIỆT THỰ 20/4.png" alt="Biệt thự Hiện đại - Phòng ngủ" class="gallery-img" loading="lazy">
-                                </div>
-                                <div class="gallery-grid-item-small">
-                                    <img src="BoSuuTap/BIỆT THỰ 20/5.png" alt="Biệt thự Hiện đại - Sân vườn" class="gallery-img" loading="lazy">
-                                </div>
-                                <div class="gallery-grid-item-small overflow-overlay" onclick="if(typeof openImageModal === 'function') openImageModal('BoSuuTap/BIỆT THỰ 20/6.png', 'Biệt thự Hiện đại - Xem tất cả')">
-                                    <img src="BoSuuTap/BIỆT THỰ 20/6.png" alt="Biệt thự Hiện đại - Ngoại thất" class="gallery-img" loading="lazy">
-                                    <div class="overlay-more-count">+39</div>
-                                </div>
+                                <button type="button" class="gallery-thumb-arrow next" onclick="if(typeof scrollGalleryThumbs === 'function') scrollGalleryThumbs('modern', 1)">&rsaquo;</button>
                             </div>
                         </div>
                         <div class="tab-action text-center">
@@ -84,24 +81,21 @@
 
                     <!-- Tab Classic -->
                     <div class="tab-pane" id="pane-classic">
-                        <div class="gallery-grid-layout">
-                            <div class="gallery-grid-left">
-                                <img src="BoSuuTap/ĐỊA TRUNG HẢI/1.png" alt="Phong cách Địa Trung Hải - Mặt tiền" class="gallery-img" loading="lazy">
+                        <div class="gallery-slider-container" id="slider-classic" data-category="classic">
+                            <div class="gallery-main-view">
+                                <button type="button" class="gallery-slider-arrow prev" onclick="if(typeof navigateGallerySlider === 'function') navigateGallerySlider('classic', -1)">&lsaquo;</button>
+                                <img id="gallery-main-img-classic" src="BoSuuTap/ĐỊA TRUNG HẢI/1.png" alt="Phong cách Địa Trung Hải - Mặt tiền" class="gallery-main-img">
+                                <button type="button" class="gallery-slider-arrow next" onclick="if(typeof navigateGallerySlider === 'function') navigateGallerySlider('classic', 1)">&rsaquo;</button>
                             </div>
-                            <div class="gallery-grid-right">
-                                <div class="gallery-grid-item-small">
-                                    <img src="BoSuuTap/ĐỊA TRUNG HẢI/2.png" alt="Phong cách Địa Trung Hải - Phòng khách" class="gallery-img" loading="lazy">
+                            
+                            <div class="gallery-thumbnails-wrapper">
+                                <button type="button" class="gallery-thumb-arrow prev" onclick="if(typeof scrollGalleryThumbs === 'function') scrollGalleryThumbs('classic', -1)">&lsaquo;</button>
+                                <div class="gallery-thumbnails-viewport">
+                                    <div class="gallery-thumbnails" id="gallery-thumbs-classic">
+                                        <!-- Populated dynamically by JS -->
+                                    </div>
                                 </div>
-                                <div class="gallery-grid-item-small">
-                                    <img src="BoSuuTap/ĐỊA TRUNG HẢI/3.png" alt="Phong cách Địa Trung Hải - Chi tiết vòm" class="gallery-img" loading="lazy">
-                                </div>
-                                <div class="gallery-grid-item-small">
-                                    <img src="BoSuuTap/ĐỊA TRUNG HẢI/4.png" alt="Phong cách Địa Trung Hải - Góc thư giãn" class="gallery-img" loading="lazy">
-                                </div>
-                                <div class="gallery-grid-item-small overflow-overlay" onclick="if(typeof openImageModal === 'function') openImageModal('BoSuuTap/ĐỊA TRUNG HẢI/5.png', 'Phong cách Địa Trung Hải - Xem tất cả')">
-                                    <img src="BoSuuTap/ĐỊA TRUNG HẢI/5.png" alt="Phong cách Địa Trung Hải - Phòng ăn" class="gallery-img" loading="lazy">
-                                    <div class="overlay-more-count">+5</div>
-                                </div>
+                                <button type="button" class="gallery-thumb-arrow next" onclick="if(typeof scrollGalleryThumbs === 'function') scrollGalleryThumbs('classic', 1)">&rsaquo;</button>
                             </div>
                         </div>
                         <div class="tab-action text-center">
@@ -113,24 +107,21 @@
 
                     <!-- Tab Indochine -->
                     <div class="tab-pane" id="pane-indochine">
-                        <div class="gallery-grid-layout">
-                            <div class="gallery-grid-left">
-                                <img src="BoSuuTap/INDOCHINE 9/1.png" alt="Phong cách Indochine - Phòng khách" class="gallery-img" loading="lazy">
+                        <div class="gallery-slider-container" id="slider-indochine" data-category="indochine">
+                            <div class="gallery-main-view">
+                                <button type="button" class="gallery-slider-arrow prev" onclick="if(typeof navigateGallerySlider === 'function') navigateGallerySlider('indochine', -1)">&lsaquo;</button>
+                                <img id="gallery-main-img-indochine" src="BoSuuTap/INDOCHINE 9/1.png" alt="Phong cách Indochine - Phòng khách" class="gallery-main-img">
+                                <button type="button" class="gallery-slider-arrow next" onclick="if(typeof navigateGallerySlider === 'function') navigateGallerySlider('indochine', 1)">&rsaquo;</button>
                             </div>
-                            <div class="gallery-grid-right">
-                                <div class="gallery-grid-item-small">
-                                    <img src="BoSuuTap/INDOCHINE 9/2.png" alt="Phong cách Indochine - Chi tiết hoạ tiết" class="gallery-img" loading="lazy">
+                            
+                            <div class="gallery-thumbnails-wrapper">
+                                <button type="button" class="gallery-thumb-arrow prev" onclick="if(typeof scrollGalleryThumbs === 'function') scrollGalleryThumbs('indochine', -1)">&lsaquo;</button>
+                                <div class="gallery-thumbnails-viewport">
+                                    <div class="gallery-thumbnails" id="gallery-thumbs-indochine">
+                                        <!-- Populated dynamically by JS -->
+                                    </div>
                                 </div>
-                                <div class="gallery-grid-item-small">
-                                    <img src="BoSuuTap/INDOCHINE 9/3.png" alt="Phong cách Indochine - Nội thất gỗ" class="gallery-img" loading="lazy">
-                                </div>
-                                <div class="gallery-grid-item-small">
-                                    <img src="BoSuuTap/INDOCHINE 9/4.png" alt="Phong cách Indochine - Phòng ngủ" class="gallery-img" loading="lazy">
-                                </div>
-                                <div class="gallery-grid-item-small overflow-overlay" onclick="if(typeof openImageModal === 'function') openImageModal('BoSuuTap/INDOCHINE 9/5.png', 'Phong cách Indochine - Xem tất cả')">
-                                    <img src="BoSuuTap/INDOCHINE 9/5.png" alt="Phong cách Indochine - Hành lang" class="gallery-img" loading="lazy">
-                                    <div class="overlay-more-count">+31</div>
-                                </div>
+                                <button type="button" class="gallery-thumb-arrow next" onclick="if(typeof scrollGalleryThumbs === 'function') scrollGalleryThumbs('indochine', 1)">&rsaquo;</button>
                             </div>
                         </div>
                         <div class="tab-action text-center">
