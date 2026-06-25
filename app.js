@@ -352,7 +352,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Google Sheets Integration Config
     // Spreadsheet Link: https://docs.google.com/spreadsheets/d/184tIgbMX29F4UXUxhzhHlB7emr6M1POD30kifAW6oGk/edit
     // STEP 1: Paste Google Apps Script Web App URL here after deploying:
-    const GOOGLE_SHEET_WEBAPP_URL = 'YOUR_GOOGLE_APPS_SCRIPT_WEBAPP_URL';
+    const GOOGLE_SHEET_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbxzoo8G_-egkiXnKWx3X20CXR_HpfIMG79yhkAV45jBTx8eOkT99veeV1dNNykxOFpu/exec';
 
     function sendLeadToGoogleSheet(data) {
         if (!GOOGLE_SHEET_WEBAPP_URL || GOOGLE_SHEET_WEBAPP_URL === 'YOUR_GOOGLE_APPS_SCRIPT_WEBAPP_URL') {
