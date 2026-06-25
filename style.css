@@ -1270,9 +1270,13 @@ section {
 
 .form-grid-4 {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
     gap: 16px;
     margin-bottom: 20px;
+}
+
+.form-grid-4 .form-field {
+    grid-column: span 1 !important;
 }
 
 .position-field {
