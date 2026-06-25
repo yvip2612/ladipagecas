@@ -579,7 +579,7 @@ section {
     border: 1px solid var(--border-color);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
     overflow: hidden;
-    background: #ffffff; /* Changed back to white to match portfolio style */
+    background: #eae5db; /* Sand beige matching background of the technical images */
 }
 
 .tech-grid-right-side {
@@ -590,7 +590,7 @@ section {
 }
 
 .tech-grid-item {
-    background: #ffffff; /* Changed back to white to match portfolio style */
+    background: #eae5db; /* Sand beige matching background of the technical images */
     border-radius: 12px;
     overflow: hidden;
     border: 1px solid var(--border-color);
@@ -611,7 +611,7 @@ section {
     width: 100%;
     height: 100%;
     position: relative;
-    background: #ffffff; /* Clean white background */
+    background: transparent; /* Changed to transparent so card background is uniform */
     cursor: pointer;
     overflow: hidden;
     display: flex;
@@ -623,17 +623,17 @@ section {
 .tech-grid-img-wrapper img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* changed from contain to cover to display full images as requested */
+    object-fit: contain; /* Set back to contain so that the technical text/content is readable */
     display: block;
     transition: transform 0.4s ease;
 }
 
 .tech-grid-left-side .tech-grid-img-wrapper {
-    aspect-ratio: 4/5; /* Aspect ratio matching portfolio big left image */
+    aspect-ratio: 1/1; /* Set aspect-ratio to 1/1 square format */
 }
 
 .tech-grid-right-side .tech-grid-img-wrapper {
-    aspect-ratio: 1/1; /* Aspect ratio matching portfolio right items */
+    aspect-ratio: 1/1; /* Set aspect-ratio to 1/1 square format */
 }
 
 .tech-grid-item:hover .tech-grid-img-wrapper img {
