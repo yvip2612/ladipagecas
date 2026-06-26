@@ -138,7 +138,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 `;
                 subgridDiv.appendChild(item);
             });
+            
+            // Add blank/empty placeholder styling classes or hide items if they don't exist
             rightStackDiv.appendChild(subgridDiv);
+        } else {
+            // Add a helper class to stack so it knows there's no subgrid
+            rightStackDiv.classList.add('no-subgrid');
         }
 
         // Single Image Bottom
@@ -156,9 +161,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             `;
             rightStackDiv.appendChild(item);
+        } else {
+            rightStackDiv.classList.add('no-bottom-single');
         }
 
-        topBlock.appendChild(rightStackDiv);
+        if (subgridNums.length > 0 || rightBottomNum) {
+            topBlock.appendChild(rightStackDiv);
+        } else {
+            topBlock.classList.add('single-only');
+        }
+        
         techGrid.appendChild(topBlock);
 
         // Bottom Row

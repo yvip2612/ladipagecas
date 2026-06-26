@@ -545,9 +545,18 @@ section {
     }
 
     .gallery-mix-right-stack {
+        display: grid;
         grid-template-columns: 1fr 1fr;
         grid-template-rows: none;
         gap: 8px;
+    }
+
+    .gallery-mix-right-stack.no-subgrid {
+        grid-template-columns: 1fr;
+    }
+
+    .gallery-mix-right-stack.no-bottom-single {
+        grid-template-columns: 1fr;
     }
     
     .gallery-mix-right-stack .gallery-mix-subgrid {
@@ -561,6 +570,10 @@ section {
     
     .gallery-mix-right-stack .gallery-mix-img-item {
         aspect-ratio: 1/1;
+    }
+
+    .gallery-mix-right-stack.no-subgrid .gallery-mix-img-item {
+        aspect-ratio: 16/9;
     }
     
     .gallery-mix-bottom-row {
