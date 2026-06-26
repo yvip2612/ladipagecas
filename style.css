@@ -584,6 +584,10 @@ section {
     .gallery-mix-bottom-row .gallery-mix-img-item {
         aspect-ratio: 1/1;
     }
+
+    .gallery-mix-grid.no-bottom-row {
+        gap: 0;
+    }
 }
 
 /* Overflow Overlay with number count */

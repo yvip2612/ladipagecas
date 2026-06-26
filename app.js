@@ -200,6 +200,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             techGrid.appendChild(bottomRowDiv);
+        } else {
+            techGrid.classList.add('no-bottom-row');
         }
 
         // Preload next folder images in advance when current render is done
