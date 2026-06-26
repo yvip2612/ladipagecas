@@ -203,46 +203,72 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // Technical Standards Auto Switch logic (3 seconds)
+    let techAutoSwitchTimer;
+    const techSwitchInterval = 3000;
+    let activeTechIdx = 0;
+
+    function startTechAutoSwitch() {
+        techAutoSwitchTimer = setInterval(() => {
+            activeTechIdx = (activeTechIdx + 1) % allCategoriesList.length;
+            const nextCat = allCategoriesList[activeTechIdx];
+            switchTechCategory(nextCat.folder, nextCat.range);
+        }, techSwitchInterval);
+    }
+
+    function switchTechCategory(folder, range) {
+        currentFolder = folder;
+        currentRange = range;
+
+        // Sync active class on desktop buttons
+        catButtons.forEach((btn, idx) => {
+            if (btn.getAttribute('data-folder') === folder) {
+                btn.classList.add('active');
+                activeTechIdx = idx;
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+
+        // Sync mobile select option
+        if (techCategorySelect) {
+            techCategorySelect.value = folder;
+        }
+
+        renderCategoryGrid();
+    }
+
     // Set up category select change handler (Mobile)
     if (techCategorySelect) {
         techCategorySelect.addEventListener('change', (e) => {
             const selectedOpt = techCategorySelect.options[techCategorySelect.selectedIndex];
-            currentFolder = e.target.value;
-            currentRange = selectedOpt.getAttribute('data-range');
+            const folder = e.target.value;
+            const range = selectedOpt.getAttribute('data-range');
+            switchTechCategory(folder, range);
             
-            // Sync active class on desktop buttons
-            catButtons.forEach(btn => {
-                if (btn.getAttribute('data-folder') === currentFolder) {
-                    btn.classList.add('active');
-                } else {
-                    btn.classList.remove('active');
-                }
-            });
-            
-            renderCategoryGrid();
+            // Reset the auto-switch timer when user interacts manually
+            clearInterval(techAutoSwitchTimer);
+            startTechAutoSwitch();
         });
     }
 
     // Set up category button click handlers (Desktop)
     catButtons.forEach(btn => {
         btn.addEventListener('click', () => {
-            catButtons.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            currentFolder = btn.getAttribute('data-folder');
-            currentRange = btn.getAttribute('data-range');
+            const folder = btn.getAttribute('data-folder');
+            const range = btn.getAttribute('data-range');
+            switchTechCategory(folder, range);
             
-            // Sync mobile select option
-            if (techCategorySelect) {
-                techCategorySelect.value = currentFolder;
-            }
-            
-            renderCategoryGrid();
+            // Reset the auto-switch timer when user interacts manually
+            clearInterval(techAutoSwitchTimer);
+            startTechAutoSwitch();
         });
     });
 
     // Initialize Grid
     if (techGrid) {
         renderCategoryGrid();
+        startTechAutoSwitch();
     }
 
     // 3. Portfolio Tab Switcher with Auto Switch (3 seconds)
