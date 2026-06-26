@@ -100,6 +100,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const topBlock = document.createElement('div');
         topBlock.className = 'gallery-mix-top';
 
+        // Add dynamic grid size indicators
+        if (bottomRowNums.length === 3) {
+            techGrid.classList.add('has-3-bottom');
+        } else if (bottomRowNums.length === 2) {
+            techGrid.classList.add('has-2-bottom');
+        } else if (bottomRowNums.length === 1) {
+            techGrid.classList.add('has-1-bottom');
+        }
+
         // Left Main Image
         const leftMainDiv = document.createElement('div');
         leftMainDiv.className = 'gallery-mix-img-item gallery-mix-left-main';
